@@ -1,0 +1,21 @@
+Package: Euronext
+Title: Retrieve Historical Data of Companies Listed on the 'Euronex' Stock Exchange
+Version: 0.0.0.9000
+Authors@R: 
+    person("Sessie","Koffi Frederic", email = "koffisessie@gmail.com",
+            role = c("aut","cre","cph"))
+Description: Provide real-time access to data from Euronex Stocks Exchange. The goal is to facilitate data access for users of the R programming language. The package includes a variety of data that can be accessed by calling functions.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Imports:
+  httr,
+  magrittr,
+  stringr,
+  jsonlite,
+    rlang(>= 0.4.11),
+    rvest,
+    httr2,
+    dplyr
+RoxygenNote: 7.2.3
+
