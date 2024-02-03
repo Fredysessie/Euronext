@@ -1,0 +1,162 @@
+
+---
+title: "Library Euronext"
+date: "`r format(Sys.time(),'%d %B,%Y')`"
+output: 
+  html_document:
+    toc: yes
+    fig_caption: yes
+    keep_md: yes
+    fig_width: 8
+    fig_height: 6
+  word_document: 
+    toc: yes
+  pdf_document: 
+    toc: yes
+  latex_engine: lualatex
+  always_allow_html: true
+---
+```{r, echo = FALSE}
+```
+
+
+<!-- badges: start -->
+[![CRAN Status](http://www.r-pkg.org/badges/version/Euronext)](https://cran.r-project.org/package=Euronext)
+![](https://cranlogs.r-pkg.org/badges/Euronext)
+![](https://cranlogs.r-pkg.org/badges/grand-total/Euronext)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html##experimental)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
+<!-- badges: end -->
+
+
+```{r,include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%",
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+<img src="man/figures/EN_good_Logo.png" width="147" height="170" align="right"/>
+
+
+## Overview {.tabset}
+### Description {.tabset}
+#### English
+The Euronext R Package is a powerful tool for accessing and retrieving financial information from the Euronext stock exchange. Whether you are interested in stocks, indexes, funds, ETFs, or bonds, this package provides a convenient interface to gather essential data for analysis and decision-making in the financial domain. With user-friendly functionalities, it simplifies the process of collecting historical data on share prices, trading volumes, and other financial indicators. Researchers, investors, and other users can extract valuable insights and make informed decisions based on the comprehensive information available. In essence, the 'Euronext' library is a valuable asset for those seeking a deeper understanding of Euronext and the financial markets in Europe.
+
+#### Français
+Le package R Euronext est un outil puissant pour accéder et récupérer des informations financières de la bourse Euronext. Que vous soyez intéressé par les actions, les indices, les fonds, les ETF ou les obligations, ce package offre une interface pratique pour collecter des données essentielles pour l'analyse et la prise de décision dans le domaine financier. Avec des fonctionnalités conviviales, il simplifie le processus de collecte de données historiques sur les prix des actions, les volumes de transactions et d'autres indicateurs financiers. Les chercheurs, les investisseurs et d'autres utilisateurs peuvent extraire des informations précieuses et prendre des décisions éclairées en se basant sur les informations complètes disponibles. En somme, la bibliothèque 'Euronext' est un atout précieux pour ceux qui cherchent à approfondir leur compréhension d'Euronext et des marchés financiers en Europe.
+
+## Installation {.tabset}
+
+## Installation guidelines
+You can install the development version of EURONEXT from [github](https://github.com/Fredysessie/Euronext) with:
+
+```{r echo=FALSE, message=TRUE, warning=TRUE,include=FALSE}
+library(lubridate)   
+library(httr2)       
+library(stringr)     
+library(httr)        
+library(timeDate)    
+library(xts)        
+library(rlang)      
+library(dplyr)      
+library(formattable)
+library(rvest)      
+library(highcharter)
+library(htmlwidgets)
+```
+
+
+```{r, eval=FALSE}
+# github dev version
+## We can use devtools
+# Install the development version from GitHub
+devtools::install_github("Fredysessie/Euronext")
+
+# Or use remotes
+# install.packages("remotes")
+
+remotes::install_github("Fredysessie/Euronext")
+```
+
+## Example 1: Get ISIN of a company listed on Euronext
+
+```{r EN_GetISIN, eval=TRUE}
+library(Euronext)
+library(httr)
+
+# Get ISIN for the ticker "4DDD"
+EN_GetISIN("4DDD")
+
+# Get ISIN for the ticker "ADS MARITIME HOLD"
+EN_GetISIN("ADS MARITIME HOLD")
+
+# Get ISIN for ATENOR company
+EN_GetISIN("BE0003837540")
+```
+
+## Example 2: Euronext Paris ticker ISIN
+```{r EN_P_Ticker_adn, eval=TRUE}
+# Retrieve the ISIN for a company with ticker "abca"
+EN_P_Ticker_adn("abca")
+
+# Example result for a valid ticker "AAA"
+result <- EN_P_Ticker_adn("AAA")
+print(result)
+
+# Example for a non-existing ticker "afsf"
+print(EN_P_Ticker_adn("afsf"))  # Ticker is not existing
+```
+
+
+## Example 3: Euronext Stocks List
+```{r EN_Stocks_List, eval=TRUE}
+library(Euronext)
+library(httr)
+library(httr2)
+library(rvest)
+library(jsonlite)
+library(stringr)
+# Example usage:
+a_result_df <- EN_Stocks_List("A")  # For Amsterdam Stock
+head(a_result_df)
+
+b_result_df <- EN_Stocks_List("B")  # For Brussels Stock
+tail(b_result_df)
+
+p_result_df <- EN_Stocks_List("P")  # For Paris Stock
+head(p_result_df)
+
+l_result_df <- EN_Stocks_List("L")  # For Lisbon Stock
+head(l_result_df)
+
+m_result_df <- EN_Stocks_List("M")  # For Milan Stock
+head(m_result_df)
+
+d_result_df <- EN_Stocks_List("D")  # For Dublin Stock
+head(d_result_df)
+
+o_result_df <- EN_Stocks_List("O")  # For Oslo Stock
+head(o_result_df, 10)
+```
+
+
+## Example 4: Get the list of ETFs quoted on Euronext markets
+```{r EN_Etfs_List, eval=TRUE}
+library(Euronext)
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(rvest)
+library(stringr)
+
+# Example usage:
+dt_ <- EN_Etfs_List()
+head(dt_)
+```
