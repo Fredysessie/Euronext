@@ -26,7 +26,7 @@
 #' dt_ = EN_Bonds_List()  # To show only 5 pages by defaut
 #' print(dt_)
 #'
-#' dt_ = EN_Bonds_List('Max') #To show only 10 pages
+#' dt_ = EN_Bonds_List('Max') #To show all the bonds list
 #' print(dt_)
 #'}
 #'

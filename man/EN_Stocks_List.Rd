@@ -37,7 +37,9 @@ o_result_df <- EN_Stocks_List("O") # For Oslo Stock
 \code{\link{EN_Ticker_Perfomance}}
 
 Other Infos Retrieval: 
+\code{\link{EN_Bonds_List_bis}()},
 \code{\link{EN_Bonds_List}()},
+\code{\link{EN_Etfs_List_bis}()},
 \code{\link{EN_Etfs_List}()},
 \code{\link{EN_Funds_List}()},
 \code{\link{EN_GetISIN_B}()},

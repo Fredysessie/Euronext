@@ -19,6 +19,12 @@ This function checks if the provided ticker is present in the specified columns 
 \dontrun{
 the_dna = EN_GetISIN_Etf("AAPL")
 sub("-.*", "", the_dna) #To get only the ISIN
+
+# Get ETF '-1X SHORT DIS' DNA
+EN_GetISIN_Etf("-1X SHORT DIS")
+
+# Get ETF '3x Long Coinbase' DNA
+EN_GetISIN_Etf("XS2399367254")
 }
 
 }
@@ -30,7 +36,9 @@ Other ISIN Retrieval:
 \code{\link{EN_GetISIN_F}()}
 
 Other Infos Retrieval: 
+\code{\link{EN_Bonds_List_bis}()},
 \code{\link{EN_Bonds_List}()},
+\code{\link{EN_Etfs_List_bis}()},
 \code{\link{EN_Etfs_List}()},
 \code{\link{EN_Funds_List}()},
 \code{\link{EN_GetISIN_B}()},

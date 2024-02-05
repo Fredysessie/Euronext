@@ -24,6 +24,13 @@ library(dplyr)
 
 the_dna = EN_GetISIN_F("ACOMEA GLOBALE")
 sub("-.*", "", the_dna) #To get only the ISIN
+
+# Get Fund 'ASNU SMALL MIDCAPF' DNA
+asnu_dna <- EN_GetISIN_F("ASN5")
+print(asnu_dna)
+
+# Get Fund 'COMPAM ACTIVE GLOB' DNA
+EN_GetISIN_F("LU1275425897")
 }
 
 }
@@ -35,7 +42,9 @@ Other ISIN Retrieval:
 \code{\link{EN_GetISIN_Etf}()}
 
 Other Infos Retrieval: 
+\code{\link{EN_Bonds_List_bis}()},
 \code{\link{EN_Bonds_List}()},
+\code{\link{EN_Etfs_List_bis}()},
 \code{\link{EN_Etfs_List}()},
 \code{\link{EN_Funds_List}()},
 \code{\link{EN_GetISIN_B}()},

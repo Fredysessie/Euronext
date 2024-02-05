@@ -25,7 +25,7 @@ print(dt_)
 dt_ = EN_Bonds_List()  # To show only 5 pages by defaut
 print(dt_)
 
-dt_ = EN_Bonds_List('Max') #To show only 10 pages
+dt_ = EN_Bonds_List('Max') #To show all the bonds list
 print(dt_)
 }
 
@@ -36,6 +36,8 @@ print(dt_)
 \code{\link{EN_Etfs_List}}  for Etfs list
 
 Other Infos Retrieval: 
+\code{\link{EN_Bonds_List_bis}()},
+\code{\link{EN_Etfs_List_bis}()},
 \code{\link{EN_Etfs_List}()},
 \code{\link{EN_Funds_List}()},
 \code{\link{EN_GetISIN_B}()},

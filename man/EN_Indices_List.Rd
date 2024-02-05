@@ -25,7 +25,9 @@ EN_Indices_List()
 \code{\link{EN_Funds_List}} for Funds list, \code{\link{EN_Etfs_List}} for Etfs list.
 
 Other Infos Retrieval: 
+\code{\link{EN_Bonds_List_bis}()},
 \code{\link{EN_Bonds_List}()},
+\code{\link{EN_Etfs_List_bis}()},
 \code{\link{EN_Etfs_List}()},
 \code{\link{EN_Funds_List}()},
 \code{\link{EN_GetISIN_B}()},

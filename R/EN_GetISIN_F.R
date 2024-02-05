@@ -18,6 +18,13 @@
 #'
 #' the_dna = EN_GetISIN_F("ACOMEA GLOBALE")
 #' sub("-.*", "", the_dna) #To get only the ISIN
+#'
+#' # Get Fund 'ASNU SMALL MIDCAPF' DNA
+#' asnu_dna <- EN_GetISIN_F("ASN5")
+#' print(asnu_dna)
+#'
+#' # Get Fund 'COMPAM ACTIVE GLOB' DNA
+#' EN_GetISIN_F("LU1275425897")
 #'}
 #'
 #' @import httr

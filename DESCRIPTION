@@ -5,7 +5,7 @@ Authors@R:
     person("Sessie","Koffi Frederic", email = "koffisessie@gmail.com",
             role = c("aut","cre","cph"))
 Description: Provide real-time access to data from Euronex Stocks Exchange. The goal is to facilitate data access for users of the R programming language. The package includes a variety of data that can be accessed by calling functions.
-License: MIT License
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Imports:

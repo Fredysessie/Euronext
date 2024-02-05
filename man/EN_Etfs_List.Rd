@@ -4,21 +4,29 @@
 \alias{EN_Etfs_List}
 \title{Get the list of Etfs quoted on Euronext markets}
 \usage{
-EN_Etfs_List()
+EN_Etfs_List(tot_page = 5)
+}
+\arguments{
+\item{tot_page}{Total number of pages to retrieve. It can be a numerical value, 'Max' to designate the maximum number of pages, or the default value is 5.}
 }
 \value{
 A data frame containing information about Etfs, including name, ticker, ISIN code, market, last price, percentage change, and URL.
 }
 \description{
 This function retrieves information about Etfs quoted on Euronext markets.
-No input parameters are required for this function. It retrieves information about Etfs quoted on Euronext markets
 }
 \examples{
 
 \dontrun{
 
-dt_ = EN_Etfs_List()
+dt_ = EN_Etfs_List(1) # To show only 1 page ie recent 100 bonds list
 print(dt_)
+
+dt_1 = EN_Etfs_List() # To show only 5 pages ; defaut parameter
+tail(dt_1)
+
+dt_max = EN_Etfs_List("Max") # To show the list of all Etfs quoted on Euronext
+head(dt_max)
 }
 
 }
@@ -28,7 +36,9 @@ print(dt_)
 \code{\link{EN_GetISIN_Etf}}  to get the ADN(Isin and Market indentifier) of a givin Etf.
 
 Other Infos Retrieval: 
+\code{\link{EN_Bonds_List_bis}()},
 \code{\link{EN_Bonds_List}()},
+\code{\link{EN_Etfs_List_bis}()},
 \code{\link{EN_Funds_List}()},
 \code{\link{EN_GetISIN_B}()},
 \code{\link{EN_GetISIN_Etf}()},

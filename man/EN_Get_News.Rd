@@ -79,7 +79,9 @@ a giving ETFs DNA, \code{\link{EN_GetISIN_B}} to get a giving Bond DNA,
 \code{\link{EN_GetISIN_F}} to get a giving Fund DNA.
 
 Other Infos Retrieval: 
+\code{\link{EN_Bonds_List_bis}()},
 \code{\link{EN_Bonds_List}()},
+\code{\link{EN_Etfs_List_bis}()},
 \code{\link{EN_Etfs_List}()},
 \code{\link{EN_Funds_List}()},
 \code{\link{EN_GetISIN_B}()},

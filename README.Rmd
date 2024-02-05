@@ -1,24 +1,20 @@
-
 ---
 title: "Library Euronext"
 date: "`r format(Sys.time(),'%d %B,%Y')`"
-output: 
+output:
   html_document:
     toc: yes
     fig_caption: yes
     keep_md: yes
     fig_width: 8
     fig_height: 6
-  word_document: 
+  word_document:
     toc: yes
-  pdf_document: 
+  pdf_document:
     toc: yes
   latex_engine: lualatex
   always_allow_html: true
 ---
-```{r, echo = FALSE}
-```
-
 
 <!-- badges: start -->
 [![CRAN Status](http://www.r-pkg.org/badges/version/Euronext)](https://cran.r-project.org/package=Euronext)
@@ -41,12 +37,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-<img src="man/figures/EN_good_Logo.png" width="147" height="170" align="right"/>
+<!-- <img src="man/figures/EN_good_Logo.png" width="147" height="170" align="right"/> -->
+<img src="man/figures/EN_good1_Logo.png" width="250" height="250" align="right"/>
 
 
 ## Overview {.tabset}
 ### Description {.tabset}
 #### English
+
 The Euronext R Package is a powerful tool for accessing and retrieving financial information from the Euronext stock exchange. Whether you are interested in stocks, indexes, funds, ETFs, or bonds, this package provides a convenient interface to gather essential data for analysis and decision-making in the financial domain. With user-friendly functionalities, it simplifies the process of collecting historical data on share prices, trading volumes, and other financial indicators. Researchers, investors, and other users can extract valuable insights and make informed decisions based on the comprehensive information available. In essence, the 'Euronext' library is a valuable asset for those seeking a deeper understanding of Euronext and the financial markets in Europe.
 
 #### Français
@@ -57,8 +55,10 @@ Le package R Euronext est un outil puissant pour accéder et récupérer des inf
 ## Installation guidelines
 You can install the development version of EURONEXT from [github](https://github.com/Fredysessie/Euronext) with:
 
-```{r echo=FALSE, message=TRUE, warning=TRUE,include=FALSE}
-library(lubridate)   
+```{r, echo=FALSE, message=TRUE, warning=TRUE,include=FALSE}
+library(Euronext)
+library(lubridate)
+library(DT)
 library(httr2)       
 library(stringr)     
 library(httr)        
@@ -85,23 +85,180 @@ devtools::install_github("Fredysessie/Euronext")
 remotes::install_github("Fredysessie/Euronext")
 ```
 
-## Example 1: Get ISIN of a company listed on Euronext
+## **EN_GetISIN()** function
+The function takes a single parameter, 'ticker,' which can be the symbol, name, or ISIN of a given stock or index, and then returns its DNA.
+
+- *Example 1.a : Get DNA (ISIN-Market identifier)* of a given Stock or Index listed on Euronext by providing the Symbol or Name, or ISIN of a Stock or an Index.
+ 
+
+To efficiently use the 'Euronext' package, it is important to understand how to handle Ticker Names, ISIN, and DNA, as many functions in the package rely on these. 
+Note: There is a small difference between ISIN and DNA. 
+Here's a simple example: the ticker "4DDD" has the ISIN "US88554D2053," and its DNA is "US88554D2053-ETLX." As you can see, the DNA is composed of the ISIN and the market identifier "ETLX," preceded by "-".
+
+Please refer to the respective functions **EN_GetISIN()**, **EN_GetISIN_Etf()**, **EN_GetISIN_F()**, and **EN_GetISIN_B()** if you wish to obtain a list of available Stocks or Indices, ETFs, Funds, and Bonds on Euronext.
 
 ```{r EN_GetISIN, eval=TRUE}
-library(Euronext)
-library(httr)
-
-# Get ISIN for the ticker "4DDD"
+# Get DNA of ticker "4DDD"
 EN_GetISIN("4DDD")
 
-# Get ISIN for the ticker "ADS MARITIME HOLD"
+# Get DNA for the ticker name "ADS MARITIME HOLD"
 EN_GetISIN("ADS MARITIME HOLD")
 
-# Get ISIN for ATENOR company
+# Get DNA for ATENOR company by providing its ISIN
 EN_GetISIN("BE0003837540")
 ```
 
-## Example 2: Euronext Paris ticker ISIN
+
+
+## **EN_GetISIN_F()** function
+
+- *Example 1.b : Get DNA (ISIN-Market identifier)* of a given fund listed on Euronext by providing its symbol, name, or ISIN.
+
+
+```{r EN_GetISIN_F, eval=TRUE}
+# Get Fund 'ACOMEA GLOBALE' DNA
+aco_dna <- EN_GetISIN_F("ACOMEA GLOBALE")
+
+# In case you want the ISI only
+sub("-.*", "", aco_dna) #To get only the ISIN
+
+# Get Fund 'ASNU SMALL MIDCAPF' DNA
+asnu_dna <- EN_GetISIN_F("ASN5")
+print(asnu_dna)
+
+# Get Fund 'COMPAM ACTIVE GLOB' DNA
+EN_GetISIN_F("LU1275425897")
+
+```
+
+
+## **EN_GetISIN_Etf()** function
+
+- *Example 1.c : Get DNA (ISIN-Market identifier)* of a given ETF listed on Euronext by providing its Symbol or Name, or ISIN of a Stock or an Index.
+
+```{r EN_GetISIN_Etf, eval=TRUE}
+# Get ETF 'AAPL' DNA
+EN_GetISIN_Etf("AAPL")
+
+# Get ETF '-1X SHORT DIS' DNA
+EN_GetISIN_Etf("-1X SHORT DIS")
+
+# Get ETF '3x Long Coinbase' DNA
+EN_GetISIN_Etf("XS2399367254")
+```
+
+## **EN_GetISIN_B()** function
+
+- *Example 1.d : Get DNA (ISIN-Market identifier)* of a given Bond listed on Euronext by providing its Symbol or Name, or ISIN of a Stock or an Index.
+
+```{r EN_GetISIN_B, eval=TRUE}
+#To get only the DNA of all same bonds issued
+the_dna1 <- EN_GetISIN_B("ABN AMRO BANK N.V.")
+print(the_dna1)
+
+the_isin1 <- sub("-.*", "", the_dna1) #To get only the ISINs
+print(the_isin1)
+
+#To get only the DNA of Bond 'A2A GREEN BOND TF'
+the_dna2 = EN_GetISIN_B("A2A GREEN BOND TF")
+the_isin2 =sub("-.*", "", the_dna2) #To get only the ISIN
+print(the_isin2)
+
+```
+
+
+## **EN_Stocks_List()**
+
+This function receives as input **stock_choice** and then retrieves a list of companies listed on the provided Euronext stock exchanges, filtered by the initial letter of their names. It provides information such as the company name, ticker symbol, ISIN code, market, last closing price, percentage change, and a link to the company's details on the Euronext website.
+- stock_choice A character string specifying the stock exchange. Options include "A" or "Amsterdam," "B" or "Brussels," "D" or "Dublin", "L" or "Lisbon," "M" or "Milan," "P" or "Paris," and "O" or "Oslo."
+
+- Example 2-a : Get Euronext Stocks List
+
+```{r EN_Stocks_List, eval=TRUE}
+# library(Euronext)
+# library(httr)
+# library(httr2)
+# library(rvest)
+# library(jsonlite)
+# library(stringr)
+
+# The columns names of the initial dataframe is c("Date", "Name", "Ticker", "Code_ISIN", "Market", "Last_price", "Percentage change (in %)", "URL", "Ticker_adn")
+
+# So I will only display columns "Name", "Ticker", "Code_ISIN", "Market", "Last_price" and "Percentage change (in %)"
+
+
+a_result_df <- EN_Stocks_List("A")  # For Amsterdam Stock
+head(a_result_df)[,c(2:6)]
+
+
+b_result_df <- EN_Stocks_List("B")[,c(2:6)]  # For Brussels Stock
+tail(b_result_df)
+
+p_result_df <- EN_Stocks_List("P")[,c(2:6)]  # For Paris Stock
+head(p_result_df)
+
+l_result_df <- EN_Stocks_List("L")[,c(2:6)]  # For Lisbon Stock
+head(l_result_df)
+
+m_result_df <- EN_Stocks_List("M")[,c(2:6)]  # For Milan Stock
+head(m_result_df)
+
+d_result_df <- EN_Stocks_List("D")[,c(2:6)]  # For Dublin Stock
+head(d_result_df)
+
+o_result_df <- EN_Stocks_List("O")[,c(2:6)]  # For Oslo Stock
+head(o_result_df, 10)
+```
+
+- **Example 2-b** : Show in detail Paris Euronext Stocks
+
+```{r , eval=TRUE}
+library(Euronext)
+p_result_df_new <- EN_Stocks_List("P")
+
+# p_result_df_new$Date <- strptime(p_result_df_new$Date, format = "%d %b %Y")
+# as.Date(strptime(head(a_result_df$Date), format = "%d %b %Y"))
+
+clm_format = list(list(targets = c(0, 2:8), className = "dt-center"))
+
+datatable(p_result_df_new[c(2:9, 1)], escape = FALSE, 
+          # filter = 'top',
+          rownames = FALSE,
+          extensions = list('ColReorder' = NULL, 'RowReorder' = NULL,
+                            'Buttons' = NULL, 'Responsive' = NULL),
+          options = list(dom = 'BRrltpi', scrollX = TRUE, scrollY = '500px', # ajustez la hauteur en fonction de vos besoins
+                         lengthMenu = list(c(10, 50, 100, -1), c('5', 'All'))
+                         ,
+                         ColReorder = TRUE, rowReorder = FALSE,
+                         buttons = list('copy', 'print',
+                                        list(extend = 'collection',
+                                             buttons = c('csv', 'excel', 'pdf'),
+                                             columnDefs = clm_format,
+                                             text = 'Download'), I('colvis'))
+          ))
+
+
+```
+
+
+
+## Example 3: Get the list of ETFs quoted on Euronext markets
+
+```{r EN_Etfs_List, eval=TRUE}
+# library(Euronext)
+# library(httr)
+# library(jsonlite)
+# library(dplyr)
+# library(rvest)
+# library(stringr)
+
+# Example usage:
+dt_ <- EN_Etfs_List()
+head(dt_[, c(2:9)])
+```
+
+
+## Example 4: Euronext Paris ticker ISIN
 ```{r EN_P_Ticker_adn, eval=TRUE}
 # Retrieve the ISIN for a company with ticker "abca"
 EN_P_Ticker_adn("abca")
@@ -115,48 +272,3 @@ print(EN_P_Ticker_adn("afsf"))  # Ticker is not existing
 ```
 
 
-## Example 3: Euronext Stocks List
-```{r EN_Stocks_List, eval=TRUE}
-library(Euronext)
-library(httr)
-library(httr2)
-library(rvest)
-library(jsonlite)
-library(stringr)
-# Example usage:
-a_result_df <- EN_Stocks_List("A")  # For Amsterdam Stock
-head(a_result_df)
-
-b_result_df <- EN_Stocks_List("B")  # For Brussels Stock
-tail(b_result_df)
-
-p_result_df <- EN_Stocks_List("P")  # For Paris Stock
-head(p_result_df)
-
-l_result_df <- EN_Stocks_List("L")  # For Lisbon Stock
-head(l_result_df)
-
-m_result_df <- EN_Stocks_List("M")  # For Milan Stock
-head(m_result_df)
-
-d_result_df <- EN_Stocks_List("D")  # For Dublin Stock
-head(d_result_df)
-
-o_result_df <- EN_Stocks_List("O")  # For Oslo Stock
-head(o_result_df, 10)
-```
-
-
-## Example 4: Get the list of ETFs quoted on Euronext markets
-```{r EN_Etfs_List, eval=TRUE}
-library(Euronext)
-library(httr)
-library(jsonlite)
-library(dplyr)
-library(rvest)
-library(stringr)
-
-# Example usage:
-dt_ <- EN_Etfs_List()
-head(dt_)
-```
