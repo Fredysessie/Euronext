@@ -91,15 +91,9 @@ remotes::install_github("Fredysessie/Euronext")
 This function receives as input **stock_choice** and then retrieves a list of companies listed on the provided Euronext stock exchanges, filtered by the initial letter of their names. It provides information such as the company name, ticker symbol, ISIN code, market, last closing price, percentage change, and a link to the company's details on the Euronext website.
 - stock_choice A character string specifying the stock exchange. Options include "A" or "Amsterdam," "B" or "Brussels," "D" or "Dublin", "L" or "Lisbon," "M" or "Milan," "P" or "Paris," and "O" or "Oslo."
 
-### Example 1.a : Get Euronext Stocks List
+### *Example 1.a* : Get Euronext Stocks List
 
 ```{r EN_Stocks_List, eval=TRUE}
-# library(Euronext)
-# library(httr)
-# library(httr2)
-# library(rvest)
-# library(jsonlite)
-# library(stringr)
 
 # The columns names of the initial dataframe is c("Date", "Name", "Ticker", "Code_ISIN", "Market", "Last_price", "Percentage change (in %)", "URL", "Ticker_adn")
 
@@ -129,7 +123,7 @@ o_result_df <- EN_Stocks_List("O")[,c(2:6)]  # For Oslo Stock
 head(o_result_df, 10)
 ```
 
-### **Example 1.b** : Show in detail Paris Euronext Stocks
+### *Example 1.b* : Show in detail Paris Euronext Stocks
 
 ```{r , eval=TRUE,  echo = FALSE}
 library(Euronext)
@@ -159,7 +153,7 @@ datatable(p_result_df_new[c(2:9, 1)], escape = FALSE,
 
 ```
 
-## Example 1.c: Euronext Paris ticker ISIN
+### *Example 1.c* : Euronext Paris ticker ISIN
 ```{r EN_P_Ticker_adn, eval=TRUE}
 # Retrieve the ISIN for a company with ticker "abca"
 EN_P_Ticker_adn("abca")
@@ -176,7 +170,7 @@ print(EN_P_Ticker_adn("afsf"))  # Ticker is not existing
 ## **EN_Indices_List()** function
 It receives no argument and retrieves information about all indices available on Euronext. 
 
-### **Example 2 : Get the list of Euronext Indexes**
+### *Example 2* : Get the list of Euronext Indexes
 ```{r EN_Indices_List, eval=TRUE }
 all_indices = EN_Indices_List()
 head(all_indices)
@@ -325,6 +319,8 @@ the_isin2 =sub("-.*", "", the_dna2) #To get only the ISIN
 print(the_isin2)
 
 ```
+
+
 
 **Authors** : <br> 
 * [Koffi Frederic Sessie](https://github.com/Koffi-Fredysessie) (<koffisessie@gmail.com>)
