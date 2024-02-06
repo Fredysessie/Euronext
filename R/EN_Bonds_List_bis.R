@@ -18,11 +18,11 @@
 #' @examples
 #'
 #' \dontrun{
-# library(httr)
-# library(jsonlite)
-# library(dplyr)
-# library(rvest)
-# library(stringr)
+#' library(httr)
+#' library(jsonlite)
+#' library(dplyr)
+#' library(rvest)
+#' library(stringr)
 #'
 #' dt_ = EN_Bonds_List_bis(10) # To show only the 10th page
 #' print(dt_)

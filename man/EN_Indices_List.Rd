@@ -12,7 +12,7 @@ ISIN, Symbol, Last price, Percentage change, Date and time, Year-to-date percent
 and a composite Ticker_adn.
 }
 \description{
-This function retrieves information about indices quoted on Euronext.
+This function retrieves information about indices available on Euronext.
 }
 \examples{
 \dontrun{

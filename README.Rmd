@@ -43,6 +43,15 @@ knitr::opts_chunk$set(
 
 
 ## Overview {.tabset}
+# Description:
+Unlock the power of financial data from the Euronext stock exchange with the Euronext R package. Dive into the world of stocks, indices, funds, ETFs, and bonds, and harness the convenience of a user-friendly interface for seamless data retrieval. Whether you're a researcher, investor, or financial enthusiast, this package provides a valuable resource for accessing and analyzing historical data, share prices, trading volumes, and more.
+
+# Disclaimer:
+Please note that the Euronext R package is a tool designed to access and retrieve public financial information from the Euronext stock exchange. The data returned by the Euronext R package originates from Euronext, and the package author is not the source of this data. All information is derived from the public domain, and users are advised to refer to the official Euronext website (https://live.euronext.com/en) for specific data needs.
+
+# Get in touch with the Euronext package and elevate your understanding of financial markets through the lens of R.
+
+
 ### Description {.tabset}
 #### English
 
@@ -320,7 +329,36 @@ print(the_isin2)
 
 ```
 
+## **EN_Ticker_Perfomance()** function
+This function retrieves the historical performance data of a company listed on the Euronext exchange based on its ticker symbol. It returns a table with details such as the highest and lowest stock prices, date of the highest and lowest prices, and other relevant information.
+It receives three (3) parameters such us :
+- 'ticker' : A character string representing the company's ticker symbol,
+- 'stock_type' : The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
+- 'escape' : Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs. By default, escape = 'FALSE'
 
+```{r EN_Ticker_Perfomance, eval=TRUE}
+# Get Performance of Ticker ABCA
+dt = EN_Ticker_Perfomance("ABCA")
+print(dt)
+
+# Get Performance of ETF AAPL
+EN_Ticker_Perfomance("AAPL", stock_type = "E")
+
+# Get Performance of Bond issued by A2A S.p.A.
+dt1 = EN_Ticker_Perfomance("XS1195347478-ETLX", escape = TRUE)
+print(dt1)
+
+# Get Performance of ACOMEA EMERGING Q2 Fund
+dt2 = EN_Ticker_Perfomance("IT0005091126", 'F', escape = FALSE)
+print(dt2)
+
+# Get Performance of AEX All-Share Index
+dt3 = EN_Ticker_Perfomance("AEX All-Share Index GR", escape = FALSE)
+print(dt3)
+
+```
+
+### *Example 6* : Get historical performance
 
 **Authors** : <br> 
 * [Koffi Frederic Sessie](https://github.com/Koffi-Fredysessie) (<koffisessie@gmail.com>)

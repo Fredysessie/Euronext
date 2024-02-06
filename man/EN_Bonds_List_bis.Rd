@@ -4,10 +4,10 @@
 \alias{EN_Bonds_List_bis}
 \title{Get the list of Bonds quoted on Euronext markets (Bis)}
 \usage{
-EN_Bonds_List_bis(tot_page = 5)
+EN_Bonds_List_bis(target_page = 1)
 }
 \arguments{
-\item{tot_page}{Total number of pages to retrieve. It can be a numerical value, 'Max' to designate the maximum number of pages, or the default value is 5.
+\item{target_page}{Target page to retrieve. It can be a numerical value, 'Max' to designate the last pages, or the default value is 1 (which means first page).
 
 Unlike the function \code{\link{EN_Bonds_List}}, this function allows you to specify a target page to retrieve from the list
 of Bonds. For example, \code{EN_Bonds_List_bis(5)} fetches only the fifth page of the Bonds list, providing a more granular
@@ -22,11 +22,16 @@ This function retrieves information about Bonds quoted on Euronext markets.
 \examples{
 
 \dontrun{
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(rvest)
+library(stringr)
 
 dt_ = EN_Bonds_List_bis(10) # To show only the 10th page
 print(dt_)
 
-dt_ = EN_Bonds_List_bis()  # To show only the 5th page, it is the defaut paramater
+dt_ = EN_Bonds_List_bis()  # To show only the 1st page, it is the defaut paramater
 print(dt_)
 
 dt_ = EN_Bonds_List_bis('Max') # To show only last page

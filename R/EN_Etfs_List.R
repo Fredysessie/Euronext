@@ -15,11 +15,11 @@
 #' @examples
 #'
 #' \dontrun{
-# library(httr)
-# library(jsonlite)
-# library(dplyr)
-# library(rvest)
-# library(stringr)
+#' library(httr)
+#' library(jsonlite)
+#' library(dplyr)
+#' library(rvest)
+#' library(stringr)
 #'
 #' dt_ = EN_Etfs_List(1) # To show only 1 page ie recent 100 bonds list
 #' print(dt_)
@@ -27,7 +27,7 @@
 #' dt_1 = EN_Etfs_List() # To show only 5 pages ; defaut parameter
 #' tail(dt_1)
 #'
-#' dt_max = EN_Etfs_List("Max") # To show the list of all Etfs quoted on Euronext
+#' dt_max = EN_Etfs_List("Max") # To show the list of all Etfs listed on Euronext
 #' head(dt_max)
 #'}
 #'

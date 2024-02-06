@@ -4,10 +4,10 @@
 \alias{EN_Etfs_List_bis}
 \title{Get the list of Etfs quoted on Euronext markets (bis)}
 \usage{
-EN_Etfs_List_bis(tot_page = 5)
+EN_Etfs_List_bis(target_page = 1)
 }
 \arguments{
-\item{tot_page}{Total number of pages to retrieve. It can be a numerical value, 'Max' to designate the maximum number of pages, or the default value is 5.
+\item{target_page}{Target page to retrieve. It can be a numerical value, 'Max' to designate the last pages, or the default value is 1 (which means first page).
 
 Unlike the function \code{\link{EN_Etfs_List}}, this function allows you to specify a target page to retrieve from the list
 of Etfs. For example, \code{EN_Etfs_List_bis(5)} fetches only the fifth page of the Etfs list, providing a more granular
@@ -23,10 +23,10 @@ This function retrieves information about Etfs quoted on Euronext markets.
 
 \dontrun{
 
-dt_ = EN_Etfs_List_bis(1) # To show only the 1st page of Etfs (100 Etfs)
+dt_ = EN_Etfs_List_bis(5) # To show only the 5th page of Etfs (100 Etfs)
 print(dt_)
 
-dt_1 = EN_Etfs_List_bis() # To show the 5th page of Etfs List
+dt_1 = EN_Etfs_List_bis() # To show the 1st page of Etfs List
 tail(dt_1)
 
 dt_max = EN_Etfs_List_bis("Max") #To show only the last page of quoted Etfs
