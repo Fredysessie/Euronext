@@ -2,7 +2,7 @@
 #'
 #' This function retrieves information about Etfs quoted on Euronext markets.
 #'
-#' @param tot_page Total number of pages to retrieve. It can be a numerical value, 'Max' to designate the maximum number of pages, or the default value is 5.
+#' @param target_page Target page to retrieve. It can be a numerical value, 'Max' to designate the last pages, or the default value is 1 (which means first page).
 #'
 #' Unlike the function \code{\link{EN_Etfs_List}}, this function allows you to specify a target page to retrieve from the list
 #' of Etfs. For example, \code{EN_Etfs_List_bis(5)} fetches only the fifth page of the Etfs list, providing a more granular
@@ -25,10 +25,10 @@
 # library(rvest)
 # library(stringr)
 #'
-#' dt_ = EN_Etfs_List_bis(1) # To show only the 1st page of Etfs (100 Etfs)
+#' dt_ = EN_Etfs_List_bis(5) # To show only the 5th page of Etfs (100 Etfs)
 #' print(dt_)
 #'
-#' dt_1 = EN_Etfs_List_bis() # To show the 5th page of Etfs List
+#' dt_1 = EN_Etfs_List_bis() # To show the 1st page of Etfs List
 #' tail(dt_1)
 #'
 #' dt_max = EN_Etfs_List_bis("Max") #To show only the last page of quoted Etfs
@@ -45,7 +45,7 @@
 #'
 
 
-EN_Etfs_List_bis <- function(tot_page = 5) {
+EN_Etfs_List_bis <- function(target_page = 1) {
   # URL de la requête
   url <- "https://live.euronext.com/en/pd_es/data/track?mics=XAMS%2CXBRU%2CXLIS%2CXPAR%2CXLDN%2CXMSM%2CXOSL%2CETFP"
 
@@ -66,8 +66,8 @@ EN_Etfs_List_bis <- function(tot_page = 5) {
 
   is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
 
-  if (is.character(tot_page)) {
-    if (str_to_title(tot_page) == 'Max') {
+  if (is.character(target_page)) {
+    if (str_to_title(target_page) == 'Max') {
       response <- httr::POST(url, body = params, encode = "form")
 
       # Lire le contenu JSON de la réponse
@@ -83,8 +83,8 @@ EN_Etfs_List_bis <- function(tot_page = 5) {
     } else {
       rlang::abort("The total number of pages must be a numerical value or 'Max' to designate the maximum number of pages.")
     }
-  } else if (is.numeric(tot_page)) {
-    if (tot_page > 0 && is.wholenumber(tot_page)) {
+  } else if (is.numeric(target_page)) {
+    if (target_page > 0 && is.wholenumber(target_page)) {
       # Effectuer la requête POST
       response <- httr::POST(url, body = params, encode = "form")
 
@@ -95,12 +95,12 @@ EN_Etfs_List_bis <- function(tot_page = 5) {
       length_rows <- data$iTotalDisplayRecords
       nb_pages <- ceiling(length_rows/100)
 
-      if (tot_page > nb_pages) {
+      if (target_page > nb_pages) {
         rlang::abort(paste0('Only total number of pages less than or equal to ', nb_pages, ' are allowed.'))
       } else {
-        start_values <- seq(0, tot_page*100, 100)
+        start_values <- seq(0, target_page*100, 100)
         the_length_ <- length(start_values)
-        start_values <- seq(0, tot_page*100, 100)[the_length_ - 1]
+        start_values <- seq(0, target_page*100, 100)[the_length_ - 1]
       }
     } else {
       rlang::abort('The total page must be a positive whole number!')

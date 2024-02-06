@@ -1,6 +1,6 @@
 #' Get information about indices listed on Euronext.
 #'
-#' This function retrieves information about indices quoted on Euronext.
+#' This function retrieves information about indices available on Euronext.
 #'
 #' @family Infos Retrieval
 #'

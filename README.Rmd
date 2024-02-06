@@ -38,7 +38,8 @@ knitr::opts_chunk$set(
 ```
 
 <!-- <img src="man/figures/EN_good_Logo.png" width="147" height="170" align="right"/> -->
-<img src="man/figures/EN_good1_Logo.png" width="250" height="250" align="right"/>
+<!-- <img src="man/figures/EN_good1_Logo.png" width="250" height="250" align="right"/> -->
+<img src="man/figures/EN_good2_Logo.png" width="300" height="250" align="right"/>
 
 
 ## Overview {.tabset}
@@ -85,94 +86,12 @@ devtools::install_github("Fredysessie/Euronext")
 remotes::install_github("Fredysessie/Euronext")
 ```
 
-## **EN_GetISIN()** function
-The function takes a single parameter, 'ticker,' which can be the symbol, name, or ISIN of a given stock or index, and then returns its DNA.
-
-- *Example 1.a : Get DNA (ISIN-Market identifier)* of a given Stock or Index listed on Euronext by providing the Symbol or Name, or ISIN of a Stock or an Index.
- 
-
-To efficiently use the 'Euronext' package, it is important to understand how to handle Ticker Names, ISIN, and DNA, as many functions in the package rely on these. 
-Note: There is a small difference between ISIN and DNA. 
-Here's a simple example: the ticker "4DDD" has the ISIN "US88554D2053," and its DNA is "US88554D2053-ETLX." As you can see, the DNA is composed of the ISIN and the market identifier "ETLX," preceded by "-".
-
-Please refer to the respective functions **EN_GetISIN()**, **EN_GetISIN_Etf()**, **EN_GetISIN_F()**, and **EN_GetISIN_B()** if you wish to obtain a list of available Stocks or Indices, ETFs, Funds, and Bonds on Euronext.
-
-```{r EN_GetISIN, eval=TRUE}
-# Get DNA of ticker "4DDD"
-EN_GetISIN("4DDD")
-
-# Get DNA for the ticker name "ADS MARITIME HOLD"
-EN_GetISIN("ADS MARITIME HOLD")
-
-# Get DNA for ATENOR company by providing its ISIN
-EN_GetISIN("BE0003837540")
-```
-
-
-
-## **EN_GetISIN_F()** function
-
-- *Example 1.b : Get DNA (ISIN-Market identifier)* of a given fund listed on Euronext by providing its symbol, name, or ISIN.
-
-
-```{r EN_GetISIN_F, eval=TRUE}
-# Get Fund 'ACOMEA GLOBALE' DNA
-aco_dna <- EN_GetISIN_F("ACOMEA GLOBALE")
-
-# In case you want the ISI only
-sub("-.*", "", aco_dna) #To get only the ISIN
-
-# Get Fund 'ASNU SMALL MIDCAPF' DNA
-asnu_dna <- EN_GetISIN_F("ASN5")
-print(asnu_dna)
-
-# Get Fund 'COMPAM ACTIVE GLOB' DNA
-EN_GetISIN_F("LU1275425897")
-
-```
-
-
-## **EN_GetISIN_Etf()** function
-
-- *Example 1.c : Get DNA (ISIN-Market identifier)* of a given ETF listed on Euronext by providing its Symbol or Name, or ISIN of a Stock or an Index.
-
-```{r EN_GetISIN_Etf, eval=TRUE}
-# Get ETF 'AAPL' DNA
-EN_GetISIN_Etf("AAPL")
-
-# Get ETF '-1X SHORT DIS' DNA
-EN_GetISIN_Etf("-1X SHORT DIS")
-
-# Get ETF '3x Long Coinbase' DNA
-EN_GetISIN_Etf("XS2399367254")
-```
-
-## **EN_GetISIN_B()** function
-
-- *Example 1.d : Get DNA (ISIN-Market identifier)* of a given Bond listed on Euronext by providing its Symbol or Name, or ISIN of a Stock or an Index.
-
-```{r EN_GetISIN_B, eval=TRUE}
-#To get only the DNA of all same bonds issued
-the_dna1 <- EN_GetISIN_B("ABN AMRO BANK N.V.")
-print(the_dna1)
-
-the_isin1 <- sub("-.*", "", the_dna1) #To get only the ISINs
-print(the_isin1)
-
-#To get only the DNA of Bond 'A2A GREEN BOND TF'
-the_dna2 = EN_GetISIN_B("A2A GREEN BOND TF")
-the_isin2 =sub("-.*", "", the_dna2) #To get only the ISIN
-print(the_isin2)
-
-```
-
-
 ## **EN_Stocks_List()**
 
 This function receives as input **stock_choice** and then retrieves a list of companies listed on the provided Euronext stock exchanges, filtered by the initial letter of their names. It provides information such as the company name, ticker symbol, ISIN code, market, last closing price, percentage change, and a link to the company's details on the Euronext website.
 - stock_choice A character string specifying the stock exchange. Options include "A" or "Amsterdam," "B" or "Brussels," "D" or "Dublin", "L" or "Lisbon," "M" or "Milan," "P" or "Paris," and "O" or "Oslo."
 
-- Example 2-a : Get Euronext Stocks List
+### Example 1.a : Get Euronext Stocks List
 
 ```{r EN_Stocks_List, eval=TRUE}
 # library(Euronext)
@@ -210,9 +129,9 @@ o_result_df <- EN_Stocks_List("O")[,c(2:6)]  # For Oslo Stock
 head(o_result_df, 10)
 ```
 
-- **Example 2-b** : Show in detail Paris Euronext Stocks
+### **Example 1.b** : Show in detail Paris Euronext Stocks
 
-```{r , eval=TRUE}
+```{r , eval=TRUE,  echo = FALSE}
 library(Euronext)
 p_result_df_new <- EN_Stocks_List("P")
 
@@ -226,8 +145,8 @@ datatable(p_result_df_new[c(2:9, 1)], escape = FALSE,
           rownames = FALSE,
           extensions = list('ColReorder' = NULL, 'RowReorder' = NULL,
                             'Buttons' = NULL, 'Responsive' = NULL),
-          options = list(dom = 'BRrltpi', scrollX = TRUE, scrollY = '500px', # ajustez la hauteur en fonction de vos besoins
-                         lengthMenu = list(c(10, 50, 100, -1), c('5', 'All'))
+          options = list(dom = 'BRrltpi', scrollX = TRUE, scrollY = '350px', # ajustez la hauteur en fonction de vos besoins
+                         lengthMenu = list(c(10, 50, 100, -1), c('10', '50', '100', 'All'))
                          ,
                          ColReorder = TRUE, rowReorder = FALSE,
                          buttons = list('copy', 'print',
@@ -240,25 +159,7 @@ datatable(p_result_df_new[c(2:9, 1)], escape = FALSE,
 
 ```
 
-
-
-## Example 3: Get the list of ETFs quoted on Euronext markets
-
-```{r EN_Etfs_List, eval=TRUE}
-# library(Euronext)
-# library(httr)
-# library(jsonlite)
-# library(dplyr)
-# library(rvest)
-# library(stringr)
-
-# Example usage:
-dt_ <- EN_Etfs_List()
-head(dt_[, c(2:9)])
-```
-
-
-## Example 4: Euronext Paris ticker ISIN
+## Example 1.c: Euronext Paris ticker ISIN
 ```{r EN_P_Ticker_adn, eval=TRUE}
 # Retrieve the ISIN for a company with ticker "abca"
 EN_P_Ticker_adn("abca")
@@ -270,5 +171,161 @@ print(result)
 # Example for a non-existing ticker "afsf"
 print(EN_P_Ticker_adn("afsf"))  # Ticker is not existing
 ```
+
+
+## **EN_Indices_List()** function
+It receives no argument and retrieves information about all indices available on Euronext. 
+
+### **Example 2 : Get the list of Euronext Indexes**
+```{r EN_Indices_List, eval=TRUE }
+all_indices = EN_Indices_List()
+head(all_indices)
+
+tail(all_indices)
+
+dim(all_indices)
+
+```
+
+## **EN_Etfs_List()** and **EN_Etfs_List_bis** functions
+
+*EN_Etfs_List* receives as input **tot_page** which is the total number of pages to retrieve. 
+In contrast, *EN_Etfs_List_bis* receives as input **target_page** which represents the target page.
+For example, the function **EN_Etfs_List_bis(5)**, retrieves only the fifth page of the Etfs list, allowing more granular control of the data retrieval process (ordered list of 100 Etfs), whereas **EN_Etfs_List(5)** would return an ordered list of 500 Etfs listed on Euronext (on each page there are 100 Etfs, so for 5 pages 5*100 = 500).
+
+### **Example 3 : Get the list of ETFs** quoted on Euronext markets
+
+```{r EN_Etfs_List, eval=TRUE}
+# Get 1st 500 Etfs in alphabetic order
+dt_ <- EN_Etfs_List()
+head(dt_[, c(2:9)])
+
+tail(dt_[, c(2:9)])
+
+# The number of columns and rows
+dim(dt_)
+
+dt_1 <- EN_Etfs_List_bis() #By default returns the list of 100 Etfs in alphabetic order 
+head(dt_1[, c(2:9)])
+
+tail(dt_1[, c(2:9)])
+
+# The number of columns and rows
+dim(dt_1)
+
+```
+
+
+## **EN_Bonds_List()** and **EN_Bonds_List_bis** functions
+
+*EN_Bonds_List* receives as input **tot_page** which is the total number of pages to retrieve. 
+In contrast, *EN_Bonds_List_bis* receives as input **target_page** which represents the target page.
+For example, the function **EN_Bonds_List_bis(5)**, retrieves only the fifth page of the Bonds list, allowing more granular control of the data retrieval process (ordered list of 100 Bonds), whereas **EN_Bonds_List(5)** would return an ordered list of 500 Bonds listed on Euronext (on each page there are 100 Bonds, so for 5 pages 5*100 = 500).
+
+
+### **Example 4 : Get the list of Bonds** quoted on Euronext markets
+
+```{r EN_Bonds_List, EN_Bonds_List_bis, eval=TRUE}
+# Get 1st 500 Bonds in alphabetic order
+dt_b <- EN_Bonds_List()
+head(dt_b[, c(2:9)])
+
+tail(dt_b[, c(2:9)])
+
+# The number of columns and rows
+dim(dt_b)
+
+dt_b1 <- EN_Bonds_List_bis() #By default returns the list of 100 Bonds in alphabetic order 
+head(dt_b1[, c(2:9)])
+
+tail(dt_b1[, c(2:9)])
+
+# The number of columns and rows
+dim(dt_b1)
+
+```
+
+
+
+## **EN_GetISIN()** function
+The function takes a single parameter, 'ticker,' which can be the symbol, name, or ISIN of a given stock or index, and then returns its DNA.
+
+### *Example 5.a : Get DNA (ISIN-Market identifier)* of a given Stock or Index listed on Euronext by providing the Symbol or Name, or ISIN of a Stock or an Index.
+ 
+
+To efficiently use the 'Euronext' package, it is important to understand how to handle Ticker Names, ISIN, and DNA, as many functions in the package rely on these. 
+Note: There is a small difference between ISIN and DNA. 
+Here's a simple example: the ticker "4DDD" has the ISIN "US88554D2053," and its DNA is "US88554D2053-ETLX." As you can see, the DNA is composed of the ISIN and the market identifier "ETLX," preceded by "-".
+
+Please refer to the respective functions **EN_GetISIN()**, **EN_GetISIN_Etf()**, **EN_GetISIN_F()**, and **EN_GetISIN_B()** if you wish to obtain a list of available Stocks or Indices, ETFs, Funds, and Bonds on Euronext.
+
+```{r EN_GetISIN, eval=TRUE}
+# Get DNA of ticker "4DDD"
+EN_GetISIN("4DDD")
+
+# Get DNA for the ticker name "ADS MARITIME HOLD"
+EN_GetISIN("ADS MARITIME HOLD")
+
+# Get DNA for ATENOR company by providing its ISIN
+EN_GetISIN("BE0003837540")
+```
+
+## **EN_GetISIN_F()** function
+
+### *Example 5.b : Get DNA (ISIN-Market identifier)* of a given fund listed on Euronext by providing its symbol, name, or ISIN.
+
+
+```{r EN_GetISIN_F, eval=TRUE}
+# Get Fund 'ACOMEA GLOBALE' DNA
+aco_dna <- EN_GetISIN_F("ACOMEA GLOBALE")
+
+# In case you want the ISI only
+sub("-.*", "", aco_dna) #To get only the ISIN
+
+# Get Fund 'ASNU SMALL MIDCAPF' DNA
+asnu_dna <- EN_GetISIN_F("ASN5")
+print(asnu_dna)
+
+# Get Fund 'COMPAM ACTIVE GLOB' DNA
+EN_GetISIN_F("LU1275425897")
+
+```
+
+
+## **EN_GetISIN_Etf()** function
+
+### *Example 5.c : Get DNA (ISIN-Market identifier)* of a given ETF listed on Euronext by providing its Symbol or Name, or ISIN of a Stock or an Index.
+
+```{r EN_GetISIN_Etf, eval=TRUE}
+# Get ETF 'AAPL' DNA
+EN_GetISIN_Etf("AAPL")
+
+# Get ETF '-1X SHORT DIS' DNA
+EN_GetISIN_Etf("-1X SHORT DIS")
+
+# Get ETF '3x Long Coinbase' DNA
+EN_GetISIN_Etf("XS2399367254")
+```
+
+## **EN_GetISIN_B()** function
+
+### *Example 5.d : Get DNA (ISIN-Market identifier)* of a given Bond listed on Euronext by providing its Symbol or Name, or ISIN of a Stock or an Index.
+
+```{r EN_GetISIN_B, eval=TRUE}
+#To get only the DNA of all same bonds issued
+the_dna1 <- EN_GetISIN_B("ABN AMRO BANK N.V.")
+print(the_dna1)
+
+the_isin1 <- sub("-.*", "", the_dna1) #To get only the ISINs
+print(the_isin1)
+
+#To get only the DNA of Bond 'A2A GREEN BOND TF'
+the_dna2 = EN_GetISIN_B("A2A GREEN BOND TF")
+the_isin2 =sub("-.*", "", the_dna2) #To get only the ISIN
+print(the_isin2)
+
+```
+
+
 
 
