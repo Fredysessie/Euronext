@@ -39,7 +39,7 @@ knitr::opts_chunk$set(
 
 <!-- <img src="man/figures/EN_good_Logo.png" width="147" height="170" align="right"/> -->
 <!-- <img src="man/figures/EN_good1_Logo.png" width="250" height="250" align="right"/> -->
-<img src="man/figures/EN_good2_Logo.png" width="300" height="250" align="right"/>
+<img src="man/figures/EN_good2_Logo.png" width="200" height="250" align="right"/>
 
 
 ## Overview {.tabset}
@@ -326,6 +326,10 @@ print(the_isin2)
 
 ```
 
+**Authors** : <br> 
+* [Koffi Frederic Sessie](https://github.com/Koffi-Fredysessie) (<koffisessie@gmail.com>)
+
+**Creator** : Koffi Frederic Sessie <br>  **cph (Copyright Holder)** : Koffi Frederic Sessie <br>
 
 
-
+**License** : MIT 2024, Koffi Frederic SESSIE. All rights reserved.
