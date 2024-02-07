@@ -42,6 +42,7 @@ EN_Get_OB("ALBONgdg") # Will return "Ticker not found"
 \code{\link{EN_GetISIN}} to retrieve the ISIN for a given ticker.
 
 Other Data Retrieval: 
+\code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_Ticker_Perfomance}()},
 \code{\link{EN_Ticker_hcData}()},
@@ -50,6 +51,7 @@ Other Data Retrieval:
 
 Other Euronext: 
 \code{\link{EN_Get_News}()},
+\code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_P_Ticker_adn}()},
 \code{\link{EN_Ticker_Perfomance}()},
