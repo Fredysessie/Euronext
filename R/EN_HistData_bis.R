@@ -82,6 +82,8 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
     rlang::abort("Only dates not exceeding 2 years ago are allowed for the 'from' parameter.")
   }
 
+  ticker = unique(toupper(ticker))
+
   # Check if ticker is a list
   if (length(ticker) > 1) {
     # Verify each ticker in the list
@@ -116,18 +118,50 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
     }
 
     ticker <- available_tickers
+    # print(ticker)
 
     # Proceed with data retrieval for valid tickers
-    data_list <- lapply(ticker, function(tick) {
-      temp_data <- get_single_hist_data(tick, from = from, to = to, stock_type = stock_type, escape = escape)
-      temp_data$Ticker <- tick
-      return(temp_data)
-    })
+    combined_data <- as.data.frame(matrix(NA, ncol = 10, nrow = 0))
+    names(combined_data) <- c("Date", "Open", "High", "Low", "Last", "Close", "Number of shares",
+      "Turnover", "VWAP", "Ticker")
+    # print(length(combined_data))
+
+    for (element in ticker) {
+      temp_data <- get_single_hist_data(element, from = from, to = to, stock_type = stock_type, escape = escape)
+
+      if ("VWAP" %in% names(temp_data)) {
+        temp_data$Ticker <- element
+
+      }else{
+        temp_data$VWAP  <- NA
+        temp_data$Ticker <- element
+
+      }
+
+
+
+      # print(length(temp_data))
+      # print(names(temp_data))
+      combined_data <- rbind(combined_data, temp_data)
+    }
+
+    # data_list <- lapply(ticker, function(tick) {
+    #   temp_data <- get_single_hist_data(tick, from = from, to = to, stock_type = stock_type, escape = escape)
+    #   temp_data$Ticker <- tick
+    #   return(temp_data)
+    # })
 
 
 
     # Combine the data frames
-    combined_data <- do.call(rbind, data_list)
+    # combined_data <- do.call(rbind, data_list)
+
+    combined_data$Open = as.numeric(gsub(',|-',"", combined_data$Open))
+    combined_data$High = as.numeric(gsub(',|-',"", combined_data$High))
+    combined_data$Low = as.numeric(gsub(',|-',"", combined_data$Low))
+    combined_data$Last = as.numeric(gsub(',|-',"", combined_data$Last))
+    combined_data$Close = as.numeric(gsub(',|-',"", combined_data$Close))
+
 
     return(combined_data)
 
@@ -184,6 +218,12 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
 
           # Turn Date column to date format
           stock_data$Date <- as.Date(stock_data$Date, format = "%d/%m/%Y")
+
+          stock_data$Open = as.numeric(gsub(',|-',"", stock_data$Open))
+          stock_data$High = as.numeric(gsub(',|-',"", stock_data$High))
+          stock_data$Low = as.numeric(gsub(',|-',"", stock_data$Low))
+          stock_data$Last = as.numeric(gsub(',|-',"", stock_data$Last))
+          stock_data$Close = as.numeric(gsub(',|-',"", stock_data$Close))
 
           return(stock_data)
 
@@ -254,6 +294,13 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
 
             # Turn Date column to date format
             stock_data$Date <- as.Date(stock_data$Date, format = "%d/%m/%Y")
+
+            stock_data$Open = as.numeric(gsub(',|-',"", stock_data$Open))
+            stock_data$High = as.numeric(gsub(',|-',"", stock_data$High))
+            stock_data$Low = as.numeric(gsub(',|-',"", stock_data$Low))
+            stock_data$Last = as.numeric(gsub(',|-',"", stock_data$Last))
+            stock_data$Close = as.numeric(gsub(',|-',"", stock_data$Close))
+
 
             return(stock_data)
 

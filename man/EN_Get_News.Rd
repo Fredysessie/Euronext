@@ -98,7 +98,8 @@ Other Euronext:
 \code{\link{EN_Ticker_Perfomance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
-\code{\link{EN_intraday_Data}()}
+\code{\link{EN_intraday_Data}()},
+\code{\link{EN_plot}()}
 }
 \concept{Euronext}
 \concept{Infos Retrieval}

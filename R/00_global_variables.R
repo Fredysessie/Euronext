@@ -1,5 +1,7 @@
 globalVariables(
-  names = c('mutate_all','str_to_title',
+  names = c('mutate_all','str_to_title','VWAP',
+
+
             '.indexes', 'adn', '.sectors', 'Box.test', 'Close', 'Countries', 'Date', 'High', 'Low', 'Open', 'POST',
             'Sector', 'Ticker', 'Desc.BRVM.all', 'Volume', 'ad.test', 'adf.test', 'arrange', 'as.xts', 'color_tile',
             'content', 'dagoTest', 'desc', 'direction', 'formattable', 'formatter', 'global_env',

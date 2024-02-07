@@ -16,6 +16,8 @@ Imports:
     rlang(>= 0.4.11),
     rvest,
     httr2,
-    dplyr
+    dplyr,
+    xts,
+    highcharter
 RoxygenNote: 7.2.3
 
