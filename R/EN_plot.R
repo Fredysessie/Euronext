@@ -79,17 +79,20 @@ EN_plot<- function(ticker,
 
 
 
+  # print(length(Global.returns))
 
-  # print(dim(Global.returns))
-
-  Global.returns <- Global.returns[order(Global.returns$Date), ]
   # print(names(Global.returns))
 
   # print(dim(Global.returns))
 
   # print(length(Global.returns))
+  # print(dim(Global.returns))
+  if(length(Global.returns) == 1){
+    rlang::abort("Ticker not found, please use an appropriate ticker")
 
-  if (length(Global.returns) >= 6 & length(Global.returns) <= 9) {
+  } else if (length(Global.returns) >= 6 & length(Global.returns) <= 9) {
+
+    Global.returns <- Global.returns[order(Global.returns$Date), ]
 
     Global.returns <- Global.returns[, c("Date", "Open", "High", "Low", "Close", "VWAP")]
 
@@ -148,6 +151,8 @@ EN_plot<- function(ticker,
         enabled = TRUE, # always enabled,
         filename = paste0(ticker.name," chart : from ", date1, " to ", date2))
 
+    return(brvm.plot)
+
   } else {
     # } else if (length(Global.returns) > 9) {
 
@@ -168,6 +173,7 @@ EN_plot<- function(ticker,
     #
     # }
 
+    Global.returns <- Global.returns[order(Global.returns$Date), ]
 
     ticker = paste0(unique(Global.returns$Ticker), collapse = ", ")
 
@@ -187,6 +193,8 @@ EN_plot<- function(ticker,
         enabled = TRUE, # always enabled,
         filename = paste0("Tickers line chart from ", date1, " to ", date2)
       )
-  }
-  return(brvm.plot)
+
+    return(brvm.plot)
+    }
+
 }
