@@ -45,6 +45,10 @@
 #' hc_List4 <- EN_HistData_bis("KGHDF", escape = F, stock_type = "F", from = "2022-10-30")
 #' head(hc_List4)
 #'
+#' #Providing Etfs vector
+#' hc_etf <- EN_HistData_bis(c("IE0007G78AC4", "MANA", "3TSM"), stock_type = 'E')
+#' head(hc_etf)
+#'
 #' EN_HistData_bis("ABCAhh") # Will return "Ticker not found"
 #' }
 #'
@@ -88,15 +92,32 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
   if (length(ticker) > 1) {
     # Verify each ticker in the list
     available_tickers <- c()
+    DNA_available_tickers <- c()
     invalid_tickers <- c()
     for (elm in ticker) {
 
-      test_tickers <- EN_GetISIN_bis(elm)
+      test_tickers <- EN_GetProfile(elm, stock_type = stock_type)
 
       # if (test_tickers != "Ticker not found") {
       if (length(test_tickers) == 4) {
-        test_tickers = test_tickers$Symbol
+        # test_tickers = test_tickers$Symbol
+        # available_tickers  <- c( test_tickers, available_tickers)
+
+        DNA_available_tickers  <- c(test_tickers$DNA, DNA_available_tickers)
+
+        if('Symbol' %in% names(test_tickers)){
+          test_tickers = test_tickers$Symbol
+
+
+        }else{
+          # test_tickers = test_tickers$Issuer
+          test_tickers = test_tickers$DNA
+        }
+
         available_tickers  <- c( test_tickers, available_tickers)
+
+
+
 
       }else{
         invalid_tickers <- c(elm, invalid_tickers)
@@ -114,7 +135,12 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
     # available_tickers <- EN_GetISIN_bis()$Ticker
     # invalid_tickers <- ticker[!(ticker %in% available_tickers)]
     if (length(invalid_tickers) > 0) {
-      rlang::abort(paste("The following tickers are not found:", paste(invalid_tickers, collapse = ", ")))
+      if(length(invalid_tickers) == 1){
+        rlang::abort(paste("The following ticker is not found:", paste(invalid_tickers, collapse = ", ")))
+
+      } else{
+        rlang::abort(paste("The following tickers are not found:", paste(invalid_tickers, collapse = ", ")))
+      }
     }
 
     ticker <- available_tickers
@@ -126,15 +152,38 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
       "Turnover", "VWAP", "Ticker")
     # print(length(combined_data))
 
-    for (element in ticker) {
-      temp_data <- get_single_hist_data(element, from = from, to = to, stock_type = stock_type, escape = escape)
+    for (elm in 1:length(ticker)) {
+      # CHange to
+      # temp_data <- get_single_hist_data(element, from = from, to = to, stock_type = stock_type, escape = escape)
+      #
+      # if ("VWAP" %in% names(temp_data)) {
+      #   temp_data$Ticker <- element
+      #
+      # }else{
+      #   temp_data$VWAP  <- NA
+      #   temp_data$Ticker <- element
+      #
+      # }
+
+      temp_data <- get_single_hist_data(DNA_available_tickers[elm], from = from, to = to, stock_type = stock_type, escape = T)
 
       if ("VWAP" %in% names(temp_data)) {
-        temp_data$Ticker <- element
+        if(stock_type %in%  c('Fund', "F",'Etfs', "E",'Eq_Ind')){
+          temp_data$Ticker <- ticker[elm]
+
+        }else{
+          temp_data$Ticker <- DNA_available_tickers[elm]
+        }
+
 
       }else{
         temp_data$VWAP  <- NA
-        temp_data$Ticker <- element
+        if(stock_type %in%  c('Fund', "F",'Etfs', "E",'Eq_Ind')){
+          temp_data$Ticker <- ticker[elm]
+
+        }else{
+          temp_data$Ticker <- DNA_available_tickers[elm]
+        }
 
       }
 

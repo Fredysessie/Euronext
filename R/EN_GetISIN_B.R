@@ -73,7 +73,7 @@ EN_GetISIN_B <- function(ticker) {
 
   max_pages <- start_values[the_length_ - 1]  # Nombre maximum de pages à vérifier
 
-  for (i in 1:max_pages) {
+  for (i in 1:(max_pages/100)) {
     dt_List <- EN_Bonds_List_bis(target_page = i)
 
     if (ticker %in% toupper(c(dt_List$Code_ISIN, dt_List$Issuer, dt_List$Name, dt_List$Ticker_adn))) {

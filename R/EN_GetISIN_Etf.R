@@ -66,7 +66,7 @@ EN_GetISIN_Etf <- function(ticker) {
 
   max_pages <- start_values[the_length_ - 1]  # Nombre maximum de pages à vérifier
 
-  for (i in 1:max_pages) {
+  for (i in 1:(max_pages/100)) {
     dt_List <- EN_Etfs_List_bis(target_page = i)
 
     if (ticker %in% toupper(c(dt_List$Code_ISIN, dt_List$Ticker, dt_List$Name))) {

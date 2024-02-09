@@ -18,6 +18,9 @@ Imports:
     httr2,
     dplyr,
     xts,
-    highcharter
+    data.table,
+    flextable,
+    highcharter,
+    grDevices
 RoxygenNote: 7.2.3
 

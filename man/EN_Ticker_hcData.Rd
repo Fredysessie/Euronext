@@ -2,39 +2,40 @@
 % Please edit documentation in R/EN_Ticker_hcData.R
 \name{EN_Ticker_hcData}
 \alias{EN_Ticker_hcData}
-\title{Get Highchart Data: Price and Volume}
+\title{Get Highchart Data : Price and Volume}
 \usage{
 EN_Ticker_hcData(
   ticker,
-  escape = F,
-  stock_type = "Eq_Ind",
   from = NULL,
-  to = Sys.Date()
+  to = Sys.Date(),
+  stock_type = "Eq_Ind",
+  escape = F
 )
 }
 \arguments{
-\item{ticker}{A character string representing the company's ticker, name, or ISIN.}
-
-\item{escape}{Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
-
-\item{stock_type}{The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.}
+\item{ticker}{A character string or vector representing the company's ticker, name, or ISIN. If providing a vector, at least one ticker must be specified.}
 
 \item{from}{A Date object specifying the start date for the data. Default is \code{NULL}, which retrieves data from the earliest available date. Users can adjust the value of \code{from} to specify a different start date. Only dates in the format "\%Y-\%m-\%d" are allowed.}
 
 \item{to}{A Date object specifying the end date for the data. Default is the current date. Users can adjust the value of \code{to} to specify a different end date. Only dates in the format "\%Y-\%m-\%d" are allowed.}
+
+\item{stock_type}{The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.}
+
+\item{escape}{Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
 }
 \value{
-A tibble containing historical price and volume data for the specified stock ticker within the specified date range.
-If the specified ticker is not found, the function returns an error message.
+If a single ticker is provided, a tibble containing historical price and volume data for the specified stock ticker within the specified date range. If multiple tickers are provided, a list containing data frames for each ticker is returned. If the specified ticker(s) is not found, the function returns an error message.
 }
 \description{
 This function retrieves historical price and volume data for a given stock ticker on the Euronext exchange.
-The data is returned as a tibble with columns for Date, Price, and Volume. You can specify the date range
+The data is returned as a tibble with columns for Date, Price, Volume, and Ticker. You can specify the date range
 for which you want to retrieve the data using the 'from' and 'to' parameters.
 }
 \examples{
 \dontrun{
 library(dplyr)
+library(httr)
+
 # Get company ABC ARBITRAGE share hc data
 dt_ABCA = EN_Ticker_hcData("ABca")
 print(dt_ABCA)
@@ -50,10 +51,24 @@ head(hc_aapl)
 dt_kem = EN_Ticker_hcData("US88554D2053-ETLX", escape = T)
 print(dt_kem)
 
-#' #To get hc data of Bond issued by A2A S.p.A.
+#To get hc data of Bond issued by A2A S.p.A.
 hc_RMBS <- EN_Ticker_hcData("XS1195347478-ETLX", escape = T)
 head(hc_RMBS)
 
+# Get indices such us AEX All-Tradable Alternative Weight NR, AEX Equal Weight NR,
+# AEX Short GR and AEX X2 Short GR hc data (Date, Price, volume)
+hc_list = EN_Ticker_hcData(c("NL0010614533", "QS0011211206", "QS0011095914", "QS0011146899"))
+head(hc_list)
+
+# Example to retrieve Etfs hc data
+dt_etf = EN_Ticker_hcData(c("IE0007G78AC4", "MANA", "3TSM"), stock_type = 'E')
+head (dt_etf)
+tail(dt_etf)
+
+# Example to retrieve Bonds hc data
+dt_bonds = EN_Ticker_hcData(c("XS2364001078-XMOT", "AAB1.50\%30SEP30"), stock_type = 'B')
+head(dt_bonds)
+tail(dt_bonds)
 }
 
 }
@@ -65,6 +80,7 @@ Other Data Retrieval:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_Overview_plot}()},
 \code{\link{EN_Ticker_Perfomance}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
@@ -75,6 +91,7 @@ Other Euronext:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
 \code{\link{EN_Ticker_Perfomance}()},
 \code{\link{EN_Ticker_infos}()},

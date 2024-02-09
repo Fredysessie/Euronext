@@ -64,6 +64,10 @@ head(hc_List3)
 hc_List4 <- EN_HistData_bis("KGHDF", escape = F, stock_type = "F", from = "2022-10-30")
 head(hc_List4)
 
+#Providing Etfs vector
+hc_etf <- EN_HistData_bis(c("IE0007G78AC4", "MANA", "3TSM"), stock_type = 'E')
+head(hc_etf)
+
 EN_HistData_bis("ABCAhh") # Will return "Ticker not found"
 }
 
@@ -74,6 +78,7 @@ EN_HistData_bis("ABCAhh") # Will return "Ticker not found"
 Other Data Retrieval: 
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_Overview_plot}()},
 \code{\link{EN_Ticker_Perfomance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
@@ -84,6 +89,7 @@ Other Euronext:
 \code{\link{EN_Get_News}()},
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
 \code{\link{EN_Ticker_Perfomance}()},
 \code{\link{EN_Ticker_hcData}()},
