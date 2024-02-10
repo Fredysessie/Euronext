@@ -41,6 +41,7 @@
 #' library(lubridate)
 #' library(rlang)
 #' library(httr2)
+#' library(dplyr)
 #' library(stringr)
 #' library(xts)
 #' library(flextable)
@@ -246,7 +247,7 @@ EN_Overview_plot <- function(ticker,
 
     result <- Global.returns %>%
       dplyr::group_by(Ticker) %>%
-      dplyr::summarise('Last Price' = data.table::last(Price),
+      dplyr::summarise('Last Price' = dplyr::last(Price),
                 'Price evolution' = list(Price))
 
     # result <- Global.returns %>%
