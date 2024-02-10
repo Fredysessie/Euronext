@@ -117,6 +117,7 @@ EN_Ticker_infos <- function(ticker, escape = F, stock_type = 'Eq_Ind') {
 
         # the_ticker_infos[13,2] = gsub("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t", "     -      ", the_ticker_infos[13,2])
 
+        names(the_ticker_infos) <- c("Information", "Detail", "Update date/Time")
         return(the_ticker_infos)
 
       } else {
@@ -200,6 +201,8 @@ EN_Ticker_infos <- function(ticker, escape = F, stock_type = 'Eq_Ind') {
           # Remove blank space
 
           # the_ticker_infos[13,2] = gsub("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t", "     -      ", the_ticker_infos[13,2])
+
+          names(the_ticker_infos) <- c("Information", "Detail", "Update date/Time")
 
           return(the_ticker_infos)
 

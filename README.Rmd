@@ -84,7 +84,8 @@ library(highcharter)
 library(htmlwidgets)
 library(flextable)
 library(grDevices)
-
+library(knitr)
+library(kableExtra)
 ```
 
 
@@ -108,7 +109,7 @@ This function retrieves the profile of a given ticker - Equity, Index, Fund, ETF
 - 'ticker' : A character string representing the company's ticker Name, ISIN, Symbol or DNA,
 - 'stock_type' : The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
 
-### *Example 1* : Retrieve the *profile* (*characteristics*) of a specified Equity, Index, Fund, ETF, or Bond listed on Euronext.
+### *Example 1.a* : Retrieve the *profile* (*characteristics*) of a specified Equity, Index, Fund, ETF, or Bond listed on Euronext.
 
 Please refer to the respective functions **EN_GetISIN()**, **EN_GetISIN_Etf()**, **EN_GetISIN_F()**, and **EN_GetISIN_B()** if you wish to obtain the DNA of a giving Equity or Index, ETF, Fund, and Bond listed on Euronext (retrieving DNA is useful in case you decide to use 'escape = T' option).
 
@@ -176,12 +177,73 @@ Please refer to the respective functions **EN_GetISIN()**, **EN_GetISIN_Etf()**,
 
 ```
 
+## **EN_Get_News()** function
+This function retrieves the update information of a company listed on the Euronext exchange
+based on its ticker symbol. It returns a table with details such as its real Name, ISIN,
+Last traded Price, Date of last update, and other relevant informations.
+
+*Inputs* :
+- *ticker* A character string representing the company's ticker, name, or ISIN.
+- *stock_type*   The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers,'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
+- *escape* Boolean, either T or F. If escape is True, it means you're providing the DNA
+(ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming
+operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN
+and the type of market to which it belongs.
+
+
+### *Example 1.b* : Get Latest News for an Equity
+```{r EN_Get_News, eval=FALSE}
+# Retrieve news for the equity "AALBERTS N.V." using its DNA
+equity_news <- EN_Get_News("NL0000852564-XAMS", escape = TRUE)
+print(equity_news)
+```
+
+```{r echo=FALSE}
+# Retrieve news for the equity "AALBERTS N.V." using its DNA
+equity_news <- EN_Get_News("NL0000852564-XAMS", escape = TRUE)
+
+kable(equity_news, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+### *Example 1.c* : Get Latest News for an Index
+```{r eval=FALSE}
+# Retrieve news for the index "AEX All-Share Index GR" using its symbol
+index_news <- EN_Get_News("QS0011224977-XAMS", escape = TRUE)
+print(index_news)
+```
+
+```{r echo=FALSE}
+# Retrieve news for the index "AEX All-Share Index GR" using its symbol
+index_news <- EN_Get_News("QS0011224977-XAMS", escape = TRUE)
+kable(index_news, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+### *Example 1.d* : Get Latest News for a Bond
+```{r eval=FALSE}
+# Retrieve news for the bond "AAB0.45%12DEC2036" using its DNA
+bond_news <- EN_Get_News("XS2093705064-XAMS", escape = TRUE)
+print(bond_news)
+
+```
+
+```{r echo=FALSE}
+bond_news <- EN_Get_News("XS2093705064-XAMS", escape = TRUE)
+kable(bond_news, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
 ## **EN_Stocks_List()** function
 
 This function receives as input **stock_choice** and then retrieves a list of companies listed on the provided Euronext stock exchanges, filtered by the initial letter of their names. It provides information such as the company name, ticker symbol, ISIN code, market, last closing price, percentage change, and a link to the company's details on the Euronext website.
 - stock_choice A character string specifying the stock exchange. Options include "A" or "Amsterdam," "B" or "Brussels," "D" or "Dublin", "L" or "Lisbon," "M" or "Milan," "P" or "Paris," and "O" or "Oslo."
 
 ### *Example 2.a* : Get Euronext Stocks List
+
 ```{r EN_Stocks_List, eval=FALSE}
 # The columns names of the initial dataframe is c("Date", "Name", "Ticker", "Code_ISIN", "Market", "Last_price", "Percentage change (in %)", "URL", "Ticker_adn")
 
@@ -312,37 +374,7 @@ kable(a_result_df.h, "html") %>%
 
 
 
-### *Example 2.b* : Show in detail Paris Euronext Stocks
-
-```{r , eval=TRUE,  echo = FALSE}
-library(Euronext)
-p_result_df_new <- EN_Stocks_List("P")
-
-# p_result_df_new$Date <- strptime(p_result_df_new$Date, format = "%d %b %Y")
-# as.Date(strptime(head(a_result_df$Date), format = "%d %b %Y"))
-
-clm_format = list(list(targets = c(0, 2:8), className = "dt-center"))
-
-datatable(p_result_df_new[c(2:9, 1)], escape = FALSE, 
-          # filter = 'top',
-          rownames = FALSE,
-          extensions = list('ColReorder' = NULL, 'RowReorder' = NULL,
-                            'Buttons' = NULL, 'Responsive' = NULL),
-          options = list(dom = 'BRrltpi', scrollX = TRUE, scrollY = '350px', # ajustez la hauteur en fonction de vos besoins
-                         lengthMenu = list(c(10, 50, 100, -1), c('10', '50', '100', 'All'))
-                         ,
-                         ColReorder = TRUE, rowReorder = FALSE,
-                         buttons = list('copy', 'print',
-                                        list(extend = 'collection',
-                                             buttons = c('csv', 'excel', 'pdf'),
-                                             columnDefs = clm_format,
-                                             text = 'Download'), I('colvis'))
-          ))
-
-
-```
-
-### *Example 2.c* : Euronext Paris ticker ISIN
+### *Example 2.b* : Euronext Paris ticker ISIN
 ```{r EN_P_Ticker_adn, eval=TRUE}
 # Retrieve the ISIN for a company with ticker "abca"
 EN_P_Ticker_adn("abca")
@@ -354,6 +386,7 @@ print(result)
 # Example for a non-existing ticker "afsf"
 print(EN_P_Ticker_adn("afsf"))  # Ticker is not existing
 ```
+
 
 
 ## **EN_Indices_List()** function
@@ -766,11 +799,140 @@ chart3 <- EN_plot(c("IE0007G78AC4", "MANA", "3TSM"), stock_type = 'E')
 ```
 
 
+
 <div align="center"> 
 
 <img src="man/figures/Etfs_plot.gif" width="100%" height="480" align="center"/>
 
 </div> 
+
+## **EN_Ticker_infos()** function
+This function retrieves detailed information for a given stock ticker on the Euronext exchange.
+It includes information such as currency, last traded price, valuation close, volume, turnover,
+transactions, VWAP (Volume Weighted Average Price), open, high, low, threshold, previous close,
+52-week range, and market capitalization.
+The data is returned as a data frame.
+
+*Inputs* :
+- *ticker* A character string representing the company's ticker, name, or ISIN.
+- *stock_type*   The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers,'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
+- *escape* Boolean, either T or F. If escape is True, it means you're providing the DNA
+(ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming
+operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN
+and the type of market to which it belongs.
+
+### *Example 9.a* : Get Information for an Equity
+```{r EN_Ticker_infos, eval=FALSE}
+# Retrieve news for the equity "AALBERTS N.V." using its DNA
+equity_infos <- EN_Ticker_infos("NL0000852564-XAMS", escape = TRUE)
+print(equity_infos)
+```
+
+```{r echo=FALSE}
+# Retrieve news for the equity "AALBERTS N.V." using its DNA
+equity_infos <- EN_Ticker_infos("NL0000852564-XAMS", escape = TRUE)
+
+kable(equity_infos, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+### *Example 9.b* : Get Information for an Index
+```{r eval=FALSE}
+# Retrieve news for the index "AEX All-Share Index GR" using its symbol
+index_infos <- EN_Ticker_infos("QS0011224977-XAMS", escape = TRUE)
+print(index_infos)
+```
+
+```{r echo=FALSE}
+# Retrieve news for the index "AEX All-Share Index GR" using its symbol
+index_infos <- EN_Ticker_infos("QS0011224977-XAMS", escape = TRUE)
+kable(index_infos, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+### *Example 9.c* : Get Information for a Bond
+```{r eval=FALSE}
+# Retrieve news for the bond "AAB0.45%12DEC2036" using its DNA
+bond_infos <- EN_Ticker_infos("XS2093705064-XAMS", escape = TRUE)
+print(bond_infos)
+
+```
+
+```{r echo=FALSE}
+bond_infos <- EN_Ticker_infos("XS2093705064-XAMS", escape = TRUE)
+kable(bond_infos, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+## **EN_intraday_Data()** function
+The *EN_intraday_Data()* function fetches intraday price data for a specified stock on Euronext. It allows you to retrieve either today's intraday prices or the previous day's intraday prices, with "Today" being the default option. The function returns a data frame containing the intraday stock information.
+
+*Inputs* :
+- *ticker*: A character string representing the stock ticker or name.
+- *day_type* : A character string specifying the type of intraday price to fetch. Options are "Today" or "Previous" day. Default is "Today." You can also use 'T' for 'Today' or 'P' for 'Previous'.
+- *stock_type* : The type of the ticker, which can be 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for ETFs.
+escape: A Boolean value (either T or F). If escape is set to True, it indicates that the DNA (ISIN-Market identifier) is provided directly. Using True for escape can help avoid time-consuming operations. If escape is set to False, the function expects the Ticker symbol, name, or ISIN, along with the type of market to which it belongs.
+- *nbitems*: An integer specifying the number of items to fetch. Default is 30 (also the maximum).
+
+### *Example 10.a* : Get recent intraday prices  for an Equity
+```{r EN_intraday_Data, eval=FALSE}
+# Get recent intraday prices of ABCA share for 10 items
+intra_ = EN_intraday_Data("ABCA", day_type = 'T', nbitems = 10)
+print(intra_)
+```
+
+```{r echo=FALSE}
+intra_ = EN_intraday_Data("ABCA", day_type = 'T', nbitems = 10)
+
+kable(intra_, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+### *Example 10.b* : Get recent intraday prices of ACOMEA EMERGING Q2 Fund
+```{r eval=FALSE}
+intra_1 = EN_intraday_Data("IT0005091126", 'F', escape = FALSE, day_type = 'T')
+print(intra_1)
+```
+
+```{r echo=FALSE}
+intra_1 = EN_intraday_Data("IT0005091126", 'F', escape = FALSE, day_type = 'T')
+kable(intra_1, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+### *Example 10.c* : Get Previous intraday prices of ETF AAPL by providing directly the ISIN-Market identifier
+```{r eval=FALSE}
+intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = T, day_type = 'Previous')
+print(intra_2)
+
+```
+
+```{r echo=FALSE}
+intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = T, day_type = 'Previous')
+kable(intra_2, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+### *Example 10.d* : Get Previous intraday prices of AEX All-Share Index
+```{r eval=FALSE}
+intra_3 = EN_intraday_Data("AEX All-Share Index GR", day_type = 'P')
+print(intra_3)
+
+```
+
+```{r echo=FALSE}
+intra_3 = EN_intraday_Data("AEX All-Share Index GR", day_type = 'P')
+kable(intra_3, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
 
 **Authors** : <br> 
 * [Koffi Frederic Sessie](https://github.com/Koffi-Fredysessie) (<koffisessie@gmail.com>)

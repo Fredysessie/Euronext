@@ -35,19 +35,19 @@ containing intraday stock information.
 \examples{
 \dontrun{
 # Get recent intraday prices of ABCA share
-intra_ = EN_intraday_Data("ABCA", type = 'T')
+intra_ = EN_intraday_Data("ABCA", day_type = 'T')
 print(intra_)
 
 # Get recent intraday prices of ACOMEA EMERGING Q2 Fund
-intra_1 = EN_intraday_Data("IT0005091126", 'F', escape = FALSE, type = 'T')
+intra_1 = EN_intraday_Data("IT0005091126", 'F', escape = FALSE, day_type = 'T')
 print(intra_1)
 
 # Get Previous intraday prices of ETF AAPL by providing directly the ISIN-Market identifier
-intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = T, type = 'Previous')
+intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = T, day_type = 'Previous')
 print(intra_2)
 
 # Get Previous intraday prices of AEX All-Share Index
-intra_3 = EN_intraday_Data("AEX All-Share Index GR", type = 'P')
+intra_3 = EN_intraday_Data("AEX All-Share Index GR", day_type = 'P')
 print(intra_3)
 }
 
