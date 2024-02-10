@@ -20,7 +20,6 @@ This function checks if the provided ticker is present in the specified columns 
 \dontrun{
 library(httr)
 library(jsonlite)
-library(dplyr)
 
 the_dna = EN_GetISIN_F("ACOMEA GLOBALE")
 sub("-.*", "", the_dna) #To get only the ISIN

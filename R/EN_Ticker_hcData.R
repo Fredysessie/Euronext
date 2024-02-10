@@ -14,7 +14,6 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(dplyr)
 #' library(httr)
 #'
 #' # Get company ABC ARBITRAGE share hc data
@@ -57,7 +56,6 @@
 #'
 #' @import httr
 #' @import jsonlite
-#' @import dplyr
 #' @import httr
 #'
 #' @family Data Retrieval
@@ -137,9 +135,14 @@ EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 
 
           names(data) <- c("Date", "Price", "Volume")
 
-          data <- dplyr::as_tibble(data) %>%
-            dplyr::filter(Date >= from) %>%
-            dplyr::filter(Date <= to)
+          # data <- dplyr::as_tibble(data) %>%
+          #   dplyr::filter(Date >= from) %>%
+          #   dplyr::filter(Date <= to)
+
+          data <- as.data.frame(data)
+
+          # Filter rows based on Date
+          data <- data[data$Date >= from & data$Date <= to, ]
 
           return(data)
 
@@ -222,9 +225,14 @@ EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 
 
             names(data) <- c("Date", "Price", "Volume")
 
-            data <- dplyr::as_tibble(data) %>%
-              dplyr::filter(Date >= from) %>%
-              dplyr::filter(Date <= to)
+            # data <- dplyr::as_tibble(data) %>%
+            #   dplyr::filter(Date >= from) %>%
+            #   dplyr::filter(Date <= to)
+
+            data <- as.data.frame(data)
+
+            # Filter rows based on Date
+            data <- data[data$Date >= from & data$Date <= to, ]
 
             return(data)
 

@@ -16,7 +16,6 @@
 #' \dontrun{
 #' library(httr)
 #' library(jsonlite)
-#' library(dplyr)
 #'
 #' the_dna1 = EN_GetISIN_B("ABN AMRO BANK N.V.") #To get only the DNA of all same bonds issuerd
 #' the_isin1 = sub("-.*", "", the_dna1) #To get only the ISINs
@@ -29,7 +28,6 @@
 #'
 #' @import httr
 #' @import jsonlite
-#' @import dplyr
 #'
 #' @export
 #'

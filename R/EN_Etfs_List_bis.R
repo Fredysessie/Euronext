@@ -21,7 +21,6 @@
 #' \dontrun{
 # library(httr)
 # library(jsonlite)
-# library(dplyr)
 # library(rvest)
 # library(stringr)
 #'
@@ -37,7 +36,6 @@
 #'
 #' @import httr
 #' @import jsonlite
-#' @import dplyr
 #' @import rvest
 #' @import stringr
 #'

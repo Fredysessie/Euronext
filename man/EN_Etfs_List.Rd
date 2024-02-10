@@ -20,7 +20,6 @@ This function retrieves information about Etfs quoted on Euronext markets.
 \dontrun{
 library(httr)
 library(jsonlite)
-library(dplyr)
 library(rvest)
 library(stringr)
 

@@ -18,7 +18,6 @@ No input parameters are required for this function. It retrieves information abo
 \dontrun{
 library(httr)
 library(jsonlite)
-library(dplyr)
 library(rvest)
 library(stringr)
 

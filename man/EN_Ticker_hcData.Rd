@@ -33,7 +33,6 @@ for which you want to retrieve the data using the 'from' and 'to' parameters.
 }
 \examples{
 \dontrun{
-library(dplyr)
 library(httr)
 
 # Get company ABC ARBITRAGE share hc data
