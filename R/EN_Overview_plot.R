@@ -29,8 +29,8 @@
 #'
 #'
 #' @importFrom xts as.xts
-#' @importFrom dplyr reframe group_by
 #' @importFrom data.table as.data.table last
+#' @importFrom dplyr reframe group_by
 #' @import flextable
 #' @import magrittr
 #' @importFrom grDevices col2rgb
