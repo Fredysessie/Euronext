@@ -54,6 +54,7 @@ library(xts)
 library(flextable)
 
 #Highchart of 4DDD (area chart for Last price and column chart for volume)
+# Default up.col = "darkgreen", down.col = "red"
 EN_Overview_plot(c("4DDD"), to = Sys.Date())
 
 # You can change the up and down colors as follow

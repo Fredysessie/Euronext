@@ -29,7 +29,7 @@
 #'
 #'
 #' @importFrom xts as.xts
-#' @importFrom highcharter highchart hc_title hc_add_series hc_add_yAxis hc_add_series hc_yAxis_multiples hc_colors hc_exporting
+#' @importFrom highcharter highchart hc_title hc_add_series hc_add_yAxis hc_add_series hc_yAxis_multiples hc_colors hc_exporting hchart
 #'
 #' @examples
 #'\dontrun{
@@ -53,6 +53,9 @@
 #' AEX Equal Weight NR, AEX All-Tradable Alternative Weight NR,
 #' # AEX Short GR and AEX X2 Short GR
 #' EN_plot(c("NL0010614533", "QS0011211206", "QS0011095914", "QS0011146899"))
+#'
+#' #Etfs vector plot
+#' EN_plot(c("IE0007G78AC4", "MANA", "3TSM"), stock_type = 'E')
 #'}
 #'
 #' @export
@@ -90,7 +93,41 @@ EN_plot<- function(ticker,
   if(length(Global.returns) == 1){
     rlang::abort("Ticker not found, please use an appropriate ticker")
 
-  } else if (length(Global.returns) >= 6 & length(Global.returns) <= 9) {
+  } else if (length(Global.returns) == 8) {
+    ticker.name <- ticker
+
+    Global.returns <- Global.returns[order(Global.returns$Date), ]
+    Global.returns <- Global.returns[, c("Date", "Open", "High", "Low", "Close")]
+
+    Global.returns <-as.xts(Global.returns[,-c(1)],
+                            order.by=Global.returns$Date)
+
+    # brvm.plot <- highchart (type="stock") %>%
+    #   hc_title(text = paste0(ticker.name," chart : from ", date1, " to ", date2),
+    #            style = list(fontWeight = "bold", fontSize = "20px"),
+    #            align = "center") %>%
+    #   hc_add_series (name = "Prices",
+    #                  Global.returns,
+    #                  # yAxis = 0,
+    #                  showInLegend = FALSE
+    #   )%>%
+    #   hc_colors(colors = c(down.col, up.col))%>%
+    #   hc_exporting(
+    #     enabled = TRUE, # always enabled,
+    #     filename = paste0(ticker.name," chart : from ", date1, " to ", date2))
+
+    brvm.plot <- hchart(Global.returns)%>%
+      hc_title(text = paste0(ticker.name," chart : from ", date1, " to ", date2),
+               style = list(fontWeight = "bold", fontSize = "20px"),
+               align = "center") %>%
+      hc_colors(colors = c(down.col, up.col))%>%
+      hc_exporting(
+        enabled = TRUE, # always enabled,
+        filename = paste0(ticker.name," chart : from ", date1, " to ", date2))
+
+    return(brvm.plot)
+
+  }else if (length(Global.returns) == 9) {
 
     Global.returns <- Global.returns[order(Global.returns$Date), ]
 
@@ -112,12 +149,13 @@ EN_plot<- function(ticker,
               Global.returns1[[i, "direction"]] <- "down")
     }
 
+
     brvm.plot<-     highchart (type="stock") %>%
       hc_title(text = paste0(ticker.name," chart : from ", date1, " to ", date2),
-               style = list(fontWeight = "bold", fontSize = "25px"),
+               style = list(fontWeight = "bold", fontSize = "20px"),
                align = "center") %>%
       hc_add_series (name = "Prices",
-                     Global.returns,
+                     Global.returns[, c("Open", "High", "Low", "Close")],
                      yAxis = 0,
                      showInLegend = FALSE,
                      upColor= up.col,

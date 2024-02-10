@@ -1,6 +1,6 @@
-#' Get a caracteristic (list of Name, ISIN, DNA, Symbol/or Issuer) of a Stock, Index, Etfs, Fund or Bond listed on Euronext
+#' Retrieve the profile (characteristics) of a specified Equity, Index, Fund, ETF, or Bond listed on Euronext.
 #'
-#' This function retrieves the caracteristic elements of a a Stock, Index, Etfs, Fund or Bond listed on Euronext
+#' This function retrieves the characteristic elements of a a Stock, Index, Etfs, Fund or Bond listed on Euronext
 #' using the provided Symbol/Name/ISIN or DNA.
 #'
 #' @param ticker A character string representing the Stock's or an Index's ticker, name, or ISIN.
@@ -10,47 +10,70 @@
 #'
 #' \dontrun{
 #' library(httr)
-#' # Examples for Equities and Indexes
-#' # Note : Provide the equity Symbol, ISIN, or Name for best results
-#' # Example: '3D SYSTEMS CORP' equity
-#' EN_GetProfile("4ddd")  # Provide Symbol
 #'
-#' # Example: 'ALFEN' equity
-#' EN_GetProfile("NL0012817175") # Provide ISIN
+#' # Note: For Equity, Index, Fund, and ETF, provide the giving Symbol, ISIN,
+#' # Name, or DNA for best results, but for a Bond, provide its DNA and
+#' # sometimes its Name for best results because a company or country
+#' # can issue more than one Bond.
 #'
-#' # Example: 'LES HOTELS BAVEREZ' equity
-#' EN_GetProfile("LES HOTELS BAVEREZ") # Provide Name
+#' ## Equities
+#' # Example a : '3D SYSTEMS CORP' equity
+#' EN_GetProfile("4ddd")  # By providing Symbol
 #'
-#' # Example for ETFs
-#' # Provide the equity Symbol, ISIN, Name, or DNA for best results
-#' # Example: Asia IG Corp US A
-#' EN_GetProfile("$Asia IG Corp US A", stock_type = 'E') # Provide Name
-#' # Or
-#' EN_GetProfile("MSFT", stock_type = 'E') # Provide Symbol
-#' # Or
-#' EN_GetProfile("XS2399367254", stock_type = 'E') # Provide ISIN of 3X LONG COINBASE
-#' # Or
-#' EN_GetProfile("IE0007G78AC4-XAMS", stock_type = 'E') # Provide DNA
+#' # Example b : 'ALFEN' equity
+#' EN_GetProfile("NL0012817175") # By providing ISIN
 #'
-#' # Example for Funds
-#' # Note : Provide the equity Symbol, ISIN, Name, or DNA for best results
-#' # Example: ACOMEA PERFORMANCE
-#' EN_GetProfile("ACAPER", stock_type = 'F') # Provide Symbol
-#' # Or
-#' EN_GetProfile("BNP ESGNL", stock_type = 'F') # Provide Name
-#' # Or
-#' EN_GetProfile("NL0015000W40", stock_type = 'F') # Provide ISIN of SWIF2
-#' # Or
-#' EN_GetProfile("NL0000293181-XAMS", stock_type = 'F') # Provide DNA of GSDM5
+#' # Example c : 'LES HOTELS BAVEREZ' equity
+#' EN_GetProfile("LES HOTELS BAVEREZ") # By providing Name
+#'
+#' # Example d : 'BE SEMICONDUCTOR' equity
+#' EN_GetProfile("NL0012866412-XAMS") # By providing DNA
+#'
+#' ## Indices
+#' # Example a : 'AEX CONS STAPL GR' Index
+#' EN_GetProfile("NLCSG") # By providing Symbol
+#'
+#' # Example b : 'AEX All-Share Index' Index
+#' EN_GetProfile("NL0000249100") # By providing ISIN
+#'
+#' # Example c : 'Euronext Core Europe 30 EW Decrement 5% NR' Index
+#' EN_GetProfile("EN CE EW30 D 5% NR") # By providing Name
+#'
+#' # Example d : 'SBF 120 NR' Index
+#' EN_GetProfile("QS0011131842-XPAR") # By providing DNA
+#'
+#' ## ETFs
+#' # Example a : 'Asia IG Corp US A' Etf
+#' EN_GetProfile("$Asia IG Corp US A", stock_type = 'E') # By providing Name
+#'
+#' # Example b : '1X MSFT' Etf
+#' EN_GetProfile("MSFT", stock_type = 'E') # By providing Symbol
+#'
+#' # Example c : '3X LONG COINBASE' Etf
+#' EN_GetProfile("XS2399367254", stock_type = 'E') # By providing ISIN of 3X LONG COINBASE
+#'
+#' # Example d : '3X PLTR' Etf
+#' EN_GetProfile("XS2663694680-XAMS", stock_type = 'E') # By providing DNA
+#'
+#' # Funds
+#' # Example a : 'ACOMEA PERFORMANCE' Fund
+#' EN_GetProfile("ACAPER", stock_type = 'F') # By providing Symbol
+#'
+#' # Example b : 'BNP ESGNL' Fund
+#' EN_GetProfile("BNP ESGNL", stock_type = 'F') # By providing Name
+#'
+#' # Example c : 'SWIF2' Fund
+#' EN_GetProfile("NL0015000W40", stock_type = 'F') # By providing ISIN of SWIF2
+#'
+#' # Example d : 'GOLDMAN SACHS PARAPLUFONDS 2 N' Fund
+#' EN_GetProfile("NL0000293181-XAMS", stock_type = 'F') # By providing DNA of GSDM5
 #'
 #' # Examples for Bonds
-#' # Note : Provide the Bond DNA, and sometimes its Name for best results
-#' # Example: 'A2A SLB TF 0,625%' Bond
-#' EN_GetProfile("XS2364001078-XMOT", stock_type = 'B') # Provide DNA
+#' # Example a: 'A2A SLB TF 0,625%' Bond
+#' EN_GetProfile("XS2364001078-XMOT", stock_type = 'B') # By providing DNA
 #'
-#' # Example: 'AAB1.50%30SEP30' Bond
-#' EN_GetProfile("AAB1.50%30SEP30", stock_type = 'B') # Provide Name
-#'
+#' # Example b: 'AAB1.50%30SEP30' Bond
+#' EN_GetProfile("AAB1.50%30SEP30", stock_type = 'B') # By providing Name
 #' }
 #'
 #' @import httr
@@ -240,17 +263,66 @@ EN_GetProfile <- function(ticker, stock_type = 'Eq_Ind') {
         # Extract 'symbol' using regular expressions
         the_symbol <- gsub('.*<span class=\'symbol\'>(.*?)</span>.*', '\\1', data$label[1])
 
+
         return(list(Name = the_name, ISIN = the_isin, DNA = the_adn, Symbol=the_symbol))
       } else {
-        return("Ticker not found")
-      }
-    } else {
-      # If the request was not successful, print a warning and return NULL
-      warning("Error fetching data. HTTP status code: ", status_code(response))
-      return(NULL)
+        ticker1 <- sub("-.*", "", ticker)
+        # Construct the URL for the API request
+        url <- paste0("https://live.euronext.com/en/instrumentSearch/searchJSON?q=", ticker1)
+
+        # Make the fetch request
+        response <- httr::GET(url,
+                              add_headers(
+                                "accept" = "application/json, text/javascript, */*; q=0.01",
+                                "accept-language" = "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7",
+                                "sec-ch-ua" = "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\"",
+                                "sec-ch-ua-mobile" = "?0",
+                                "sec-ch-ua-platform" = "\"Windows\"",
+                                "sec-fetch-dest" = "empty",
+                                "sec-fetch-mode" = "cors",
+                                "sec-fetch-site" = "same-origin",
+                                "x-requested-with" = "XMLHttpRequest"
+                              ),
+                              # referrer = "https://live.euronext.com/en/search_instruments/us88554d2053?restMic",
+                              referrerPolicy = "strict-origin-when-cross-origin"
+        )
+
+        # Check if the request was successful (status code 200)
+        if (status_code(response) == 200) {
+          # Parse the JSON content
+          content <- httr::content(response, "text", encoding = "UTF-8")
+          data <- jsonlite::fromJSON(content)
+          # Extract and return the ISIN
+          if (!is.null(data) && data$value[1] != "") {
+            # print(length(data))
+            # print(data$value[1])
+            # print(data$mic[1])
+            the_isin = data$value[1]
+            the_name  = data$name[1]
+            the_adn <- paste0(data$value[1], "-", data$mic[1])
+            # Extract 'symbol' using regular expressions
+            the_symbol <- gsub('.*<span class=\'symbol\'>(.*?)</span>.*', '\\1', data$label[1])
+
+
+            return(list(Name = the_name, ISIN = the_isin, DNA = the_adn, Symbol=the_symbol))
+
+          } else{
+            return("Ticker not found")
+          }
+        } else {
+          # If the request was not successful, print a warning and return NULL
+          warning("Error fetching data. HTTP status code: ", status_code(response))
+          return(NULL)
+        }
+
     }
 
-  } else{
+  } else {
+    # If the request was not successful, print a warning and return NULL
+    warning("Error fetching data. HTTP status code: ", status_code(response))
+    return(NULL)
+  }
+    } else{
     rlang::abort(
       "Only parameters such us 'Eq_Ind' for Stocks and Indexes, 'Fund' or 'F' for Fund tickers, 'Bond' or 'B' for Bond tickers, and 'Etfs' or 'E' for EFTs are allowed."
     )

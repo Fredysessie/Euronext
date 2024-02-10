@@ -48,6 +48,7 @@
 #' library(flextable)
 #'
 #' #Highchart of 4DDD (area chart for Last price and column chart for volume)
+#' # Default up.col = "darkgreen", down.col = "red"
 #' EN_Overview_plot(c("4DDD"), to = Sys.Date())
 #'
 #' # You can change the up and down colors as follow
@@ -250,7 +251,7 @@ EN_Overview_plot <- function(ticker,
       dplyr::group_by(Ticker) %>%
       # dplyr::summarise(Last_Price = last(Price),
       #                  'Price evolution' = list(Price))%>%
-      dplyr::reframe(Last_Price = last(Price),
+      dplyr::reframe('Last Price' = last(Price),
                      'Price evolution' = list(Price))
 
 
@@ -273,10 +274,11 @@ EN_Overview_plot <- function(ticker,
         plot_chunk(value = `Price evolution`, type = "dens",
                    # col = "blue",
                    col = up.col,
-                   width = 1.5, height = .4, free_scale = TRUE)
+                   width = 1.7, height = .9, free_scale = TRUE)
       )) %>%
       # colformat_double(big.mark = " ", suffix = " $") %>%
       set_header_labels(box = "composite content", density = "density") %>%
+      set_caption("Overview of price evolution and last price") %>%
       autofit()
 
 

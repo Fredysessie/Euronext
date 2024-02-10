@@ -64,6 +64,9 @@ EN_plot(c("AAX", "QS0011016480", "AEX2S", "ADIDAS", "ADOBE", "ALFEN BEHEER", "1G
 AEX Equal Weight NR, AEX All-Tradable Alternative Weight NR,
 # AEX Short GR and AEX X2 Short GR
 EN_plot(c("NL0010614533", "QS0011211206", "QS0011095914", "QS0011146899"))
+
+#Etfs vector plot
+EN_plot(c("IE0007G78AC4", "MANA", "3TSM"), stock_type = 'E')
 }
 
 }
