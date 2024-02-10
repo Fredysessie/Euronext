@@ -29,10 +29,10 @@
 #'
 #'
 #' @importFrom xts as.xts
-#' @import data.table
+#' @importFrom dplyr reframe group_by
+#' @importFrom data.table as.data.table last
 #' @import flextable
 #' @import magrittr
-#' @import dplyr
 #' @importFrom grDevices col2rgb
 #' @importFrom highcharter highchart hc_title hc_add_series hc_add_yAxis hc_add_series hc_yAxis_multiples hc_colors hc_exporting
 #'
@@ -137,7 +137,7 @@ EN_Overview_plot <- function(ticker,
 
     date2 = max(Global.returns1$Date)
 
-    Global.returns <-as.xts(Global.returns[,-c(1)],
+    Global.returns <- xts::as.xts(Global.returns[,-c(1)],
                             order.by=Global.returns$Date)
     Global.returns1$direction <-NA
 
@@ -231,6 +231,8 @@ EN_Overview_plot <- function(ticker,
     # setDT(Global.returns)
 
     Global.returns <- as.data.table(Global.returns)
+
+
     # Global.returns$Price = gsub(",", "", Global.returns$Price)
     # Global.returns$Price = as.numeric(Global.returns$Price)
 
@@ -251,7 +253,7 @@ EN_Overview_plot <- function(ticker,
       dplyr::group_by(Ticker) %>%
       # dplyr::summarise(Last_Price = last(Price),
       #                  'Price evolution' = list(Price))%>%
-      dplyr::reframe('Last Price' = last(Price),
+      dplyr::reframe('Last Price' = data.table::last(Price),
                      'Price evolution' = list(Price))
 
 
