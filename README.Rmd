@@ -360,15 +360,24 @@ print(EN_P_Ticker_adn("afsf"))  # Ticker is not existing
 It receives no argument and retrieves information about all indices available on Euronext. 
 
 ### *Example 3* : Get the list of Euronext Indexes
-```{r EN_Indices_List, eval=TRUE }
+```{r EN_Indices_List, eval=FALSE}
+# Get list of Indices available on Euronext
 all_indices = EN_Indices_List()
-head(all_indices)
-
+dim(all_indices)
 tail(all_indices)
+```
+
+```{r echo=FALSE}
+all_indices = EN_Indices_List()
+all_indices.t = tail(all_indices)
 
 dim(all_indices)
 
+kable(all_indices.t, "html") %>%
+  kable_styling(bootstrap_options = "striped")
 ```
+
+
 
 ## **EN_Etfs_List()** and **EN_Etfs_List_bis** functions
 
@@ -378,23 +387,52 @@ For example, the function **EN_Etfs_List_bis(5)**, retrieves only the fifth page
 
 ### **Example 4 : Get the list of ETFs** quoted on Euronext markets
 
-```{r EN_Etfs_List, eval=TRUE}
+```{r EN_Etfs_List, eval=FALSE}
 # Get 1st 500 Etfs in alphabetic order
 dt_ <- EN_Etfs_List()
-head(dt_[, c(2:9)])
-
 tail(dt_[, c(2:9)])
 
 # The number of columns and rows
 dim(dt_)
 
-dt_1 <- EN_Etfs_List_bis() #By default returns the list of 100 Etfs in alphabetic order 
-head(dt_1[, c(2:9)])
+```
 
-tail(dt_1[, c(2:9)])
+```{r echo=FALSE}
+# Get 1st 500 Etfs in alphabetic order
+dt_ <- EN_Etfs_List()
+dt_t <- tail(dt_[, c(2:9)])
 
 # The number of columns and rows
+# print('Dimension of the dataframe')
+
+kable(dt_t, "html") %>%
+    kable_styling(bootstrap_options = "striped")
+
+dim(dt_)
+
+```
+
+
+```{r eval=FALSE}
+# By default, EN_Etfs_List_bis() returns the list of 100 Etfs in alphabetic order
+dt_1 <- EN_Etfs_List_bis()  
+# The number of columns and rows
 dim(dt_1)
+# Head
+dt_1.h <- head(dt_1[, c(2:9)])
+
+```
+
+
+```{r echo=FALSE}
+dt_1 <- EN_Etfs_List_bis() #By default returns the list of 100 Etfs in alphabetic order 
+# The number of columns and rows
+dim(dt_1)
+# Head
+dt_1.h <- head(dt_1[, c(2:9)])
+
+kable(dt_1.h, "html") %>%
+    kable_styling(bootstrap_options = "striped")
 
 ```
 
@@ -408,27 +446,54 @@ For example, the function **EN_Bonds_List_bis(5)**, retrieves only the fifth pag
 
 ### **Example 5 : Get the list of Bonds** quoted on Euronext markets
 
-```{r EN_Bonds_List, EN_Bonds_List_bis, eval=TRUE}
+```{r EN_Bonds_List, EN_Bonds_List_bis, eval=FALSE}
 # Get 1st 500 Bonds in alphabetic order
 dt_b <- EN_Bonds_List()
 head(dt_b[, c(2:9)])
 
 tail(dt_b[, c(2:9)])
 
-# The number of columns and rows
-dim(dt_b)
 
+```
+
+```{r  echo=FALSE}
+# Get 1st 500 Bonds in alphabetic order
+dt_b <- EN_Bonds_List()
+dt_b.h <- head(dt_b[, c(2:9)])
+
+dt_b.t <- tail(dt_b[, c(2:9)])
+
+kable(dt_b.h, "html") %>%
+    kable_styling(bootstrap_options = "striped")
+
+kable(dt_b.t, "html") %>%
+    kable_styling(bootstrap_options = "striped")
+```
+
+```{r  eval=FALSE}
 dt_b1 <- EN_Bonds_List_bis() #By default returns the list of 100 Bonds in alphabetic order 
 head(dt_b1[, c(2:9)])
 
 tail(dt_b1[, c(2:9)])
-
-# The number of columns and rows
-dim(dt_b1)
-
 ```
 
 
+```{r echo=FALSE}
+dt_b1 <- EN_Bonds_List_bis() #By default returns the list of 100 Bonds in alphabetic order 
+dt_b1.h <- head(dt_b1[, c(2:9)])
+dt_b1.t <-tail(dt_b1[, c(2:9)])
+
+# # The number of columns and rows
+# dim(dt_b1)
+
+kable(dt_b1.h, "html") %>%
+    kable_styling(bootstrap_options = "striped")
+
+
+kable(dt_b1.t, "html") %>%
+    kable_styling(bootstrap_options = "striped")
+
+```
 
 ## **EN_GetISIN()** function
 The function takes a single parameter, 'ticker,' which can be the symbol, name, or ISIN of a given stock or index, and then returns its DNA.
@@ -645,12 +710,13 @@ ov_plot  <- EN_Overview_plot(c("NL0010614533", "QS0011211206", "QS0011095914", "
 
 <div align="center"> 
 
-<img src="man/figures/Rplot.gif" width="100%" height="480" align="center"/>
+<img src="man/figures/Rplot.png" width="100%" height="480" align="center"/>
 
 </div>
 
 ## **EN_plot()** function
-A little bit different from 
+This  **EN_plot()** function is distinct from the **EN_Overview_plot()** function, although they share similar parameters (*ticker*, *from*, *to*, *stock_type*, *escape*, *up.col*, *down.col*)
+Note: Important to note that when using *EN_plot()*,only historical data from the past two years is available. This differs from **EN_Overview_plot()**, where data is available from the inception year of the company's listing.
 
 ### *Example 8* : Get historical performance
 
