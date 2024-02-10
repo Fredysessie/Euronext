@@ -14,7 +14,6 @@
 #' \dontrun{
 #' library(httr)
 #' library(jsonlite)
-#' library(dplyr)
 #'
 #' the_dna = EN_GetISIN_F("ACOMEA GLOBALE")
 #' sub("-.*", "", the_dna) #To get only the ISIN
@@ -29,7 +28,6 @@
 #'
 #' @import httr
 #' @import jsonlite
-#' @import dplyr
 #'
 #' @export
 #'

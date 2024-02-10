@@ -14,7 +14,6 @@
 #'
 #' @import httr
 #' @import jsonlite
-#' @import dplyr
 #' @import rvest
 #' @import stringr
 #'

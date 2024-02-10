@@ -16,13 +16,6 @@ output:
   always_allow_html: true
 ---
 
-<!-- badges: start -->
-[![CRAN Status](http://www.r-pkg.org/badges/version/Euronext)](https://cran.r-project.org/package=Euronext)
-![](https://cranlogs.r-pkg.org/badges/Euronext)
-![](https://cranlogs.r-pkg.org/badges/grand-total/Euronext)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html##experimental)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
-<!-- badges: end -->
 
 
 ```{r,include = FALSE}
@@ -387,6 +380,35 @@ print(result)
 print(EN_P_Ticker_adn("afsf"))  # Ticker is not existing
 ```
 
+### *Example 2.c* : Show in detail Paris Euronext Stocks
+
+```{r , eval=TRUE,  echo = FALSE}
+library(Euronext)
+p_result_df_new <- EN_Stocks_List("P")
+
+# p_result_df_new$Date <- strptime(p_result_df_new$Date, format = "%d %b %Y")
+# as.Date(strptime(head(a_result_df$Date), format = "%d %b %Y"))
+
+clm_format = list(list(targets = c(0, 2:8), className = "dt-center"))
+
+datatable(p_result_df_new[c(2:9, 1)], escape = FALSE, 
+          # filter = 'top',
+          rownames = FALSE,
+          extensions = list('ColReorder' = NULL, 'RowReorder' = NULL,
+                            'Buttons' = NULL, 'Responsive' = NULL),
+          options = list(dom = 'BRrltpi', scrollX = TRUE, scrollY = '350px', # ajustez la hauteur en fonction de vos besoins
+                         lengthMenu = list(c(10, 50, 100, -1), c('10', '50', '100', 'All'))
+                         ,
+                         ColReorder = TRUE, rowReorder = FALSE,
+                         buttons = list('copy', 'print',
+                                        list(extend = 'collection',
+                                             buttons = c('csv', 'excel', 'pdf'),
+                                             columnDefs = clm_format,
+                                             text = 'Download'), I('colvis'))
+          ))
+
+
+```
 
 
 ## **EN_Indices_List()** function

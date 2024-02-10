@@ -29,8 +29,7 @@
 #'
 #'
 #' @importFrom xts as.xts
-#' @importFrom data.table as.data.table last
-#' @importFrom dplyr reframe group_by
+#' @importFrom dplyr last
 #' @import flextable
 #' @import magrittr
 #' @importFrom grDevices col2rgb
@@ -42,7 +41,6 @@
 #' library(lubridate)
 #' library(rlang)
 #' library(httr2)
-#' library(dplyr)
 #' library(stringr)
 #' library(xts)
 #' library(flextable)
@@ -230,7 +228,9 @@ EN_Overview_plot <- function(ticker,
 
     # setDT(Global.returns)
 
-    Global.returns <- as.data.table(Global.returns)
+    # Global.returns <- as.data.table(Global.returns)
+
+    Global.returns <- as.data.frame(Global.returns)
 
 
     # Global.returns$Price = gsub(",", "", Global.returns$Price)
@@ -244,17 +244,21 @@ EN_Overview_plot <- function(ticker,
     #   summarise(Last_Price = last(Price))
     # Group by Ticker and compute 'Last Price' and create a list of all prices
 
-    # result <- Global.returns %>%
-    #   dplyr::group_by(Ticker) %>%
-    #   dplyr::summarise(Last_Price = last(Price),
-    #             Price = list(Price))
-
     result <- Global.returns %>%
       dplyr::group_by(Ticker) %>%
-      # dplyr::summarise(Last_Price = last(Price),
-      #                  'Price evolution' = list(Price))%>%
-      dplyr::reframe('Last Price' = data.table::last(Price),
-                     'Price evolution' = list(Price))
+      dplyr::summarise('Last Price' = data.table::last(Price),
+                'Price evolution' = list(Price))
+
+    # result <- Global.returns %>%
+    #   dplyr::group_by(Ticker) %>%
+    #   dplyr::reframe('Last Price' = data.table::last(Price),
+    #                  'Price evolution' = list(Price))
+
+    # result <- Global.returns[, list(
+    #   'Last Price' = dplyr::last(Price),
+    #   'Price evolution' = list(Price)
+    # ), by = Ticker]
+
 
 
     # Global.returnsist <- Global.returns[, list(

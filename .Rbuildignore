@@ -5,3 +5,4 @@
 ^LICENSE\.md$
 ^rsconnect/documents/README.Rmd/rpubs.com/rpubs/Publish Document.dcf
 ^rsconnect
+^cran-comments\.md$

@@ -24,7 +24,6 @@ This function retrieves information about Bonds quoted on Euronext markets.
 \dontrun{
 library(httr)
 library(jsonlite)
-library(dplyr)
 library(rvest)
 library(stringr)
 

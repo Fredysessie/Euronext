@@ -37,7 +37,6 @@
 #' library(lubridate)
 #' library(rlang)
 #' library(httr2)
-#' library(dplyr)
 #' library(stringr)
 #' library(xts)
 #'
