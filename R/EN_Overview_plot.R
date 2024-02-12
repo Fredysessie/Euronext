@@ -36,7 +36,8 @@
 #' @importFrom highcharter highchart hc_title hc_add_series hc_add_yAxis hc_add_series hc_yAxis_multiples hc_colors hc_exporting
 #'
 #' @examples
-#'\dontrun{
+#'
+#'\donttest{
 #' library(highcharter)
 #' library(lubridate)
 #' library(rlang)
@@ -72,7 +73,7 @@ EN_Overview_plot <- function(ticker,
                    from = NULL,
                    to = Sys.Date() - 1,
                    stock_type = 'Eq_Ind',
-                   escape = F,
+                   escape = FALSE,
                    up.col = "darkgreen",
                    down.col = "red") {
   #  message('It possible to plot each sector chart line. You can use as argument .sectors$Agriculture to plot. Example EN_Overview_plot(.sector$Agriculture)')

@@ -12,7 +12,12 @@
 #' @return A character
 #'
 #' @examples
-#' \dontrun{
+#'
+#' library(httr)
+#' library(jsonlite)
+#' library(rvest)
+#' library(stringr)
+#'
 #' the_dna = EN_GetISIN_Etf("AAPL")
 #' sub("-.*", "", the_dna) #To get only the ISIN
 #'
@@ -21,7 +26,7 @@
 #'
 #' # Get ETF '3x Long Coinbase' DNA
 #' EN_GetISIN_Etf("XS2399367254")
-#'}
+#'
 #'
 #' @import httr
 #' @import jsonlite

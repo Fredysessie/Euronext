@@ -13,9 +13,10 @@
 #'
 #' @examples
 #'
-#' \dontrun{
 #' library(httr)
 #' library(jsonlite)
+#' library(rvest)
+#' library(stringr)
 #'
 #' the_dna1 = EN_GetISIN_B("ABN AMRO BANK N.V.") #To get only the DNA of all same bonds issuerd
 #' the_isin1 = sub("-.*", "", the_dna1) #To get only the ISINs
@@ -24,7 +25,7 @@
 #' the_dna2 = EN_GetISIN_B("A2A GREEN BOND TF")
 #' the_isin2 =sub("-.*", "", the_dna2) #To get only the ISIN
 #' print(the_isin2)
-#'}
+#'
 #'
 #' @import httr
 #' @import jsonlite

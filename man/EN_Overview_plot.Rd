@@ -9,7 +9,7 @@ EN_Overview_plot(
   from = NULL,
   to = Sys.Date() - 1,
   stock_type = "Eq_Ind",
-  escape = F,
+  escape = FALSE,
   up.col = "darkgreen",
   down.col = "red"
 )
@@ -43,7 +43,8 @@ An interactive chart
 This function will get Ticker(s) data and then plot it.
 }
 \examples{
-\dontrun{
+
+\donttest{
 library(highcharter)
 library(lubridate)
 library(rlang)

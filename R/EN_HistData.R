@@ -14,7 +14,7 @@
 #' @param from   The start date for historical data (default: 91 days ago). Only dates not exceeding 2 years ago are allowed for the 'from' parameter.
 #' @param to     The end date for historical data (default: yesterday).
 #' @param stock_type   The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
-#' @param escape Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.
+#' @param escape Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.
 #'
 #' @family Data Retrieval
 #'
@@ -22,7 +22,13 @@
 #' Open, High, Low, Last, Close, 'Number of shares', Turnover, and VWAP.
 #'
 #' @examples
-#' \dontrun{
+#'
+#' library(httr)
+#' library(jsonlite)
+#' library(rvest)
+#' library(stringr)
+#' library(magrittr)
+#' library(rlang)
 #'
 #' # Fetch historical data for ABCA from October 30, 2023, to January 27, 2024
 #' hc_abca <- EN_HistData("ABCA", from = "2023-10-30", to = "2024-01-27")
@@ -33,19 +39,19 @@
 #' head(hc_aapl)
 #'
 #' #To get historical data of Bond issued by IT0005386716-XMOT
-#' hc_RMBS <-EN_HistData("XS1548458014-XAMS", escape = T, from = "2022-10-30",stock_type = "B")
+#' hc_RMBS <- EN_HistData("XS1548458014-XAMS", escape = TRUE, from = "2022-10-30",stock_type = "B")
 #' head(hc_RMBS)
 #'
 #' # Fetch historical data for ABCA with the default date range
-#' hc_ABCA <-  EN_HistData("ABCA", escape = F)
+#' hc_ABCA <-  EN_HistData("ABCA")
 #' head(hc_ABCA)
 #'
 #' # To Get KGHDF's Fund data
-#' hc_KGHDF <- EN_HistData("KGHDF", escape = F, stock_type = "F", from = "2022-10-30")
+#' hc_KGHDF <- EN_HistData("KGHDF", stock_type = "F", from = "2022-10-30")
 #' head(hc_KGHDF)
 #'
 #' EN_HistData("ABCAhh") # Will return "Ticker not found"
-#' }
+#'
 #'
 #' @family Data Retrieval
 #' @family Euronext
@@ -54,7 +60,7 @@
 #'
 #' @export
 
-EN_HistData <- function(ticker, from = Sys.Date() - 91, to = Sys.Date() - 1, stock_type = 'Eq_Ind', escape = F) {
+EN_HistData <- function(ticker, from = Sys.Date() - 91, to = Sys.Date() - 1, stock_type = 'Eq_Ind', escape = FALSE) {
 
   from <- as.Date(strftime(from, format="%Y-%m-%d"))
   to <- as.Date(strftime(to, format="%Y-%m-%d"))
@@ -72,8 +78,8 @@ EN_HistData <- function(ticker, from = Sys.Date() - 91, to = Sys.Date() - 1, sto
   }
 
   # Test if escape is True or False
-  if (escape %in% c(T, F)) {
-    if(escape == T){
+  if (is.logical(escape)) {
+    if(isTRUE(escape)){
       the_adn <- toupper(ticker)
       # We can directly start
       url <- paste0("https://live.euronext.com/en/ajax/getHistoricalPricePopup/", the_adn)
@@ -216,7 +222,7 @@ EN_HistData <- function(ticker, from = Sys.Date() - 91, to = Sys.Date() - 1, sto
 
   } else{
     rlang::abort(
-      "Only parameters T or F are allowed"
+      "Only parameters TRUE or FALSE are allowed"
     )
   }
 

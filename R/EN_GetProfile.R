@@ -8,8 +8,10 @@
 #' @return A List (Name, ISIN, DNA, Symbol) representing the DNA of the Stock or an Index.
 #' @examples
 #'
-#' \dontrun{
 #' library(httr)
+#' library(jsonlite)
+#' library(rvest)
+#' library(stringr)
 #'
 #' # Note: For Equity, Index, Fund, and ETF, provide the giving Symbol, ISIN,
 #' # Name, or DNA for best results, but for a Bond, provide its DNA and
@@ -42,6 +44,21 @@
 #' # Example d : 'SBF 120 NR' Index
 #' EN_GetProfile("QS0011131842-XPAR") # By providing DNA
 #'
+#' # Funds
+#' # Example a : 'ACOMEA PERFORMANCE' Fund
+#' EN_GetProfile("ACAPER", stock_type = 'F') # By providing Symbol
+#'
+#' # Example b : 'BNP ESGNL' Fund
+#' EN_GetProfile("BNP ESGNL", stock_type = 'F') # By providing Name
+#'
+#' # Example c : 'SWIF2' Fund
+#' EN_GetProfile("NL0015000W40", stock_type = 'F') # By providing ISIN of SWIF2
+#'
+#' # Example d : 'GOLDMAN SACHS PARAPLUFONDS 2 N' Fund
+#' EN_GetProfile("NL0000293181-XAMS", stock_type = 'F') # By providing DNA of GSDM5
+#'
+#' \donttest{
+#'
 #' ## ETFs
 #' # Example a : 'Asia IG Corp US A' Etf
 #' EN_GetProfile("$Asia IG Corp US A", stock_type = 'E') # By providing Name
@@ -55,18 +72,6 @@
 #' # Example d : '3X PLTR' Etf
 #' EN_GetProfile("XS2663694680-XAMS", stock_type = 'E') # By providing DNA
 #'
-#' # Funds
-#' # Example a : 'ACOMEA PERFORMANCE' Fund
-#' EN_GetProfile("ACAPER", stock_type = 'F') # By providing Symbol
-#'
-#' # Example b : 'BNP ESGNL' Fund
-#' EN_GetProfile("BNP ESGNL", stock_type = 'F') # By providing Name
-#'
-#' # Example c : 'SWIF2' Fund
-#' EN_GetProfile("NL0015000W40", stock_type = 'F') # By providing ISIN of SWIF2
-#'
-#' # Example d : 'GOLDMAN SACHS PARAPLUFONDS 2 N' Fund
-#' EN_GetProfile("NL0000293181-XAMS", stock_type = 'F') # By providing DNA of GSDM5
 #'
 #' # Examples for Bonds
 #' # Example a: 'A2A SLB TF 0,625%' Bond

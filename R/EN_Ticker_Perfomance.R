@@ -6,13 +6,13 @@
 #'
 #' @param ticker A character string representing the company's ticker symbol.
 #' @param stock_type   The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
-#' @param escape Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.
+#' @param escape Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.
 #'
 #' @return A data frame containing historical performance data of the specified company.
 #' If the ticker is not found, it returns the message "Ticker not found."
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(httr)
 #' library(httr2)
 #' library(rvest)
@@ -98,7 +98,7 @@ EN_Ticker_Perfomance <- function(ticker,
   }
 
   # Test if escape is TRUE or FALSE
-  if (is.logical(escape) && length(escape) == 1) {
+  if (is.logical(escape)) {
     if (escape) {
       the_adn <- toupper(ticker)
     } else {

@@ -19,8 +19,13 @@ and makes an API request to Euronext to get the corresponding ISIN.
 }
 \examples{
 
-\dontrun{
+\donttest{
+
 library(httr)
+library(jsonlite)
+library(rvest)
+library(stringr)
+
 # Get ISIN for the ticker "4DDD"
 EN_GetISIN("4DDD")
 

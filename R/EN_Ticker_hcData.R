@@ -8,13 +8,14 @@
 #' @param from A Date object specifying the start date for the data. Default is `NULL`, which retrieves data from the earliest available date. Users can adjust the value of `from` to specify a different start date. Only dates in the format "%Y-%m-%d" are allowed.
 #' @param to A Date object specifying the end date for the data. Default is the current date. Users can adjust the value of `to` to specify a different end date. Only dates in the format "%Y-%m-%d" are allowed.
 #' @param stock_type The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
-#' @param escape Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.
+#' @param escape Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.
 #'
 #' @return If a single ticker is provided, a tibble containing historical price and volume data for the specified stock ticker within the specified date range. If multiple tickers are provided, a list containing data frames for each ticker is returned. If the specified ticker(s) is not found, the function returns an error message.
 #'
 #' @examples
-#' \dontrun{
 #' library(httr)
+#' library(jsonlite)
+#' library(rlang)
 #'
 #' # Get company ABC ARBITRAGE share hc data
 #' dt_ABCA = EN_Ticker_hcData("ABca")
@@ -28,11 +29,11 @@
 #' head(hc_aapl)
 #'
 #' # Get hc data of Fund KEMPEN GBL HDiv N
-#' dt_kem = EN_Ticker_hcData("US88554D2053-ETLX", escape = T)
+#' dt_kem = EN_Ticker_hcData("US88554D2053-ETLX", escape = TRUE)
 #' print(dt_kem)
 #'
 #' #To get hc data of Bond issued by A2A S.p.A.
-#' hc_RMBS <- EN_Ticker_hcData("XS1195347478-ETLX", escape = T)
+#' hc_RMBS <- EN_Ticker_hcData("XS1195347478-ETLX", escape = TRUE)
 #' head(hc_RMBS)
 #'
 #' # Get indices such us AEX All-Tradable Alternative Weight NR, AEX Equal Weight NR,
@@ -49,7 +50,6 @@
 #' dt_bonds = EN_Ticker_hcData(c("XS2364001078-XMOT", "AAB1.50%30SEP30"), stock_type = 'B')
 #' head(dt_bonds)
 #' tail(dt_bonds)
-#' }
 #'
 #' @seealso \code{\link{EN_GetISIN}} to retrieve the ISIN for a given ticker,
 #' \code{\link{EN_HistData}} to retrieve daily data for a given ticker.
@@ -64,9 +64,9 @@
 #' @export
 
 
-EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 'Eq_Ind', escape = F) {
+EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 'Eq_Ind', escape = FALSE) {
 
-  Ready.HcData.func <- function(ticker, escape = F, stock_type = 'Eq_Ind', from = NULL, to = Sys.Date()){
+  Ready.HcData.func <- function(ticker, escape = FALSE, stock_type = 'Eq_Ind', from = NULL, to = Sys.Date()){
 
     if (is.null(from)) {
       from <- as.Date("1970-01-01")  # Set a default value
@@ -94,8 +94,8 @@ EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 
 
 
     # Test if escape is True or False
-    if (escape %in% c(T, F)) {
-      if(escape == T){
+    if (escape %in% c(TRUE, FALSE)) {
+      if(escape == TRUE){
         the_adn <- toupper(ticker)
         # We can directly start
         # Mettre tout le code ici
@@ -350,7 +350,7 @@ EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 
     # print(length(combined_data))
 
     for (elm in 1:length(ticker)) {
-      temp_data <- Ready.HcData.func(DNA_available_tickers[elm], from = from, to = to, stock_type = stock_type, escape = T)
+      temp_data <- Ready.HcData.func(DNA_available_tickers[elm], from = from, to = to, stock_type = stock_type, escape = TRUE)
 
       if ("Volume" %in% names(temp_data)) {
         if(stock_type %in%  c('Fund', "F",'Etfs', "E",'Eq_Ind')){
@@ -428,7 +428,7 @@ EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 
 
 
 ###################
-# EN_Ticker_hcData <- function(ticker, escape = F, stock_type = 'Eq_Ind', from = NULL, to = Sys.Date()){
+# EN_Ticker_hcData <- function(ticker, escape = FALSE, stock_type = 'Eq_Ind', from = NULL, to = Sys.Date()){
 #
 #   if (is.null(from)) {
 #     from <- as.Date("1970-01-01")  # Set a default value
@@ -456,8 +456,8 @@ EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 
 #
 #
 #   # Test if escape is True or False
-#   if (escape %in% c(T, F)) {
-#     if(escape == T){
+#   if (escape %in% c(TRUE, FALSE)) {
+#     if(escape == TRUE){
 #       the_adn <- toupper(ticker)
 #       # We can directly start
 #       # Mettre tout le code ici

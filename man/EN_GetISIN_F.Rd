@@ -17,8 +17,9 @@ This function checks if the provided ticker is present in the specified columns 
 }
 \examples{
 
-\dontrun{
 library(httr)
+library(jsonlite)
+library(stringr)
 library(jsonlite)
 
 the_dna = EN_GetISIN_F("ACOMEA GLOBALE")
@@ -30,7 +31,7 @@ print(asnu_dna)
 
 # Get Fund 'COMPAM ACTIVE GLOB' DNA
 EN_GetISIN_F("LU1275425897")
-}
+
 
 }
 \seealso{

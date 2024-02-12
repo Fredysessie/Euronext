@@ -8,13 +8,19 @@
 #'
 #' @param ticker A character string representing the company's ticker, name, or ISIN.
 #' @param stock_type   The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
-#' @param escape Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.
+#' @param escape Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.
 #'
 #' @return A data frame containing detailed information for the specified stock ticker.
 #' If the specified ticker is not found, the function returns an error message.
 #'
 #' @examples
-#' \dontrun{
+#'
+#' library(httr)
+#' library(jsonlite)
+#' library(rvest)
+#' library(stringr)
+#' library(rlang)
+#'
 #' #Get ABCA informations
 #' dt_ABCA = EN_Ticker_infos("ABca")
 #' print(dt_ABCA)
@@ -28,7 +34,7 @@
 #' # To show only 5 pages of bonds list and select directly the bond DNA
 #' dt_ = EN_Bonds_List()
 #' # To Get informations about BOND issued in 2019 by POPOLARE BARI RMBS
-#' dt_new1 = EN_Ticker_infos("IT0005386716-XMOT", stock_type = "B", escape = T)
+#' dt_new1 = EN_Ticker_infos("IT0005386716-XMOT", stock_type = "B", escape = TRUE)
 #' print(dt_new1)
 #'
 #  #To Get KGHDF's Fund informations
@@ -36,26 +42,27 @@
 #' print(dt_newfund)
 #'
 #  #To Get 21S AMKR's Fund informations
-#' dt_fund = EN_Ticker_infos("CH1135202138-XPAR", stock_type = "F", escape = T)
+#' dt_fund = EN_Ticker_infos("CH1135202138-XPAR", stock_type = "F", escape = TRUE)
 #' print(dt_fund)
 #'
-#' }
+#'
 #'
 #' @seealso \code{\link{EN_GetISIN}} to retrieve the ISIN for a given ticker.
 #'
 #' @import httr
 #' @import rvest
+#' @importFrom magrittr %>%
 #'
 #' @family Data Retrieval
 #' @family Euronext
 #'
 #' @export
 
-EN_Ticker_infos <- function(ticker, escape = F, stock_type = 'Eq_Ind') {
+EN_Ticker_infos <- function(ticker, escape = FALSE, stock_type = 'Eq_Ind') {
 
   # Test if escape is True or False
-  if (escape %in% c(T, F)) {
-    if(escape == T){
+  if (is.logical(escape)) {
+    if(escape == TRUE){
       the_adn <- toupper(ticker)
       # We can directly start
 
@@ -222,7 +229,7 @@ EN_Ticker_infos <- function(ticker, escape = F, stock_type = 'Eq_Ind') {
 
   } else{
     rlang::abort(
-      "Only parameters T or F are allowed"
+      "Only parameters 'TRUE' or 'FALSE' are allowed"
     )
   }
 

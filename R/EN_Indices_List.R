@@ -8,8 +8,17 @@
 #'   \code{\link{EN_Funds_List}} for Funds list, \code{\link{EN_Etfs_List}} for Etfs list.
 #'
 #' @examples
-#' \dontrun{
-#' EN_Indices_List()
+#'
+#' \donttest{
+#' library(httr)
+#' library(jsonlite)
+#' library(rvest)
+#' library(stringr)
+#' library(magrittr)
+#' library(rlang)
+#'
+#' list_ind <- EN_Indices_List()
+#' head(list_ind[, c(1:5)])
 #' }
 #'
 #' @import httr

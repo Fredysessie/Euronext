@@ -9,7 +9,7 @@ EN_Get_News(ticker, escape = FALSE, stock_type = "Eq_Ind")
 \arguments{
 \item{ticker}{A character string representing the company's ticker, name, or ISIN.}
 
-\item{escape}{Boolean, either T or F. If escape is True, it means you're providing the DNA
+\item{escape}{Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA
 (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming
 operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN
 and the type of market to which it belongs.}
@@ -27,49 +27,54 @@ based on its ticker symbol. It returns a table with details such as its real Nam
 Last traded Price, Date of last update, and other relevant informations.
 }
 \examples{
-\dontrun{
+
 library(httr)
 library(httr2)
 library(rvest)
 library(jsonlite)
 library(stringr)
+library(rlang)
+
 # Equities ex "NL0000852564-XAMS"
 # Stock AALBERTS N.V.
-equity_new <- EN_Get_News("NL0000852564-XAMS", escape = T)
+equity_new <- EN_Get_News("NL0000852564-XAMS", escape = TRUE)
 print(equity_new)
+
 #ABO GROUP ENVIRONMENT Stock
-equity_new1 <- EN_Get_News("ABO", escape = F)
+equity_new1 <- EN_Get_News("ABO")
 print(equity_new1)
 
 # Indexes
 # AEX All-Share Index GR
-index_new <- EN_Get_News("QS0011224977-XAMS", escape = T)
+index_new <- EN_Get_News("QS0011224977-XAMS", escape = TRUE)
 print(index_new)
 # AEX X12 Short GR Index
-index_new1 <- EN_Get_News("AE12S", escape = F)
+index_new1 <- EN_Get_News("AE12S")
 print(index_new1)
 
-# A revoir Fund
+# Fund
 # Fund KEMPEN ORANGE FUND N.V.
-fund_new <- EN_Get_News("KORAF", escape = F, stock_type = "F")
+fund_new <- EN_Get_News("KORAF", stock_type = "F")
 print(fund_new)
+
 # Fund of ASN DUURZAAM MIXFONDS ZEER DEFENSIEF
-fund_new1 <- EN_Get_News("NL0014270274-XAMS", escape = T, stock_type = "F")
+fund_new1 <- EN_Get_News("NL0014270274-XAMS", escape = TRUE, stock_type = "F")
 print(fund_new1)
 
 # Etfs cases
 # 21Shares Stacks Staking ETP
-etf_new <- EN_Get_News("CH1258969042-XAMS", escape = T, stock_type = 'E')
+etf_new <- EN_Get_News("CH1258969042-XAMS", escape = TRUE, stock_type = 'E')
+
 # Leverage Shares 2x Long Berkshire Hathaway (BRK-B) ETP Securities
-etf_new1 <- EN_Get_News("2BRK", escape = F, stock_type = "E")
+etf_new1 <- EN_Get_News("2BRK", stock_type = "E")
 
 # Bond A2A 1.75\% CALL 25FB25
-bd_new <- EN_Get_News("XS1195347478-ETLX", escape = T)
+bd_new <- EN_Get_News("XS1195347478-ETLX", escape = TRUE)
 print(bd_new)
 # Bond AAB0.45\%12DEC2036
-bd_new1 <- EN_Get_News("XS2093705064-XAMS", escape = T)
+bd_new1 <- EN_Get_News("XS2093705064-XAMS", escape = TRUE)
 print(bd_new1)
-}
+
 
 }
 \seealso{

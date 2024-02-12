@@ -28,14 +28,21 @@ The data is returned as a data frame with columns representing buy (bid) and sel
 The last row of the data frame contains the sum of elements for each column (excluding "Bid_Price" and "Ask_Price" columns marked with "-").
 }
 \examples{
-\dontrun{
-# Example usage:
+
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(magrittr)
+library(rvest)
+library(stringr)
+
 ABCA_OB = EN_Get_OB("ABCA") # Get ABC ARBITRAGE ticker ORDER BOOK
 print(ABCA_OB)
+
 ALBON_OB = EN_Get_OB("ALBON") # Get LEBON ticker ORDER BOOK
 print(ALBON_OB)
+
 EN_Get_OB("ALBONgdg") # Will return "Ticker not found"
-}
 
 }
 \seealso{

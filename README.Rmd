@@ -104,7 +104,7 @@ This function retrieves the profile of a given ticker - Equity, Index, Fund, ETF
 
 ### *Example 1.a* : Retrieve the *profile* (*characteristics*) of a specified Equity, Index, Fund, ETF, or Bond listed on Euronext.
 
-Please refer to the respective functions **EN_GetISIN()**, **EN_GetISIN_Etf()**, **EN_GetISIN_F()**, and **EN_GetISIN_B()** if you wish to obtain the DNA of a giving Equity or Index, ETF, Fund, and Bond listed on Euronext (retrieving DNA is useful in case you decide to use 'escape = T' option).
+Please refer to the respective functions **EN_GetISIN()**, **EN_GetISIN_Etf()**, **EN_GetISIN_F()**, and **EN_GetISIN_B()** if you wish to obtain the DNA of a giving Equity or Index, ETF, Fund, and Bond listed on Euronext (retrieving DNA is useful in case you decide to use 'escape = TRUE' option).
 
 ```{r EN_GetProfile, eval=TRUE}
 # Note: For Equity, Index, Fund, and ETF, provide the giving Symbol, ISIN, Name, or DNA for best results, but for a Bond, provide its DNA and sometimes its Name for best results because a company or country can issue more than one Bond.
@@ -178,7 +178,7 @@ Last traded Price, Date of last update, and other relevant informations.
 *Inputs* :
 - *ticker* A character string representing the company's ticker, name, or ISIN.
 - *stock_type*   The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers,'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
-- *escape* Boolean, either T or F. If escape is True, it means you're providing the DNA
+- *escape* Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA
 (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming
 operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN
 and the type of market to which it belongs.
@@ -635,7 +635,7 @@ This function retrieves the historical performance data of a company listed on t
 It receives three (3) parameters such us :
 * 'ticker' : A character string representing the company's ticker symbol,
 * 'stock_type' : The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
-* 'escape' : Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs. By default, escape = 'FALSE'
+* 'escape' : Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs. By default, escape = 'FALSE'
 
 ### *Example 7* : *Retrieve historical performance*
 
@@ -738,7 +738,7 @@ This function accepts up to seven arguments:
 * from: A quotation start date, i.e. "2020-01-01" or "2020/01/01". The date must be in ymd format "YYYY-MM-DD" or "YYYY/MM/DD".
 * until : A quoted end date, i.e. "2022-01-31" or "2022/01/31". The date must be in ymd format "YYYY-MM-DD" or "YYYY/MM/DD".
 * 'stock_type': Ticker type: 'Eq_Ind' for stocks and indices, 'Fund' or "F" for fund tickers, 'Bond' or "B" for bond tickers, and 'Etfs' or "E" for EFTs.
-* escape': Boolean, either T or F. If escape is True, this means you're supplying the ISIN-Market identifier (ADN) directly. Giving T to escape is useful to avoid tedious operations; otherwise, F means you must provide the Ticker symbol, the name or ISIN and the type of market to which it belongs. By default, escape = 'FALSE'.
+* escape': Boolean, either TRUE or FALSE. If escape is True, this means you're supplying the ISIN-Market identifier (ADN) directly. Giving T to escape is useful to avoid tedious operations; otherwise, F means you must provide the Ticker symbol, the name or ISIN and the type of market to which it belongs. By default, escape = 'FALSE'.
 * up.col : is the color of the rise
 * down.col : is the color of the fall
 
@@ -838,7 +838,7 @@ The data is returned as a data frame.
 *Inputs* :
 - *ticker* A character string representing the company's ticker, name, or ISIN.
 - *stock_type*   The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers,'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.
-- *escape* Boolean, either T or F. If escape is True, it means you're providing the DNA
+- *escape* Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA
 (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming
 operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN
 and the type of market to which it belongs.
@@ -896,7 +896,7 @@ The *EN_intraday_Data()* function fetches intraday price data for a specified st
 - *ticker*: A character string representing the stock ticker or name.
 - *day_type* : A character string specifying the type of intraday price to fetch. Options are "Today" or "Previous" day. Default is "Today." You can also use 'T' for 'Today' or 'P' for 'Previous'.
 - *stock_type* : The type of the ticker, which can be 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for ETFs.
-escape: A Boolean value (either T or F). If escape is set to True, it indicates that the DNA (ISIN-Market identifier) is provided directly. Using True for escape can help avoid time-consuming operations. If escape is set to False, the function expects the Ticker symbol, name, or ISIN, along with the type of market to which it belongs.
+escape: A Boolean value (either TRUE or FALSE). If escape is set to True, it indicates that the DNA (ISIN-Market identifier) is provided directly. Using True for escape can help avoid time-consuming operations. If escape is set to False, the function expects the Ticker symbol, name, or ISIN, along with the type of market to which it belongs.
 - *nbitems*: An integer specifying the number of items to fetch. Default is 30 (also the maximum).
 
 ### *Example 10.a* : Get recent intraday prices  for an Equity
@@ -929,13 +929,13 @@ kable(intra_1, "html") %>%
 
 ### *Example 10.c* : Get Previous intraday prices of ETF AAPL by providing directly the ISIN-Market identifier
 ```{r eval=FALSE}
-intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = T, day_type = 'Previous')
+intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = TRUE, day_type = 'Previous')
 print(intra_2)
 
 ```
 
 ```{r echo=FALSE}
-intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = T, day_type = 'Previous')
+intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = TRUE, day_type = 'Previous')
 kable(intra_2, "html") %>%
   kable_styling(bootstrap_options = "striped")
 
