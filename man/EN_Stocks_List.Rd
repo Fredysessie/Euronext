@@ -36,7 +36,7 @@ o_result_df <- EN_Stocks_List("O") # For Oslo Stock
 
 }
 \seealso{
-\code{\link{EN_Ticker_Perfomance}}
+\code{\link{EN_Ticker_Performance}}
 
 Other Infos Retrieval: 
 \code{\link{EN_Bonds_List_bis}()},
