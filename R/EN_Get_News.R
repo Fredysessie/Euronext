@@ -17,7 +17,7 @@
 #' If the ticker is not found, it returns the message "Ticker not found."
 #'
 #' @examples
-#'
+#' \donttest{
 #' library(httr)
 #' library(httr2)
 #' library(rvest)
@@ -64,7 +64,7 @@
 #' # Bond AAB0.45%12DEC2036
 #' bd_new1 <- EN_Get_News("XS2093705064-XAMS", escape = TRUE)
 #' print(bd_new1)
-#'
+#' }
 #'
 #' @family Infos Retrieval
 #' @family Euronext

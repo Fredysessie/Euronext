@@ -43,6 +43,12 @@ library(stringr)
 library(magrittr)
 library(rlang)
 
+#To get historical data of Bond issued by IT0005386716-XMOT
+hc_RMBS <- EN_HistData("XS1548458014-XAMS", escape = TRUE, from = "2022-10-30",stock_type = "B")
+head(hc_RMBS)
+
+\donttest{
+
 # Fetch historical data for ABCA from October 30, 2023, to January 27, 2024
 hc_abca <- EN_HistData("ABCA", from = "2023-10-30", to = "2024-01-27")
 head(hc_abca)
@@ -51,9 +57,6 @@ head(hc_abca)
 hc_aapl <- EN_HistData("AAPL", stock_type = "E", from = "2023-12-15", to = Sys.Date())
 head(hc_aapl)
 
-#To get historical data of Bond issued by IT0005386716-XMOT
-hc_RMBS <- EN_HistData("XS1548458014-XAMS", escape = TRUE, from = "2022-10-30",stock_type = "B")
-head(hc_RMBS)
 
 # Fetch historical data for ABCA with the default date range
 hc_ABCA <-  EN_HistData("ABCA")
@@ -64,7 +67,7 @@ hc_KGHDF <- EN_HistData("KGHDF", stock_type = "F", from = "2022-10-30")
 head(hc_KGHDF)
 
 EN_HistData("ABCAhh") # Will return "Ticker not found"
-
+}
 
 }
 \seealso{
