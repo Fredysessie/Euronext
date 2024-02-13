@@ -1,6 +1,6 @@
 Package: Euronext
 Title: Retrieve Historical Data of Companies Listed on the 'Euronext' Stock Exchange
-Version: 2.0.0.9001
+Version: 2.0.1
 Authors@R: 
     person("Sessie","Koffi Frederic", email = "koffisessie@gmail.com",
             role = c("aut","cre","cph"))
