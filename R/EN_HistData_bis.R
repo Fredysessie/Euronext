@@ -14,7 +14,7 @@
 #' @param stock_type   The type of the ticker: 'Eq_Ind' for Stocks and Indexes,
 #'                     'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers,
 #'                     and 'Etfs' or "E" for ETFs.
-#' @param escape Boolean, either T or F. If escape is TRUE, it means you're providing
+#' @param escape Boolean, either TRUE or FALSE. If escape is TRUE, it means you're providing
 #'               the DNA (ISIN-Market identifier) directly. Giving TRUE to escape is helpful
 #'               to avoid time-consuming operations; otherwise, FALSE means you need to provide
 #'               the Ticker symbol, name, or ISIN and the type of market to which it belongs.
@@ -23,7 +23,14 @@
 #'         Open, High, Low, Last, Close, 'Number of shares', Turnover, and VWAP.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#'
+#' library(httr)
+#' library(jsonlite)
+#' library(rvest)
+#' library(stringr)
+#' library(magrittr)
+#' library(rlang)
 #'
 #' # Fetch historical data for ABCA , AEDIFICA and BM3EAC stocks from October 30, 2023
 #' hc_List1 <- EN_HistData_bis(c("ABCA", "AEDIFICA", "BM3EAC"), from = "2023-10-30", to = "2024-01-27")
@@ -34,15 +41,15 @@
 #' head(hc_List2)
 #'
 #' #To get historical data of Bond issued by IT0005386716-XMOT
-#' hc_List3 <-EN_HistData_bis("XS1548458014-XAMS", escape = T, from = "2022-10-30",stock_type = "B")
+#' hc_List3 <-EN_HistData_bis("XS1548458014-XAMS", escape = TRUE, from = "2022-10-30",stock_type = "B")
 #' head(hc_List3)
 #'
 #' # Fetch historical data for ABCA with the default date range
-#' hc_List3 <-  EN_HistData_bis("ABCA", escape = F)
+#' hc_List3 <-  EN_HistData_bis("ABCA")
 #' head(hc_List3)
 #'
 #' # To Get KGHDF's Fund data
-#' hc_List4 <- EN_HistData_bis("KGHDF", escape = F, stock_type = "F", from = "2022-10-30")
+#' hc_List4 <- EN_HistData_bis("KGHDF", stock_type = "F", from = "2022-10-30")
 #' head(hc_List4)
 #'
 #' #Providing Etfs vector
@@ -52,6 +59,10 @@
 #' EN_HistData_bis("ABCAhh") # Will return "Ticker not found"
 #' }
 #'
+#' @import httr
+#' @import rvest
+#' @importFrom magrittr %>%
+#'
 #' @family Data Retrieval
 #' @family Euronext
 #'
@@ -59,7 +70,7 @@
 #'
 #' @export
 
-EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() - 1, stock_type = 'Eq_Ind', escape = F) {
+EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() - 1, stock_type = 'Eq_Ind', escape = FALSE) {
 
   # Créer une fonction pour récupérer les données historiques pour un seul ticker
   get_single_hist_data <- function(tick, from, to, stock_type, escape) {
@@ -165,7 +176,7 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
       #
       # }
 
-      temp_data <- get_single_hist_data(DNA_available_tickers[elm], from = from, to = to, stock_type = stock_type, escape = T)
+      temp_data <- get_single_hist_data(DNA_available_tickers[elm], from = from, to = to, stock_type = stock_type, escape = TRUE)
 
       if ("VWAP" %in% names(temp_data)) {
         if(stock_type %in%  c('Fund', "F",'Etfs', "E",'Eq_Ind')){
@@ -217,8 +228,8 @@ EN_HistData_bis <- function(ticker, from = Sys.Date() - 365*2, to = Sys.Date() -
   } else {
 
     # Test if escape is True or False
-    if (escape %in% c(T, F)) {
-      if(escape == T){
+    if (is.logical(escape)) {
+      if(isTRUE(escape)){
         the_adn <- toupper(ticker)
         # We can directly start
         url <- paste0("https://live.euronext.com/en/ajax/getHistoricalPricePopup/", the_adn)

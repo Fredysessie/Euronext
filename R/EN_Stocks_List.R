@@ -9,7 +9,7 @@
 #'
 #' @family Infos Retrieval
 #'
-#' @seealso \code{\link{EN_Ticker_Perfomance}}
+#' @seealso \code{\link{EN_Ticker_Performance}}
 #'
 #' @family Companies List by stock
 #'

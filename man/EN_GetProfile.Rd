@@ -24,6 +24,7 @@ library(httr)
 library(jsonlite)
 library(rvest)
 library(stringr)
+library(magrittr)
 
 # Note: For Equity, Index, Fund, and ETF, provide the giving Symbol, ISIN,
 # Name, or DNA for best results, but for a Bond, provide its DNA and

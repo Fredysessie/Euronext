@@ -18,7 +18,7 @@ EN_intraday_Data(
 \item{day_type}{A character string specifying the type of intraday price to fetch. Options are "Today" or "Previous" day.
 Default is "Today." You can also use 'T' for 'Today' or 'P' for 'Previous'.}
 
-\item{escape}{Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
+\item{escape}{Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
 
 \item{stock_type}{The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.}
 
@@ -33,7 +33,15 @@ to retrieve, either "Today" or "Previous" day. The default type is "Today." The 
 containing intraday stock information.
 }
 \examples{
-\dontrun{
+\donttest{
+
+library(httr)
+library(jsonlite)
+library(rvest)
+library(stringr)
+library(magrittr)
+library(rlang)
+
 # Get recent intraday prices of ABCA share
 intra_ = EN_intraday_Data("ABCA", day_type = 'T')
 print(intra_)
@@ -43,7 +51,7 @@ intra_1 = EN_intraday_Data("IT0005091126", 'F', escape = FALSE, day_type = 'T')
 print(intra_1)
 
 # Get Previous intraday prices of ETF AAPL by providing directly the ISIN-Market identifier
-intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = T, day_type = 'Previous')
+intra_2 = EN_intraday_Data("XS2337099563-XAMS", escape = TRUE, day_type = 'Previous')
 print(intra_2)
 
 # Get Previous intraday prices of AEX All-Share Index
@@ -60,7 +68,7 @@ Other Data Retrieval:
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_plot}()}
@@ -72,7 +80,7 @@ Other Euronext:
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_plot}()}

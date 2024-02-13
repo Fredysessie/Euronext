@@ -9,7 +9,7 @@ EN_HistData(
   from = Sys.Date() - 91,
   to = Sys.Date() - 1,
   stock_type = "Eq_Ind",
-  escape = F
+  escape = FALSE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ EN_HistData(
 
 \item{stock_type}{The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.}
 
-\item{escape}{Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
+\item{escape}{Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
 }
 \value{
 A data frame containing historical stock data, including columns for Date,
@@ -35,7 +35,13 @@ parameters. Additionally, provide the type of the ticker as 'Eq_Ind' for Stocks 
 and 'Etfs' or "E" for EFTs.
 }
 \examples{
-\dontrun{
+
+library(httr)
+library(jsonlite)
+library(rvest)
+library(stringr)
+library(magrittr)
+library(rlang)
 
 # Fetch historical data for ABCA from October 30, 2023, to January 27, 2024
 hc_abca <- EN_HistData("ABCA", from = "2023-10-30", to = "2024-01-27")
@@ -46,19 +52,19 @@ hc_aapl <- EN_HistData("AAPL", stock_type = "E", from = "2023-12-15", to = Sys.D
 head(hc_aapl)
 
 #To get historical data of Bond issued by IT0005386716-XMOT
-hc_RMBS <-EN_HistData("XS1548458014-XAMS", escape = T, from = "2022-10-30",stock_type = "B")
+hc_RMBS <- EN_HistData("XS1548458014-XAMS", escape = TRUE, from = "2022-10-30",stock_type = "B")
 head(hc_RMBS)
 
 # Fetch historical data for ABCA with the default date range
-hc_ABCA <-  EN_HistData("ABCA", escape = F)
+hc_ABCA <-  EN_HistData("ABCA")
 head(hc_ABCA)
 
 # To Get KGHDF's Fund data
-hc_KGHDF <- EN_HistData("KGHDF", escape = F, stock_type = "F", from = "2022-10-30")
+hc_KGHDF <- EN_HistData("KGHDF", stock_type = "F", from = "2022-10-30")
 head(hc_KGHDF)
 
 EN_HistData("ABCAhh") # Will return "Ticker not found"
-}
+
 
 }
 \seealso{
@@ -68,7 +74,7 @@ Other Data Retrieval:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_Overview_plot}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
@@ -78,7 +84,7 @@ Other Data Retrieval:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_Overview_plot}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
@@ -90,7 +96,7 @@ Other Euronext:
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},

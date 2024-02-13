@@ -9,7 +9,7 @@ EN_HistData_bis(
   from = Sys.Date() - 365 * 2,
   to = Sys.Date() - 1,
   stock_type = "Eq_Ind",
-  escape = F
+  escape = FALSE
 )
 }
 \arguments{
@@ -25,7 +25,7 @@ Only dates not exceeding 2 years ago are allowed for the 'from' parameter.}
 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers,
 and 'Etfs' or "E" for ETFs.}
 
-\item{escape}{Boolean, either T or F. If escape is TRUE, it means you're providing
+\item{escape}{Boolean, either TRUE or FALSE. If escape is TRUE, it means you're providing
 the DNA (ISIN-Market identifier) directly. Giving TRUE to escape is helpful
 to avoid time-consuming operations; otherwise, FALSE means you need to provide
 the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
@@ -42,7 +42,14 @@ Additionally, provide the type of the ticker as 'Eq_Ind' for Stocks and Indexes,
 and 'Etfs' or "E" for ETFs.
 }
 \examples{
-\dontrun{
+\donttest{
+
+library(httr)
+library(jsonlite)
+library(rvest)
+library(stringr)
+library(magrittr)
+library(rlang)
 
 # Fetch historical data for ABCA , AEDIFICA and BM3EAC stocks from October 30, 2023
 hc_List1 <- EN_HistData_bis(c("ABCA", "AEDIFICA", "BM3EAC"), from = "2023-10-30", to = "2024-01-27")
@@ -53,15 +60,15 @@ hc_List2 <- EN_HistData_bis(c("AAX", "QS0011016480", "AEX2S"), from = "2023-12-1
 head(hc_List2)
 
 #To get historical data of Bond issued by IT0005386716-XMOT
-hc_List3 <-EN_HistData_bis("XS1548458014-XAMS", escape = T, from = "2022-10-30",stock_type = "B")
+hc_List3 <-EN_HistData_bis("XS1548458014-XAMS", escape = TRUE, from = "2022-10-30",stock_type = "B")
 head(hc_List3)
 
 # Fetch historical data for ABCA with the default date range
-hc_List3 <-  EN_HistData_bis("ABCA", escape = F)
+hc_List3 <-  EN_HistData_bis("ABCA")
 head(hc_List3)
 
 # To Get KGHDF's Fund data
-hc_List4 <- EN_HistData_bis("KGHDF", escape = F, stock_type = "F", from = "2022-10-30")
+hc_List4 <- EN_HistData_bis("KGHDF", stock_type = "F", from = "2022-10-30")
 head(hc_List4)
 
 #Providing Etfs vector
@@ -79,7 +86,7 @@ Other Data Retrieval:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
@@ -91,7 +98,7 @@ Other Euronext:
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},

@@ -65,7 +65,7 @@ Other Data Retrieval:
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_intraday_Data}()},
 \code{\link{EN_plot}()}
@@ -77,7 +77,7 @@ Other Euronext:
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_intraday_Data}()},
 \code{\link{EN_plot}()}

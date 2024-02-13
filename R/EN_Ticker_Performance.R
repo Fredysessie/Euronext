@@ -12,44 +12,47 @@
 #' If the ticker is not found, it returns the message "Ticker not found."
 #'
 #' @examples
-#' \donttest{
+#'
 #' library(httr)
 #' library(httr2)
 #' library(rvest)
 #' library(jsonlite)
 #' library(stringr)
+#' library(magrittr)
 #'
-#' Get Performance of Ticker ABCA
-#' dt = EN_Ticker_Perfomance("ABCA")
+#' # Get Performance of Ticker ABCA
+#' dt = EN_Ticker_Performance("ABCA")
 #' print(dt)
 #' # Get Performance of ETF AAPL
-#' EN_Ticker_Perfomance("AAPL", stock_type = "E", escape = FALSE)
+#' EN_Ticker_Performance("AAPL", stock_type = "E")
 #'
 #' # Get Performance of Bond issued by A2A S.p.A.
-#' dt1 = EN_Ticker_Perfomance("XS1195347478-ETLX", escape = TRUE)
-#' print(dt1)
+#' dt1 = EN_Ticker_Performance("XS1195347478-ETLX", escape = TRUE)
+#' print(dt1[, c(1:6,8,12)])
 #'
 #' # Get Performance of ACOMEA EMERGING Q2 Fund
-#' dt2 = EN_Ticker_Perfomance("IT0005091126", 'F', escape = FALSE)
-#' print(dt2)
+#' dt2 = EN_Ticker_Performance("IT0005091126", stock_type ='F')
+#' print(dt2[, c(1:6,8,12)])
 #'
 #' # Get Performance of AEX All-Share Index
-#' dt3 = EN_Ticker_Perfomance("AEX All-Share Index GR", escape = FALSE)
-#' print(dt3)
+#' dt3 = EN_Ticker_Performance("AEX All-Share Index GR", escape = FALSE)
+#' print(dt3[, c(1:6,8,12)])
 #'
-#' }
+#'
 #'
 #' @import httr
 #' @import rvest
+#' @importFrom magrittr %>%
 #'
 #' @family Data Retrieval
 #' @family Euronext
 #'
 #' @seealso \code{\link{EN_GetISIN}} to retrieve the ISIN for a given ticker.
+#'
 #' @export
 
 
-EN_Ticker_Perfomance <- function(ticker,
+EN_Ticker_Performance <- function(ticker,
                                  escape = FALSE,
                                  stock_type = 'Eq_Ind') {
   ready_to_use <- function(the_DNA) {
@@ -142,7 +145,7 @@ EN_Ticker_Perfomance <- function(ticker,
 
 
 # Old code
-# EN_Ticker_Perfomance <- function(ticker){
+# EN_Ticker_Performance <- function(ticker){
 #   ticker <- toupper(ticker)
 #
 #   the_adn <-  EN_GetISIN(ticker)

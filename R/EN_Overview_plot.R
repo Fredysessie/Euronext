@@ -17,7 +17,7 @@
 #'                     and 'Etfs' or "E" for ETFs.
 #' @param up.col is the up color
 #' @param down.col is down color
-#' @param escape Boolean, either T or F. If escape is TRUE, it means you're providing
+#' @param escape Boolean, either TRUE or FALSE. If escape is TRUE, it means you're providing
 #'               the DNA (ISIN-Market identifier) directly. Giving TRUE to escape is helpful
 #'               to avoid time-consuming operations; otherwise, FALSE means you need to provide
 #'               the Ticker symbol, name, or ISIN and the type of market to which it belongs.
@@ -46,6 +46,7 @@
 #' library(stringr)
 #' library(xts)
 #' library(flextable)
+#' library(grDevices)
 #'
 #' #Highchart of 4DDD (area chart for Last price and column chart for volume)
 #' # Default up.col = "darkgreen", down.col = "red"

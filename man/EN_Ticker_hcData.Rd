@@ -38,18 +38,18 @@ library(rlang)
 
 # Get company ABC ARBITRAGE share hc data
 dt_ABCA = EN_Ticker_hcData("ABca")
-print(dt_ABCA)
+head(dt_ABCA)
 
 dt_EOS = EN_Ticker_hcData("EOS", from = "2000-10-30", to = "2024-01-27")
-print(dt_EOS)
+head(dt_EOS)
 
 # Get hc data for ETF AAPL from December 15, 2023 to now
 hc_aapl <- EN_Ticker_hcData("AAPL", stock_type = "E", from = "2023-12-15", to = Sys.Date())
-head(hc_aapl)
+tail(hc_aapl)
 
 # Get hc data of Fund KEMPEN GBL HDiv N
 dt_kem = EN_Ticker_hcData("US88554D2053-ETLX", escape = TRUE)
-print(dt_kem)
+head(dt_kem)
 
 #To get hc data of Bond issued by A2A S.p.A.
 hc_RMBS <- EN_Ticker_hcData("XS1195347478-ETLX", escape = TRUE)
@@ -80,7 +80,7 @@ Other Data Retrieval:
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
 \code{\link{EN_plot}()}
@@ -92,7 +92,7 @@ Other Euronext:
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
 \code{\link{EN_plot}()}

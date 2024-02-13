@@ -20,9 +20,11 @@ company name, ticker symbol, ISIN code, market, last closing price, percentage c
 and a link to the company's details on the Euronext website.
 }
 \examples{
-\dontrun{
+\donttest{
 # Example usage:
 a_result_df <- EN_Stocks_List("A") # For Amsterdam Stock
+head(a_result_df[, c(1:5)])
+
 b_result_df <- EN_Stocks_List("B") # For Brussels Stock
 p_result_df <- EN_Stocks_List("P") # For Paris Stock
 l_result_df <- EN_Stocks_List("L") # For Lisbon Stock

@@ -15,8 +15,17 @@ and a composite Ticker_adn.
 This function retrieves information about indices available on Euronext.
 }
 \examples{
-\dontrun{
-EN_Indices_List()
+
+\donttest{
+library(httr)
+library(jsonlite)
+library(rvest)
+library(stringr)
+library(magrittr)
+library(rlang)
+
+list_ind <- EN_Indices_List()
+head(list_ind[, c(1:5)])
 }
 
 }
