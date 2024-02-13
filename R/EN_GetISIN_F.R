@@ -11,8 +11,9 @@
 #'
 #' @examples
 #'
-#' \dontrun{
 #' library(httr)
+#' library(jsonlite)
+#' library(stringr)
 #' library(jsonlite)
 #'
 #' the_dna = EN_GetISIN_F("ACOMEA GLOBALE")
@@ -24,7 +25,7 @@
 #'
 #' # Get Fund 'COMPAM ACTIVE GLOB' DNA
 #' EN_GetISIN_F("LU1275425897")
-#'}
+#'
 #'
 #' @import httr
 #' @import jsonlite

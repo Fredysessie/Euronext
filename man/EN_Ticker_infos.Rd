@@ -4,12 +4,12 @@
 \alias{EN_Ticker_infos}
 \title{Get Ticker Information}
 \usage{
-EN_Ticker_infos(ticker, escape = F, stock_type = "Eq_Ind")
+EN_Ticker_infos(ticker, escape = FALSE, stock_type = "Eq_Ind")
 }
 \arguments{
 \item{ticker}{A character string representing the company's ticker, name, or ISIN.}
 
-\item{escape}{Boolean, either T or F. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
+\item{escape}{Boolean, either TRUE or FALSE. If escape is True, it means you're providing the DNA (ISIN-Market identifier) directly. Giving T to escape is helpful to avoid time-consuming operations; otherwise, F means you need to provide the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
 
 \item{stock_type}{The type of the ticker: 'Eq_Ind' for Stocks and Indexes, 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers, and 'Etfs' or "E" for EFTs.}
 }
@@ -25,7 +25,13 @@ transactions, VWAP (Volume Weighted Average Price), open, high, low, threshold, 
 The data is returned as a data frame.
 }
 \examples{
-\dontrun{
+
+library(httr)
+library(jsonlite)
+library(rvest)
+library(stringr)
+library(rlang)
+
 #Get ABCA informations
 dt_ABCA = EN_Ticker_infos("ABca")
 print(dt_ABCA)
@@ -39,16 +45,16 @@ print(dt_new)
 # To show only 5 pages of bonds list and select directly the bond DNA
 dt_ = EN_Bonds_List()
 # To Get informations about BOND issued in 2019 by POPOLARE BARI RMBS
-dt_new1 = EN_Ticker_infos("IT0005386716-XMOT", stock_type = "B", escape = T)
+dt_new1 = EN_Ticker_infos("IT0005386716-XMOT", stock_type = "B", escape = TRUE)
 print(dt_new1)
 
 dt_newfund = EN_Ticker_infos("KGHDF", stock_type = "F")
 print(dt_newfund)
 
-dt_fund = EN_Ticker_infos("CH1135202138-XPAR", stock_type = "F", escape = T)
+dt_fund = EN_Ticker_infos("CH1135202138-XPAR", stock_type = "F", escape = TRUE)
 print(dt_fund)
 
-}
+
 
 }
 \seealso{
@@ -59,7 +65,7 @@ Other Data Retrieval:
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_intraday_Data}()},
 \code{\link{EN_plot}()}
@@ -71,7 +77,7 @@ Other Euronext:
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_intraday_Data}()},
 \code{\link{EN_plot}()}

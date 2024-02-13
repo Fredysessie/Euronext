@@ -17,7 +17,7 @@ This function retrieves information about Etfs quoted on Euronext markets.
 }
 \examples{
 
-\dontrun{
+\donttest{
 library(httr)
 library(jsonlite)
 library(rvest)

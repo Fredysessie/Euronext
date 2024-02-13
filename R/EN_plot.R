@@ -17,7 +17,7 @@
 #'                     and 'Etfs' or "E" for ETFs.
 #' @param up.col is the up color
 #' @param down.col is down color
-#' @param escape Boolean, either T or F. If escape is TRUE, it means you're providing
+#' @param escape Boolean, either TRUE or FALSE. If escape is TRUE, it means you're providing
 #'               the DNA (ISIN-Market identifier) directly. Giving TRUE to escape is helpful
 #'               to avoid time-consuming operations; otherwise, FALSE means you need to provide
 #'               the Ticker symbol, name, or ISIN and the type of market to which it belongs.
@@ -30,17 +30,24 @@
 #'
 #' @importFrom xts as.xts
 #' @importFrom highcharter highchart hc_title hc_add_series hc_add_yAxis hc_add_series hc_yAxis_multiples hc_colors hc_exporting hchart
+#' @importFrom magrittr %>%
+#' @importFrom grDevices col2rgb
 #'
 #' @examples
-#'\dontrun{
+#'
+#'\donttest{
+#'
 #' library(highcharter)
 #' library(lubridate)
 #' library(rlang)
 #' library(httr2)
+#' library(jsonlite)
 #' library(stringr)
 #' library(xts)
+#' library(magrittr)
+#' library(grDevices)
 #'
-#' #Highchart of 4DDD
+#' # Highchart of 4DDD
 #' EN_plot(c("4DDD"), to = Sys.Date())
 #'
 #' # You can change the up and down colors as follow
@@ -49,7 +56,7 @@
 #' # Plot the closing price of a group of 3 tickers
 #' EN_plot(c("AAX", "QS0011016480", "AEX2S", "ADIDAS", "ADOBE", "ALFEN BEHEER", "1GOOGL"))
 #'
-#' AEX Equal Weight NR, AEX All-Tradable Alternative Weight NR,
+#' # AEX Equal Weight NR, AEX All-Tradable Alternative Weight NR,
 #' # AEX Short GR and AEX X2 Short GR
 #' EN_plot(c("NL0010614533", "QS0011211206", "QS0011095914", "QS0011146899"))
 #'
@@ -64,12 +71,27 @@ EN_plot<- function(ticker,
                    from = Sys.Date() - 365,
                    to = Sys.Date() - 1,
                    stock_type = 'Eq_Ind',
-                   escape = F,
+                   escape = FALSE,
                    up.col = "darkgreen",
                    down.col = "red") {
-  #  message('It possible to plot each sector chart line. You can use as argument .sectors$Agriculture to plot. Example EN_plot(.sector$Agriculture)')
+
+  areColors <- function(x) {
+    sapply(x, function(X) {
+      tryCatch(is.matrix(col2rgb(X)),
+               error = function(e) FALSE)
+    })[!is.na(x)]  # Filter out NA values from the result
+  }
+
+  if(!all(areColors(c(up.col, down.col)))){
+    rlang::abort(
+      "Please provide a valid color format. For example, you can use names like 'red' or hexadecimal codes like '#F05090'."
+    )
+  }
+
   date1<- from
   date2 = to
+
+
   # Evaluate input parameters ----
   ticker <- unique(toupper(ticker))
 

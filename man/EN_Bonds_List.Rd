@@ -17,7 +17,7 @@ This function retrieves information about Bonds quoted on Euronext markets.
 }
 \examples{
 
-\dontrun{
+\donttest{
 
 dt_ = EN_Bonds_List(10) # To show only 10 pages
 print(dt_)

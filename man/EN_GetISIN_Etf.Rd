@@ -16,7 +16,12 @@ A character
 This function checks if the provided ticker is present in the specified columns of the ETFs list. If the ticker is found in the ETFs list, the function returns the DNA (ISIN and Market identifier) of the corresponding ticker. Otherwise, it returns 'Ticker not found'.
 }
 \examples{
-\dontrun{
+
+library(httr)
+library(jsonlite)
+library(rvest)
+library(stringr)
+
 the_dna = EN_GetISIN_Etf("AAPL")
 sub("-.*", "", the_dna) #To get only the ISIN
 
@@ -25,7 +30,7 @@ EN_GetISIN_Etf("-1X SHORT DIS")
 
 # Get ETF '3x Long Coinbase' DNA
 EN_GetISIN_Etf("XS2399367254")
-}
+
 
 }
 \seealso{

@@ -17,7 +17,7 @@
 #'                     and 'Etfs' or "E" for ETFs.
 #' @param up.col is the up color
 #' @param down.col is down color
-#' @param escape Boolean, either T or F. If escape is TRUE, it means you're providing
+#' @param escape Boolean, either TRUE or FALSE. If escape is TRUE, it means you're providing
 #'               the DNA (ISIN-Market identifier) directly. Giving TRUE to escape is helpful
 #'               to avoid time-consuming operations; otherwise, FALSE means you need to provide
 #'               the Ticker symbol, name, or ISIN and the type of market to which it belongs.
@@ -36,7 +36,8 @@
 #' @importFrom highcharter highchart hc_title hc_add_series hc_add_yAxis hc_add_series hc_yAxis_multiples hc_colors hc_exporting
 #'
 #' @examples
-#'\dontrun{
+#'
+#'\donttest{
 #' library(highcharter)
 #' library(lubridate)
 #' library(rlang)
@@ -45,6 +46,7 @@
 #' library(stringr)
 #' library(xts)
 #' library(flextable)
+#' library(grDevices)
 #'
 #' #Highchart of 4DDD (area chart for Last price and column chart for volume)
 #' # Default up.col = "darkgreen", down.col = "red"
@@ -72,7 +74,7 @@ EN_Overview_plot <- function(ticker,
                    from = NULL,
                    to = Sys.Date() - 1,
                    stock_type = 'Eq_Ind',
-                   escape = F,
+                   escape = FALSE,
                    up.col = "darkgreen",
                    down.col = "red") {
   #  message('It possible to plot each sector chart line. You can use as argument .sectors$Agriculture to plot. Example EN_Overview_plot(.sector$Agriculture)')

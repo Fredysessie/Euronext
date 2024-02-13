@@ -9,7 +9,7 @@ EN_Overview_plot(
   from = NULL,
   to = Sys.Date() - 1,
   stock_type = "Eq_Ind",
-  escape = F,
+  escape = FALSE,
   up.col = "darkgreen",
   down.col = "red"
 )
@@ -27,7 +27,7 @@ be in ymd format "YYYY-MM-DD" or "YYYY/MM/DD"}
 'Fund' or "F" for Fund tickers, 'Bond' or "B" for Bond tickers,
 and 'Etfs' or "E" for ETFs.}
 
-\item{escape}{Boolean, either T or F. If escape is TRUE, it means you're providing
+\item{escape}{Boolean, either TRUE or FALSE. If escape is TRUE, it means you're providing
 the DNA (ISIN-Market identifier) directly. Giving TRUE to escape is helpful
 to avoid time-consuming operations; otherwise, FALSE means you need to provide
 the Ticker symbol, name, or ISIN and the type of market to which it belongs.}
@@ -43,14 +43,17 @@ An interactive chart
 This function will get Ticker(s) data and then plot it.
 }
 \examples{
-\dontrun{
+
+\donttest{
 library(highcharter)
 library(lubridate)
 library(rlang)
 library(httr2)
+library(dplyr)
 library(stringr)
 library(xts)
 library(flextable)
+library(grDevices)
 
 #Highchart of 4DDD (area chart for Last price and column chart for volume)
 # Default up.col = "darkgreen", down.col = "red"
@@ -81,7 +84,7 @@ Other Data Retrieval:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
@@ -96,7 +99,7 @@ Other Euronext:
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_P_Ticker_adn}()},
-\code{\link{EN_Ticker_Perfomance}()},
+\code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},

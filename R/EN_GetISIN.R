@@ -8,8 +8,13 @@
 #' @return A character string representing the DNA of the Stock or an Index.
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
+#'
 #' library(httr)
+#' library(jsonlite)
+#' library(rvest)
+#' library(stringr)
+#'
 #' # Get ISIN for the ticker "4DDD"
 #' EN_GetISIN("4DDD")
 #'
@@ -27,6 +32,7 @@
 #' }
 #'
 #' @import httr
+#' @import jsonlite
 #' @importFrom magrittr %>%
 #' @export
 

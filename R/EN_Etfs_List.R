@@ -14,7 +14,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #' library(httr)
 #' library(jsonlite)
 #' library(rvest)

@@ -11,8 +11,8 @@
 #' @return A data frame containing information about funds, including name, ticker, ISIN code, market, last price, percentage change, and URL.
 #'
 #' @examples
+#'\donttest{
 #'
-#' \dontrun{
 #' library(httr)
 #' library(jsonlite)
 #' library(rvest)

@@ -17,18 +17,26 @@
 #'   If the specified ticker is not found, the function returns an error message.
 #'
 #' @examples
-#' \dontrun{
-#' # Example usage:
+#'
+#' library(httr)
+#' library(jsonlite)
+#' library(dplyr)
+#' library(magrittr)
+#' library(rvest)
+#' library(stringr)
+#'
 #' ABCA_OB = EN_Get_OB("ABCA") # Get ABC ARBITRAGE ticker ORDER BOOK
 #' print(ABCA_OB)
+#'
 #' ALBON_OB = EN_Get_OB("ALBON") # Get LEBON ticker ORDER BOOK
 #' print(ALBON_OB)
+#'
 #' EN_Get_OB("ALBONgdg") # Will return "Ticker not found"
-#' }
 #'
 #' @import httr
 #' @import jsonlite
 #' @import rvest
+#' @importFrom magrittr %>%
 #'
 #' @family Data Retrieval
 #' @family Euronext

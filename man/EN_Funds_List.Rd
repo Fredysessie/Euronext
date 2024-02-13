@@ -14,8 +14,8 @@ This function retrieves information about funds quoted on Euronext markets.
 No input parameters are required for this function. It retrieves information about Funds quoted on Euronext markets
 }
 \examples{
+\donttest{
 
-\dontrun{
 library(httr)
 library(jsonlite)
 library(rvest)

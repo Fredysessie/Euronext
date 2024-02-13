@@ -21,17 +21,19 @@ This function retrieves information about Bonds quoted on Euronext markets.
 }
 \examples{
 
-\dontrun{
 library(httr)
 library(jsonlite)
 library(rvest)
 library(stringr)
 
+dt_ = EN_Bonds_List_bis()  # To show only the 1st page, it is the defaut paramater
+print(dt_)
+
+\donttest{
+
 dt_ = EN_Bonds_List_bis(10) # To show only the 10th page
 print(dt_)
 
-dt_ = EN_Bonds_List_bis()  # To show only the 1st page, it is the defaut paramater
-print(dt_)
 
 dt_ = EN_Bonds_List_bis('Max') # To show only last page
 print(dt_)
