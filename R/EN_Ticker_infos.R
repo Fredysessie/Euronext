@@ -28,6 +28,12 @@
 #' dt_EOS = EN_Ticker_infos("EOS")
 #' print(dt_EOS)
 #'
+#'
+#  #To Get 21S AMKR's Fund informations
+#' dt_fund = EN_Ticker_infos("CH1135202138-XPAR", stock_type = "F", escape = TRUE)
+#' print(dt_fund)
+#' \donttest{
+#'
 #' dt_new = EN_Ticker_infos("AAPL", stock_type = "E") # To Get ETF AAPL informations
 #' print(dt_new)
 #'
@@ -41,11 +47,7 @@
 #' dt_newfund = EN_Ticker_infos("KGHDF", stock_type = "F")
 #' print(dt_newfund)
 #'
-#  #To Get 21S AMKR's Fund informations
-#' dt_fund = EN_Ticker_infos("CH1135202138-XPAR", stock_type = "F", escape = TRUE)
-#' print(dt_fund)
-#'
-#'
+#'}
 #'
 #' @seealso \code{\link{EN_GetISIN}} to retrieve the ISIN for a given ticker.
 #'

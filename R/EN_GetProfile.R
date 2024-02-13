@@ -45,6 +45,8 @@
 #' # Example d : 'SBF 120 NR' Index
 #' EN_GetProfile("QS0011131842-XPAR") # By providing DNA
 #'
+#' \donttest{
+#'
 #' # Funds
 #' # Example a : 'ACOMEA PERFORMANCE' Fund
 #' EN_GetProfile("ACAPER", stock_type = 'F') # By providing Symbol
@@ -58,7 +60,6 @@
 #' # Example d : 'GOLDMAN SACHS PARAPLUFONDS 2 N' Fund
 #' EN_GetProfile("NL0000293181-XAMS", stock_type = 'F') # By providing DNA of GSDM5
 #'
-#' \donttest{
 #'
 #' ## ETFs
 #' # Example a : 'Asia IG Corp US A' Etf
