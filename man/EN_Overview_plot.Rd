@@ -88,7 +88,8 @@ Other Data Retrieval:
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
-\code{\link{EN_plot}()}
+\code{\link{EN_plot}()},
+\code{\link{En_Market.Sumarry}()}
 
 Other Plot: 
 \code{\link{EN_plot}()}

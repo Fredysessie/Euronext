@@ -31,6 +31,7 @@ library(jsonlite)
 library(rvest)
 library(stringr)
 library(rlang)
+library(magrittr)
 
 #Get ABCA informations
 dt_ABCA = EN_Ticker_infos("ABca")
@@ -70,7 +71,8 @@ Other Data Retrieval:
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_intraday_Data}()},
-\code{\link{EN_plot}()}
+\code{\link{EN_plot}()},
+\code{\link{En_Market.Sumarry}()}
 
 Other Euronext: 
 \code{\link{EN_Get_News}()},

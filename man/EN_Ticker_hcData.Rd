@@ -86,7 +86,8 @@ Other Data Retrieval:
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
-\code{\link{EN_plot}()}
+\code{\link{EN_plot}()},
+\code{\link{En_Market.Sumarry}()}
 
 Other Euronext: 
 \code{\link{EN_Get_News}()},
