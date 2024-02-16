@@ -86,7 +86,13 @@ EN_Get_OB <- function(ticker){
       # buy_order <-  th_data[11:20, ] #The bid
 
 
-      the_table <- data$table
+      if(length(data$table) == 0){
+        stop("No order book exists for the provided ticker.")
+
+      } else{
+        the_table <- data$table
+      }
+
 
       # Turn the_table into html form so that it will be easy to get each td element
       f_table <- read_html(the_table)

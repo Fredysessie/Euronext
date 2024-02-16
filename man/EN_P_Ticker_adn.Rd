@@ -35,6 +35,7 @@ Other Euronext:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
