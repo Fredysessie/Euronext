@@ -27,7 +27,7 @@ based on its ticker symbol. It returns a table with details such as its real Nam
 Last traded Price, Date of last update, and other relevant informations.
 }
 \examples{
-
+\donttest{
 library(httr)
 library(httr2)
 library(rvest)
@@ -74,7 +74,7 @@ print(bd_new)
 # Bond AAB0.45\%12DEC2036
 bd_new1 <- EN_Get_News("XS2093705064-XAMS", escape = TRUE)
 print(bd_new1)
-
+}
 
 }
 \seealso{
@@ -93,14 +93,17 @@ Other Infos Retrieval:
 \code{\link{EN_GetISIN_Etf}()},
 \code{\link{EN_GetISIN_F}()},
 \code{\link{EN_Indices_List}()},
-\code{\link{EN_Stocks_List}()}
+\code{\link{EN_Stocks_List}()},
+\code{\link{En_Market.Sumarry}()}
 
 Other Euronext: 
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},

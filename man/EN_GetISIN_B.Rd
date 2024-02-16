@@ -49,7 +49,8 @@ Other Infos Retrieval:
 \code{\link{EN_GetISIN_F}()},
 \code{\link{EN_Get_News}()},
 \code{\link{EN_Indices_List}()},
-\code{\link{EN_Stocks_List}()}
+\code{\link{EN_Stocks_List}()},
+\code{\link{En_Market.Sumarry}()}
 }
 \concept{ISIN Retrieval}
 \concept{Infos Retrieval}

@@ -43,10 +43,6 @@ head(dt_ABCA)
 dt_EOS = EN_Ticker_hcData("EOS", from = "2000-10-30", to = "2024-01-27")
 head(dt_EOS)
 
-# Get hc data for ETF AAPL from December 15, 2023 to now
-hc_aapl <- EN_Ticker_hcData("AAPL", stock_type = "E", from = "2023-12-15", to = Sys.Date())
-tail(hc_aapl)
-
 # Get hc data of Fund KEMPEN GBL HDiv N
 dt_kem = EN_Ticker_hcData("US88554D2053-ETLX", escape = TRUE)
 head(dt_kem)
@@ -54,6 +50,12 @@ head(dt_kem)
 #To get hc data of Bond issued by A2A S.p.A.
 hc_RMBS <- EN_Ticker_hcData("XS1195347478-ETLX", escape = TRUE)
 head(hc_RMBS)
+
+\donttest{
+
+# Get hc data for ETF AAPL from December 15, 2023 to now
+hc_aapl <- EN_Ticker_hcData("AAPL", stock_type = "E", from = "2023-12-15", to = Sys.Date())
+tail(hc_aapl)
 
 # Get indices such us AEX All-Tradable Alternative Weight NR, AEX Equal Weight NR,
 # AEX Short GR and AEX X2 Short GR hc data (Date, Price, volume)
@@ -69,6 +71,7 @@ tail(dt_etf)
 dt_bonds = EN_Ticker_hcData(c("XS2364001078-XMOT", "AAB1.50\%30SEP30"), stock_type = 'B')
 head(dt_bonds)
 tail(dt_bonds)
+}
 
 }
 \seealso{
@@ -79,19 +82,24 @@ Other Data Retrieval:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
-\code{\link{EN_plot}()}
+\code{\link{EN_plot}()},
+\code{\link{En_Market.Sumarry}()}
 
 Other Euronext: 
 \code{\link{EN_Get_News}()},
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},

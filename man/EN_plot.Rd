@@ -83,13 +83,17 @@ Other Data Retrieval:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
-\code{\link{EN_intraday_Data}()}
+\code{\link{EN_intraday_Data}()},
+\code{\link{En_Market.Sumarry}()}
 
 Other Plot: 
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()}
 
 Other Euronext: 
@@ -97,8 +101,10 @@ Other Euronext:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},

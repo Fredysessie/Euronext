@@ -413,7 +413,7 @@ EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 
     if (length(combined_data) == 1) {
       # error_msg <- paste("Ticker", ticker, "not found")
       # return(list(error = error_msg, data = NULL))
-      print("Ticker not found, please use an appropriate ticker!")
+      message("Ticker not found, please use an appropriate ticker!")
       return("Ticker not found")
 
     } else {

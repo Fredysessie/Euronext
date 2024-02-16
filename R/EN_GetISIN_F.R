@@ -10,7 +10,7 @@
 #' @return A character
 #'
 #' @examples
-#'
+#' \donttest{
 #' library(httr)
 #' library(jsonlite)
 #' library(stringr)
@@ -25,7 +25,7 @@
 #'
 #' # Get Fund 'COMPAM ACTIVE GLOB' DNA
 #' EN_GetISIN_F("LU1275425897")
-#'
+#' }
 #'
 #' @import httr
 #' @import jsonlite

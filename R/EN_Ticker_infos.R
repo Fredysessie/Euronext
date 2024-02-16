@@ -20,6 +20,7 @@
 #' library(rvest)
 #' library(stringr)
 #' library(rlang)
+#' library(magrittr)
 #'
 #' #Get ABCA informations
 #' dt_ABCA = EN_Ticker_infos("ABca")

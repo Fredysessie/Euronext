@@ -1,10 +1,10 @@
 Package: Euronext
 Title: Retrieve Historical Data of Companies Listed on the 'Euronext' Stock Exchange
-Version: 2.0.0
+Version: 2.0.1
 Authors@R: 
     person("Sessie","Koffi Frederic", email = "koffisessie@gmail.com",
             role = c("aut","cre","cph"))
-Description: The 'Euronext' package provides seamless access to historical data of companies listed on the Euronext Stock Exchange(<https://live.euronext.com/en>), enabling users to retrieve real-time information directly within the R environment. With functions tailored for data retrieval and manipulation, users can effortlessly access a wide range of financial data, including stock prices, trading volumes, and more. Leveraging the power of R, this package facilitates efficient analysis and visualization of stock market trends, aiding investors, analysts, and researchers in making informed decisions. By combining ease of use with comprehensive data access, 'Euronext' empowers R users to delve deep into the dynamics of European financial markets, offering valuable insights for various financial applications.
+Description: Provides seamless access to historical data of companies listed on the 'Euronext' Stock Exchange(<https://live.euronext.com/en>), enabling users to retrieve real-time information directly within the R environment. With functions tailored for data retrieval and manipulation, users can effortlessly access a wide range of financial data, including stock prices, trading volumes, and more. Leveraging the power of R, this package facilitates efficient analysis and visualization of stock market trends, aiding investors, analysts, and researchers in making informed decisions. By combining ease of use with comprehensive data access, 'Euronext' empowers R users to delve deep into the dynamics of European financial markets, offering valuable insights for various financial applications.
 License: MIT + file LICENSE
 URL: https://rpubs.com/Fredysessie/euronext
 BugReports: https://github.com/Fredysessie/Euronext/issues

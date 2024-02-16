@@ -1033,6 +1033,49 @@ kable(intra_3, "html") %>%
 ```
 
 
+## **En_Market.Sumarry()** function
+
+The *En_Market.Sumarry()* function retrieve from Euronext the summaries of a giving Stock Market.
+
+*Input* :
+  - *stock_choice*: A character string specifying the market of interest. Available options include "a" or "amsterdam" for Amsterdam, "b" or "brussels" for Brussels, "d" or "dublin" for Dublin, "l" or "lisbon" for Lisbon, "m" or "milan" for Milan, "p" or "paris" for Paris, and "o" or "oslo" for Oslo.
+
+*Return Value* :
+A list containing summary data for the selected market, including information on stock indices and currency rates. The list includes the following components:
+* Indices_summary: A data frame summarizing stock market indices for the selected market. It includes columns for the index name, last price, and percentage change. If the summary is not available, this component will be set to NA.
+
+* EU_indices: A data frame summarizing EURONEXT indices for the selected market. It includes columns for the instrument name, last price, and percentage change. If the summary is not available, this component will be set to NA.
+
+* Currency_rate: A data frame summarizing currency exchange rates for the selected market. It includes columns for the instrument name, last price, and percentage change. If the summary is not available, this component will be set to NA.
+
+### *Example 11* : Retrieve Stocks Summary data
+
+```{r En_Market.Sumarry, eval=FALSE}
+# Retrieve summary data for 'Paris stock'
+En_Market.Sumarry("p")
+
+```
+
+
+```{r echo=FALSE}
+sum_paris = En_Market.Sumarry("p")
+
+print("Summary data for 'Amsterdam stock indices'")
+kable(sum_paris$Indices_summary, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+print("Summary data for 'EURONEXT indices'")
+kable(sum_paris$EU_indices, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+print("Summary data for 'Currency rate'")
+kable(sum_paris$Currency_rate, "html") %>%
+  kable_styling(bootstrap_options = "striped")
+
+```
+
+
+
 **Authors** : <br> 
 * [Koffi Frederic Sessie](https://github.com/Koffi-Fredysessie) (<koffisessie@gmail.com>)
 

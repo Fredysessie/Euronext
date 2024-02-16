@@ -71,8 +71,8 @@
 #'
 
 EN_Overview_plot <- function(ticker,
-                   from = NULL,
-                   to = Sys.Date() - 1,
+                             from = NULL,
+                             to = Sys.Date() - 1,
                    stock_type = 'Eq_Ind',
                    escape = FALSE,
                    up.col = "darkgreen",

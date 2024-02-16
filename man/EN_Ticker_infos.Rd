@@ -31,6 +31,7 @@ library(jsonlite)
 library(rvest)
 library(stringr)
 library(rlang)
+library(magrittr)
 
 #Get ABCA informations
 dt_ABCA = EN_Ticker_infos("ABca")
@@ -38,6 +39,11 @@ print(dt_ABCA)
 
 dt_EOS = EN_Ticker_infos("EOS")
 print(dt_EOS)
+
+
+dt_fund = EN_Ticker_infos("CH1135202138-XPAR", stock_type = "F", escape = TRUE)
+print(dt_fund)
+\donttest{
 
 dt_new = EN_Ticker_infos("AAPL", stock_type = "E") # To Get ETF AAPL informations
 print(dt_new)
@@ -51,10 +57,7 @@ print(dt_new1)
 dt_newfund = EN_Ticker_infos("KGHDF", stock_type = "F")
 print(dt_newfund)
 
-dt_fund = EN_Ticker_infos("CH1135202138-XPAR", stock_type = "F", escape = TRUE)
-print(dt_fund)
-
-
+}
 
 }
 \seealso{
@@ -64,19 +67,24 @@ Other Data Retrieval:
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_intraday_Data}()},
-\code{\link{EN_plot}()}
+\code{\link{EN_plot}()},
+\code{\link{En_Market.Sumarry}()}
 
 Other Euronext: 
 \code{\link{EN_Get_News}()},
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
+\code{\link{EN_OrderBook.Chart}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_intraday_Data}()},

@@ -20,25 +20,26 @@
 #' library(stringr)
 #' library(magrittr)
 #'
+#' # Get Performance of Bond issued by A2A S.p.A.
+#' dt1 = EN_Ticker_Performance("XS1195347478-ETLX", escape = TRUE)
+#' #print(dt1[, c(1:6,8,12)])
+#'
+#' \donttest{
 #' # Get Performance of Ticker ABCA
 #' dt = EN_Ticker_Performance("ABCA")
 #' print(dt)
 #' # Get Performance of ETF AAPL
 #' EN_Ticker_Performance("AAPL", stock_type = "E")
 #'
-#' # Get Performance of Bond issued by A2A S.p.A.
-#' dt1 = EN_Ticker_Performance("XS1195347478-ETLX", escape = TRUE)
-#' print(dt1[, c(1:6,8,12)])
-#'
 #' # Get Performance of ACOMEA EMERGING Q2 Fund
 #' dt2 = EN_Ticker_Performance("IT0005091126", stock_type ='F')
 #' print(dt2[, c(1:6,8,12)])
 #'
 #' # Get Performance of AEX All-Share Index
-#' dt3 = EN_Ticker_Performance("AEX All-Share Index GR", escape = FALSE)
+#' dt3 = EN_Ticker_Performance("AEX All-Share Index GR")
 #' print(dt3[, c(1:6,8,12)])
 #'
-#'
+#' }
 #'
 #' @import httr
 #' @import rvest

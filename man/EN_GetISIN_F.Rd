@@ -16,7 +16,7 @@ A character
 This function checks if the provided ticker is present in the specified columns of the funds list. If the ticker is found in the funds list, the function returns the DNA (ISIN and Market identifier) of the corresponding ticker. Otherwise, it returns 'Ticker not found'.
 }
 \examples{
-
+\donttest{
 library(httr)
 library(jsonlite)
 library(stringr)
@@ -31,7 +31,7 @@ print(asnu_dna)
 
 # Get Fund 'COMPAM ACTIVE GLOB' DNA
 EN_GetISIN_F("LU1275425897")
-
+}
 
 }
 \seealso{
@@ -51,7 +51,8 @@ Other Infos Retrieval:
 \code{\link{EN_GetISIN_Etf}()},
 \code{\link{EN_Get_News}()},
 \code{\link{EN_Indices_List}()},
-\code{\link{EN_Stocks_List}()}
+\code{\link{EN_Stocks_List}()},
+\code{\link{En_Market.Sumarry}()}
 }
 \concept{ISIN Retrieval}
 \concept{Infos Retrieval}

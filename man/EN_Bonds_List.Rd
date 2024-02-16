@@ -18,6 +18,10 @@ This function retrieves information about Bonds quoted on Euronext markets.
 \examples{
 
 \donttest{
+library(httr)
+library(jsonlite)
+library(rvest)
+library(stringr)
 
 dt_ = EN_Bonds_List(10) # To show only 10 pages
 print(dt_)
@@ -25,8 +29,8 @@ print(dt_)
 dt_ = EN_Bonds_List()  # To show only 5 pages by defaut
 print(dt_)
 
-dt_ = EN_Bonds_List('Max') #To show all the bonds list
-print(dt_)
+# dt_ = EN_Bonds_List('Max') #To show all the bonds list
+# print(dt_)
 }
 
 }
@@ -45,6 +49,7 @@ Other Infos Retrieval:
 \code{\link{EN_GetISIN_F}()},
 \code{\link{EN_Get_News}()},
 \code{\link{EN_Indices_List}()},
-\code{\link{EN_Stocks_List}()}
+\code{\link{EN_Stocks_List}()},
+\code{\link{En_Market.Sumarry}()}
 }
 \concept{Infos Retrieval}
