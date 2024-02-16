@@ -86,6 +86,8 @@ all_perf_data <- EN_Stock.Performers(direction = 'MostActive',
 
 }
 \seealso{
+\code{\link{EN_Performers.Settings}} for acceptable values for 'belongs_to' and 'eligibility' attributes.
+
 Other Data Retrieval: 
 \code{\link{EN_Get_OB}()},
 \code{\link{EN_HistData_bis}()},
