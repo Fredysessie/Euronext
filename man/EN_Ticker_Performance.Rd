@@ -33,7 +33,7 @@ library(magrittr)
 
 # Get Performance of Bond issued by A2A S.p.A.
 dt1 = EN_Ticker_Performance("XS1195347478-ETLX", escape = TRUE)
-print(dt1[, c(1:6,8,12)])
+#print(dt1[, c(1:6,8,12)])
 
 \donttest{
 # Get Performance of Ticker ABCA
@@ -61,6 +61,7 @@ Other Data Retrieval:
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},
@@ -74,6 +75,7 @@ Other Euronext:
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
 \code{\link{EN_P_Ticker_adn}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},
 \code{\link{EN_intraday_Data}()},

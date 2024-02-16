@@ -80,6 +80,7 @@ Other Data Retrieval:
 \code{\link{EN_HistData_bis}()},
 \code{\link{EN_HistData}()},
 \code{\link{EN_Overview_plot}()},
+\code{\link{EN_Stock.Performers}()},
 \code{\link{EN_Ticker_Performance}()},
 \code{\link{EN_Ticker_hcData}()},
 \code{\link{EN_Ticker_infos}()},

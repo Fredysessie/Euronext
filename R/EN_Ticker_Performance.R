@@ -22,7 +22,7 @@
 #'
 #' # Get Performance of Bond issued by A2A S.p.A.
 #' dt1 = EN_Ticker_Performance("XS1195347478-ETLX", escape = TRUE)
-#' print(dt1[, c(1:6,8,12)])
+#' #print(dt1[, c(1:6,8,12)])
 #'
 #' \donttest{
 #' # Get Performance of Ticker ABCA
