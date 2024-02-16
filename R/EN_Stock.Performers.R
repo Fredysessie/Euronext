@@ -93,7 +93,7 @@ EN_Stock.Performers <- function(direction = 'MostActive',
       direction <- 'Fallers'
     }
   } else {
-    stop("Invalid direction parameter")
+    stop("Invalid 'direction' parameter")
   }
 
   # Since param
