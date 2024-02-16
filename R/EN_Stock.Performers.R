@@ -19,12 +19,14 @@
 #'
 #' @import httr
 #' @import rvest
+#' @import stringr
 #'
 #' @examples
 #' \donttest{
 #' library(httr)
 #' library(httr2)
 #' library(rvest)
+#' library(stringr)
 #'
 #' # Retrieve performance data for Brussels market
 #' b_perf_data <- EN_Stock.Performers(direction = 'MostActive',
