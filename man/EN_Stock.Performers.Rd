@@ -10,7 +10,7 @@ EN_Stock.Performers(
   stock_choice = "All",
   capitalization = "All",
   belongs_to = "All",
-  eligibility = "all",
+  eligibility = "All",
   icb_sector = ""
 )
 }
@@ -23,9 +23,9 @@ EN_Stock.Performers(
 
 \item{capitalization}{(character) Capitalization filter for stocks. Allowed values: 'All', 'Large Caps' (or 'LC'), 'Mid Caps' (or 'MC'), 'Small Caps' (or 'SC').}
 
-\item{belongs_to}{(character) Ownership filter for stocks. Depends on the chosen \code{stock_choice}. Consult the function documentation for valid values.}
+\item{belongs_to}{(character) Ownership filter for stocks. Depends on the chosen \code{stock_choice}. Consult the function  \code{\link{EN_Performers.Settings}} documentation for valid values.}
 
-\item{eligibility}{(character) Eligibility criteria for stocks. Depends on the chosen \code{stock_choice}. Consult the function documentation for valid values. Default value: 'all'.}
+\item{eligibility}{(character) Eligibility criteria for stocks. Depends on the chosen \code{stock_choice}. Consult the function  \code{\link{EN_Performers.Settings}} documentation for valid values. Default value: 'all'.}
 
 \item{icb_sector}{(character) ICB sector filter for stocks.}
 }
@@ -40,6 +40,7 @@ This function retrieves performance data for stocks from different markets on th
 library(httr)
 library(httr2)
 library(rvest)
+library(stringr)
 
 # Retrieve performance data for Brussels market
 b_perf_data <- EN_Stock.Performers(direction = 'MostActive',
@@ -47,7 +48,7 @@ b_perf_data <- EN_Stock.Performers(direction = 'MostActive',
                                     stock_choice = "Brussels",
                                     capitalization = 'All',
                                     belongs_to = "All",
-                                    eligibility = "all",
+                                    eligibility = "All",
                                     icb_sector = "")
 
 
@@ -57,7 +58,7 @@ o_perf_data <- EN_Stock.Performers(direction = 'f',
                                     stock_choice = "Oslo",
                                     capitalization = 'All',
                                     belongs_to = "EuronextExpand",
-                                    eligibility = "all",
+                                    eligibility = "All",
                                     icb_sector = "")
 
 
@@ -72,12 +73,13 @@ p_perf_data <- EN_Stock.Performers(direction = 'R',
 
 
 # Retrieve performance data for all markets with specific filters
+# May be the content will not be available when you will run the following code
 all_perf_data <- EN_Stock.Performers(direction = 'MostActive',
                                      since = "1D",
                                      stock_choice = "all",
                                      capitalization = 3,
                                      belongs_to = "Euro100",
-                                     eligibility = "all",
+                                     eligibility = "All",
                                      icb_sector = "")
 
 }

@@ -6,8 +6,8 @@
 #' @param since (character) Duration since when the performance data is requested. Allowed values: "1D" (1 day), "1M" (1 month), "1Y" (1 year), "1Jan" (since January 1st).
 #' @param stock_choice (character) Choice of the stock market. Allowed values: 'All', 'Amsterdam' (or 'A'), 'Brussels' (or 'B'), 'Dublin' (or 'D'), 'Lisbon' (or 'L'), 'Milan' (or 'M'), 'Paris' (or 'P'), 'Oslo' (or 'O').
 #' @param capitalization (character) Capitalization filter for stocks. Allowed values: 'All', 'Large Caps' (or 'LC'), 'Mid Caps' (or 'MC'), 'Small Caps' (or 'SC').
-#' @param belongs_to (character) Ownership filter for stocks. Depends on the chosen `stock_choice`. Consult the function documentation for valid values.
-#' @param eligibility (character) Eligibility criteria for stocks. Depends on the chosen `stock_choice`. Consult the function documentation for valid values. Default value: 'all'.
+#' @param belongs_to (character) Ownership filter for stocks. Depends on the chosen `stock_choice`. Consult the function  \code{\link{EN_Performers.Settings}} documentation for valid values.
+#' @param eligibility (character) Eligibility criteria for stocks. Depends on the chosen `stock_choice`. Consult the function  \code{\link{EN_Performers.Settings}} documentation for valid values. Default value: 'all'.
 #' @param icb_sector (character) ICB sector filter for stocks.
 #'
 #' @family Data Retrieval
@@ -16,6 +16,8 @@
 #' @author Koffi Frederic SESSIE
 #'
 #' @return A dataframe containing performance data for the specified stocks. Columns include: 'Name', 'Symbol', 'Price', 'Change %', 'Volume', 'Turnover', 'Market Cap (M)'. If no data is available, it returns `NULL`.
+#'
+#' @seealso \code{\link{EN_Performers.Settings}} for acceptable values for 'belongs_to' and 'eligibility' attributes.
 #'
 #' @import httr
 #' @import rvest
@@ -34,7 +36,7 @@
 #'                                     stock_choice = "Brussels",
 #'                                     capitalization = 'All',
 #'                                     belongs_to = "All",
-#'                                     eligibility = "all",
+#'                                     eligibility = "All",
 #'                                     icb_sector = "")
 #'
 #'
@@ -44,7 +46,7 @@
 #'                                     stock_choice = "Oslo",
 #'                                     capitalization = 'All',
 #'                                     belongs_to = "EuronextExpand",
-#'                                     eligibility = "all",
+#'                                     eligibility = "All",
 #'                                     icb_sector = "")
 #'
 #'
@@ -59,12 +61,13 @@
 #'
 #'
 #' # Retrieve performance data for all markets with specific filters
+#' # May be the content will not be available when you will run the following code
 #' all_perf_data <- EN_Stock.Performers(direction = 'MostActive',
 #'                                      since = "1D",
 #'                                      stock_choice = "all",
 #'                                      capitalization = 3,
 #'                                      belongs_to = "Euro100",
-#'                                      eligibility = "all",
+#'                                      eligibility = "All",
 #'                                      icb_sector = "")
 #'
 #'}
@@ -77,7 +80,7 @@ EN_Stock.Performers <- function(direction = 'MostActive',
                                 stock_choice = 'All',
                                 capitalization = 'All',
                                 belongs_to = "All",
-                                eligibility = "all",
+                                eligibility = "All",
                                 icb_sector = '') {
 
   direction = str_to_title(direction)
@@ -126,123 +129,123 @@ EN_Stock.Performers <- function(direction = 'MostActive',
 
 
   # Market parameter
-  stock_choice = str_to_lower(stock_choice)
+  stock_choice = tolower(stock_choice)
 
   if( stock_choice == "all"){
     stock_choice = "all"
 
-    belongs_to.list = c("All", "Euronext", "Alternext", "Alternext400", "Alternext500",
-                        "Euro100", "Next150")
-
-    if(belongs_to %in% belongs_to.list){
-
-      belongs_to = belongs_to
-    }else{
-      stop("Invalid 'belongs_to' parameter")
-    }
+    # belongs_to.list = c("All", "Euronext", "Alternext", "Alternext400", "Alternext500",
+    #                     "Euro100", "Next150")
+    #
+    # if(belongs_to %in% belongs_to.list){
+    #
+    #   belongs_to = belongs_to
+    # }else{
+    #   stop("Invalid 'belongs_to' parameter")
+    # }
 
   } else{
     if( stock_choice %in%  c("a", "amsterdam")){
       stock_choice = "amsterdam"
 
-      belongs_to.list = c("All", "Euronext", "Euronext100", "Euronext200", "Euronext300",
-                          "Alternext", "Alternext400", "Alternext500", "TNLA", "AEX", "AMX",
-                          "ASCX", "ADam")
-
-      if(belongs_to %in% belongs_to.list){
-
-        belongs_to = belongs_to
-      }else{
-        stop("Invalid 'belongs_to' parameter")
-      }
+      # belongs_to.list = c("All", "Euronext", "Euronext100", "Euronext200", "Euronext300",
+      #                     "Alternext", "Alternext400", "Alternext500", "TNLA", "AEX", "AMX",
+      #                     "ASCX", "ADam")
+      #
+      # if(belongs_to %in% belongs_to.list){
+      #   belongs_to = belongs_to
+      #
+      # }else{
+      #   stop("Invalid 'belongs_to' parameter")
+      # }
 
     } else if( stock_choice %in% c("b", "brussels") ){
       stock_choice = "brussels"
 
-      belongs_to.list = c("All", "Euronext", "Euronext100", "Euronext200", "Euronext300",
-                          "Alternext", "Alternext400", "Alternext500", "MarcheLibre", "TNLB",
-                          "Euronext700", "BEL20", "BEL20GR", "BEL20NR", "BELMID", "BELSMALL",
-                          "BAS", "BASNR", "BECONTINUOUS", "BELMIDNR", "BELSMALLNR")
-
-      if(belongs_to %in% belongs_to.list){
-        belongs_to = belongs_to
-
-      }else{
-        stop("Invalid 'belongs_to' parameter")
-      }
+      # belongs_to.list = c("All", "Euronext", "Euronext100", "Euronext200", "Euronext300",
+      #                     "Alternext", "Alternext400", "Alternext500", "MarcheLibre", "TNLB",
+      #                     "Euronext700", "BEL20", "BEL20GR", "BEL20NR", "BELMID", "BELSMALL",
+      #                     "BAS", "BASNR", "BECONTINUOUS", "BELMIDNR", "BELSMALLNR")
+      #
+      # if(belongs_to %in% belongs_to.list){
+      #   belongs_to = belongs_to
+      #
+      # }else{
+      #   stop("Invalid 'belongs_to' parameter")
+      # }
 
     } else if( stock_choice %in% c("d", "dublin") ){
       stock_choice = "dublin"
 
-      belongs_to.list = c("All", "EuronextDublin", "EuronextGrowth", "ISEQ20", "ISEQALL",
-                          "ISEQSMALL")
-
-      if(belongs_to %in% belongs_to.list){
-        belongs_to = belongs_to
-
-      }else{
-        stop("Invalid 'belongs_to' parameter")
-
-      }
+      # belongs_to.list = c("All", "EuronextDublin", "EuronextGrowth", "ISEQ20", "ISEQALL",
+      #                     "ISEQSMALL")
+      #
+      # if(belongs_to %in% belongs_to.list){
+      #   belongs_to = belongs_to
+      #
+      # }else{
+      #   stop("Invalid 'belongs_to' parameter")
+      #
+      # }
 
     } else if( stock_choice %in% c("l", "lisbon") ){
       stock_choice = "lisbon"
 
-      belongs_to.list = c("All", "Euronext", "Euronext100", "Euronext200", "Euronext300",
-                          "Alternext", "Easynext", "PSI20", "PSI20GR", "PSIGERAL")
-
-      if(belongs_to %in% belongs_to.list){
-        belongs_to = belongs_to
-
-      }else{
-        stop("Invalid 'belongs_to' parameter")
-
-      }
+      # belongs_to.list = c("All", "Euronext", "Euronext100", "Euronext200", "Euronext300",
+      #                     "Alternext", "Easynext", "PSI20", "PSI20GR", "PSIGERAL")
+      #
+      # if(belongs_to %in% belongs_to.list){
+      #   belongs_to = belongs_to
+      #
+      # }else{
+      #   stop("Invalid 'belongs_to' parameter")
+      #
+      # }
 
 
     } else if( stock_choice %in% c("m", "milan") ){
       stock_choice = "milan"
 
-      belongs_to.list = c("All", "EuronextMilan", "EuronextGrowthMilan", "MIBESG")
-
-      if(belongs_to %in% belongs_to.list){
-        belongs_to = belongs_to
-
-      }else{
-        stop("Invalid 'belongs_to' parameter")
-
-      }
+      # belongs_to.list = c("All", "EuronextMilan", "EuronextGrowthMilan", "MIBESG")
+      #
+      # if(belongs_to %in% belongs_to.list){
+      #   belongs_to = belongs_to
+      #
+      # }else{
+      #   stop("Invalid 'belongs_to' parameter")
+      #
+      # }
 
     } else if( stock_choice %in% c("p", "paris")  ){
       stock_choice = "paris"
 
-      belongs_to.list = c("All", "Euronext", "Euronext100", "Euronext200", "Euronext300",
-                          "Euronext600", "Alternext", "Alternext400", "Alternext500", "MarcheLibre",
-                          "CAC40", "CACNEXT20", "CACLARGE60", "CACMID60", "CACSMALL", "CACMIDSMALL",
-                          "SBF120", "CACALLTRADABLE", "CACALLSHARES", "EuronextFASIAS",
-                          "IEIF")
-
-      if(belongs_to %in% belongs_to.list){
-        belongs_to = belongs_to
-
-      }else{
-        stop("Invalid 'belongs_to' parameter")
-
-      }
+      # belongs_to.list = c("All", "Euronext", "Euronext100", "Euronext200", "Euronext300",
+      #                     "Euronext600", "Alternext", "Alternext400", "Alternext500", "MarcheLibre",
+      #                     "CAC40", "CACNEXT20", "CACLARGE60", "CACMID60", "CACSMALL", "CACMIDSMALL",
+      #                     "SBF120", "CACALLTRADABLE", "CACALLSHARES", "EuronextFASIAS",
+      #                     "IEIF")
+      #
+      # if(belongs_to %in% belongs_to.list){
+      #   belongs_to = belongs_to
+      #
+      # }else{
+      #   stop("Invalid 'belongs_to' parameter")
+      #
+      # }
 
     } else if( stock_choice %in% c("o", "oslo") ){
       stock_choice = "oslo"
 
-      belongs_to.list = c("All", "EuronextBors", "EuronextGrowth", "EuronextExpand",
-                          "OBXTOTAL", "OSEBX")
-
-      if(belongs_to %in% belongs_to.list){
-        belongs_to = belongs_to
-
-      }else{
-        stop("Invalid 'belongs_to' parameter")
-
-      }
+      # belongs_to.list = c("All", "EuronextBors", "EuronextGrowth", "EuronextExpand",
+      #                     "OBXTOTAL", "OSEBX")
+      #
+      # if(belongs_to %in% belongs_to.list){
+      #   belongs_to = belongs_to
+      #
+      # }else{
+      #   stop("Invalid 'belongs_to' parameter")
+      #
+      # }
 
     } else {
       stop("Invalid 'stock_choice' parameter")
@@ -250,6 +253,26 @@ EN_Stock.Performers <- function(direction = 'MostActive',
   }
 
   stock_choice = str_to_title(stock_choice)
+
+  # Available belongs_to and eligibility codes list
+  belongs_to.list = EN_Performers.Settings(stock_choice)$belongs_to$Code
+  eligibility.list = EN_Performers.Settings(stock_choice)$eligibility$Code
+
+  if(belongs_to %in% belongs_to.list){
+    belongs_to = belongs_to
+
+  }else{
+    stop("Invalid 'belongs_to' parameter")
+
+  }
+
+  if(eligibility %in% eligibility.list){
+    eligibility = eligibility
+
+  }else{
+    stop("Invalid 'eligibility' parameter")
+
+  }
 
   # cap_list = c("", "1", "2", "3")
   capitalization = toupper(capitalization)
@@ -269,10 +292,6 @@ EN_Stock.Performers <- function(direction = 'MostActive',
   }else{
     stop("Invalid 'capitalization' parameter")
   }
-
-
-  # belongs_to.list = c("All", "Euronext", "Alternext", "Alternext400", "Alternext500",
-  #                     "Euro100", "Next150")
 
 
   url <- paste0("https://live.euronext.com/en/ajax/getTopPerformersPopup/", direction, "?a=true&tp_type=STOCK")
