@@ -12,6 +12,8 @@
 #'
 #' @seealso \code{\link{EN_Get_OB}} to retrieve the Order Book of a given ticker.
 #'
+#' @author Koffi Frederic SESSIE
+#'
 #'
 #' @import httr
 #' @import jsonlite
@@ -45,7 +47,11 @@
 #' # The following code Will return an error because the "Ticker" is invalid
 #' # EN_OrderBook.Chart("ALBONgdg")
 #'
-#' # EN_OrderBook.Chart("XS2337099563-XAMS", stock_type = 'Etf') #Etf case
+#' # Order Book depth chart of 'AAPL' Etf
+#' # EN_OrderBook.Chart("XS2337099563", stock_type = 'Etf')
+#'
+#' # Order Book bar chart of 'LEVERAGE SHARES PLC' Etf
+#' # EN_OrderBook.Chart("XS2663694847", stock_type = 'Etf', plot_type = 'barh')
 #'}
 #'
 #' @family Data Retrieval
@@ -122,15 +128,30 @@ EN_OrderBook.Chart <- function(ticker,
   } else {
     lastrow <- nrow(order_book)
     order_book <- order_book[-lastrow,]
+    # order_book$Bid_Price <- gsub('<NA>', NA, order_book$Bid_Price)
     order_book$Bid_Price <- as.numeric(gsub(",", "", order_book$Bid_Price))
+
+    # order_book$Ask_Price <- gsub('<NA>', NA, order_book$Ask_Price)
     order_book$Ask_Price <- as.numeric(gsub(",", "", order_book$Ask_Price))
+
     order_book$B_quantity <- round(order_book$B_quantity, 0)
     order_book$A_quantity <- round(order_book$A_quantity, 0)
 
     # Get the news data
-    news_data <- EN_Get_News(ticker)
+    # news_data <- EN_Get_News(ticker, stock_type = 'E')
+
+    if (stock_type == 'equity') {
+      news_data <- EN_Get_News(ticker)
+      last_price <- as.numeric(news_data$Detail[news_data$Information == "Last traded Price"])
+
+    } else {
+      news_data <- EN_Get_News(ticker, stock_type = 'E')
+      last_price <- as.numeric(news_data$Detail[news_data$Information == "Valuation trade"])
+
+    }
+
     name_detail <- news_data$Detail[news_data$Information == "Name"]
-    last_price <- as.numeric(news_data$Detail[news_data$Information == "Last traded Price"])
+
 
     if (plot_type == 'depth') {
       bids_data <- lapply(1:nrow(order_book), function(i) {
@@ -203,7 +224,13 @@ EN_OrderBook.Chart <- function(ticker,
 
     } else if (plot_type == 'barh') {
       # length_dta <- nrow(order_book[-nrow(order_book),])
+
       length_dta <- nrow(order_book)
+
+      # order_book$Ask_Price <- na.omit(order_book$Ask_Price)
+      #
+      # order_book$Bid_Price <- na.omit(order_book$Bid_Price)
+
 
       dt_type <- c(rep("Ask", length_dta), rep("Bid", length_dta))
       dt_price <- c(order_book$Ask_Price, order_book$Bid_Price)
@@ -211,42 +238,77 @@ EN_OrderBook.Chart <- function(ticker,
 
       final_dt <- data.frame(Price = dt_price, Type = dt_type, Quantity = dt_qty)
       final_dt$Price <- as.numeric(final_dt$Price)
+
+      final_dt <- na.omit(final_dt)
+
       final_dt <- final_dt[order(final_dt$Price, decreasing = TRUE), ]
 
-      max_bids <- max(final_dt$Quantity[-c(1:length_dta)])
-      max_asks <- max(final_dt$Quantity[1:length_dta])
+      # Find if unique element 'Type'
+      if(length(unique(final_dt$Type)) !=1){
 
-      the_title <- paste0(name_detail, " : Buy & Sell Orders")
+        length_ask <- length(final_dt$Quantity[final_dt$Type=="Ask"])
+        length_bid <- length(final_dt$Quantity[final_dt$Type=="Bid"])
 
-      the_plot <- highchart() %>%
-        # hc_chart(type = "bar", margin = c(100, 25, 40, 50)) %>%
-        hc_chart(type = "bar", margin = c(60, 25, 50, 50)) %>%
-        hc_legend(enabled = TRUE, align = "left", verticalAlign = "top", y = -15) %>%
-        hc_title(text = the_title) %>%
-        # hc_legend(enabled = TRUE, verticalAlign = "top", y = 50) %>%
-        hc_tooltip(formatter = JS("function () { return '<b>' + this.series.name + ' : ' + this.point.category + '</b><br/>' + 'Quantity: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0); }")) %>%
-        # hc_tooltip(shared = TRUE, crosshairs = TRUE
-        #            # , borderColor = highchart_colors()[3]
-        # ) %>%
-        hc_plotOptions(series = list()) %>%
-        hc_xAxis(categories = final_dt$Price,
-                 labels = list(useHTML = TRUE, formatter = JS("function() { return '<div class=\"xlabel\">'+ this.value +'</div>'; }")),
-                 lineWidth = 0, tickWidth = 0, offset = -240) %>%
-        hc_yAxis_multiples(
-          # For the left barh
-          list(max = max_bids, title = list(text = NULL), width = 175, reversed = TRUE),
-          # For the right barh
-          list(max = max_asks, offset = 0, title = list(text = NULL), left = 300, width = 175)
-        ) %>%
-        # Ask comes before Bids
-        hc_add_series(data = c(final_dt$Quantity[1:length_dta], rep(NA, length_dta)),
-                      yAxis = 1,
-                      name = "Sell Orders",
-                      color = ask.col)%>%
-        hc_add_series(data = c(rep(NA, length_dta), final_dt$Quantity[-c(1:(length_dta))]),
-                      yAxis = 0,
-                      name = "Buy Orders",
-                      color = bid.col)
+        max_bids <- max(final_dt$Quantity[-c(1:length_ask)])
+        max_asks <- max(final_dt$Quantity[1:length_ask])
+
+        the_title <- paste0(name_detail, " : Buy & Sell Orders")
+
+        the_plot <- highchart() %>%
+          # hc_chart(type = "bar", margin = c(100, 25, 40, 50)) %>%
+          hc_chart(type = "bar", margin = c(60, 25, 50, 50)) %>%
+          hc_legend(enabled = TRUE, align = "left", verticalAlign = "top", y = -15) %>%
+          hc_title(text = the_title) %>%
+          # hc_legend(enabled = TRUE, verticalAlign = "top", y = 50) %>%
+          hc_tooltip(formatter = JS("function () { return '<b>' + this.series.name + ' : ' + this.point.category + '</b><br/>' + 'Quantity: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0); }")) %>%
+          # hc_tooltip(shared = TRUE, crosshairs = TRUE
+          #            # , borderColor = highchart_colors()[3]
+          # ) %>%
+          hc_plotOptions(series = list()) %>%
+          hc_xAxis(categories = final_dt$Price,
+                   labels = list(useHTML = TRUE, formatter = JS("function() { return '<div class=\"xlabel\">'+ this.value +'</div>'; }")),
+                   lineWidth = 0, tickWidth = 0, offset = -240) %>%
+          hc_yAxis_multiples(
+            # For the left barh
+            list(max = max_bids, title = list(text = NULL), width = 175, reversed = TRUE),
+            # For the right barh
+            list(max = max_asks, offset = 0, title = list(text = NULL), left = 300, width = 175)
+          ) %>%
+          # Ask comes before Bids
+          hc_add_series(data = c(final_dt$Quantity[1:length_ask], rep(NA, length_bid)),
+                        yAxis = 1,
+                        name = "Sell Orders",
+                        color = ask.col)%>%
+          hc_add_series(data = c(rep(NA, length_ask), final_dt$Quantity[-c(1:(length_ask))]),
+                        yAxis = 0,
+                        name = "Buy Orders",
+                        color = bid.col)
+
+      }else{
+        the_type = unique(final_dt$Type)
+        if (the_type == 'Ask') {
+          the_title <- paste0(name_detail, " : Sell Orders")
+          the_col <- ask.col
+
+        }else{
+          the_title <- paste0(name_detail, " : Buy Orders")
+          the_col <- bid.col
+        }
+
+        the_plot <- highchart() %>%
+          hc_chart(type = "bar") %>%
+          hc_title(text = the_title) %>%
+          hc_subtitle(text = 'Source: <a href="https://live.euronext.com/en">Euronext</a>') %>%
+          hc_xAxis(categories = final_dt$Price) %>%
+          hc_yAxis(min = 0, title = list(text = 'Quantity', align = 'middle'),
+                   labels = list(overflow = 'justify', formatter = JS("function() { return Highcharts.numberFormat(this.value,0); }"))) %>%
+          # hc_tooltip(formatter = JS("function() { return '<b>' + this.x + ' : </b>' + Highcharts.numberFormat(this.y,0); }")) %>%
+          hc_plotOptions(bar = list(final_dtLabels = list(enabled = TRUE, formatter = JS("function() { return Highcharts.numberFormat(this.y,0); }")))) %>%
+          hc_legend(enabled = FALSE) %>%
+          hc_credits(enabled = FALSE) %>%
+          hc_series(list(name = 'Quantity ', data = final_dt$Quantity, color = the_col))
+
+      }
 
     }
 

@@ -32,7 +32,11 @@
 #' MSFT_OB = EN_Get_OB("MSFT", stock_type = 'Etf')
 #' print(MSFT_OB)
 #'
-#' # EN_Get_OB("XS2337099563-XAMS", stock_type = 'Etf') #Providing DNA od=f aapl
+#' # Get ETf 'AAPL' ORDER BOOK by providing its DNA
+#' # EN_Get_OB("XS2337099563-XAMS", stock_type = 'Etf')
+#'
+#' # Get ETf 'LEVERAGE SHARES PLC' ORDER BOOK by providing its DNA
+#' # EN_Get_OB("XS2663694847-XAMS", stock_type = 'Etf')
 #'
 #' ALBON_OB = EN_Get_OB("ALBON") # Get LEBON ticker ORDER BOOK
 #' print(ALBON_OB)
@@ -158,7 +162,9 @@ EN_Get_OB <- function(ticker,
       all_td_elm = f_table %>%html_nodes("td")%>% html_text()
 
       # Replace thousand separator ","
-      all_td_elm <- gsub(",","", all_td_elm)
+      all_td_elm <- gsub(",", "", all_td_elm)
+
+      all_td_elm <- gsub('<NA>', NA, all_td_elm)
 
       # Turn into numeric
       # all_td_elm <- as.numeric(all_td_elm)
@@ -186,6 +192,11 @@ EN_Get_OB <- function(ticker,
       df[add_row_df, 4] = "-"
       df[add_row_df, 5] = sum(na.omit(df[1:len_df, 5]))
       df[add_row_df, 6] = sum(na.omit(df[1:len_df, 6]))
+
+      # Deal with '<NA>' elements
+      # df$Ask_Price <- gsub('<NA>', NA, df$Ask_Price)
+      # df$Bid_Price <- gsub('<NA>', NA, df$Bid_Price)
+
 
 
       return(df)

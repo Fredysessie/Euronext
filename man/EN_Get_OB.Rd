@@ -44,7 +44,11 @@ print(ABCA_OB)
 MSFT_OB = EN_Get_OB("MSFT", stock_type = 'Etf')
 print(MSFT_OB)
 
-# EN_Get_OB("XS2337099563-XAMS", stock_type = 'Etf') #Providing DNA od=f aapl
+# Get ETf 'AAPL' ORDER BOOK by providing its DNA
+# EN_Get_OB("XS2337099563-XAMS", stock_type = 'Etf')
+
+# Get ETf 'LEVERAGE SHARES PLC' ORDER BOOK by providing its DNA
+# EN_Get_OB("XS2663694847-XAMS", stock_type = 'Etf')
 
 ALBON_OB = EN_Get_OB("ALBON") # Get LEBON ticker ORDER BOOK
 print(ALBON_OB)

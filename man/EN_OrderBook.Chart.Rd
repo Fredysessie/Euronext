@@ -54,7 +54,11 @@ ALBON_OB
 # The following code Will return an error because the "Ticker" is invalid
 # EN_OrderBook.Chart("ALBONgdg")
 
-# EN_OrderBook.Chart("XS2337099563-XAMS", stock_type = 'Etf') #Etf case
+# Order Book depth chart of 'AAPL' Etf
+# EN_OrderBook.Chart("XS2337099563", stock_type = 'Etf')
+
+# Order Book bar chart of 'LEVERAGE SHARES PLC' Etf
+# EN_OrderBook.Chart("XS2663694847", stock_type = 'Etf', plot_type = 'barh')
 }
 
 }
