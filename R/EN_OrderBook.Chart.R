@@ -20,7 +20,7 @@
 #' @import rvest
 #' @importFrom magrittr %>%
 #' @importFrom grDevices col2rgb
-#' @importFrom highcharter hc_chart highchart hc_title hc_xAxis hc_yAxis_multiples hc_legend hc_plotOptions hc_tooltip hc_add_series
+#' @importFrom highcharter hc_chart highchart hc_title hc_xAxis hc_yAxis_multiples hc_legend hc_plotOptions hc_tooltip hc_add_series hc_yAxis hc_credits hc_series hc_subtitle
 #'
 #' @examples
 #'
@@ -37,21 +37,23 @@
 #' library(stringr)
 #'
 #' # Plot ABC ARBITRAGE ticker Order Book BarH chart by providing ISIN
-#' ABCA_OB = EN_OrderBook.Chart("FR0004040608", plot_type = 'barh') #using default colors
-#' ABCA_OB
+#' ABCA_OB.chart = EN_OrderBook.Chart("FR0004040608", plot_type = 'barh') #using default colors
+#' ABCA_OB.chart
 #'
 #' # Plot LEBON ticker Order Book Chart
-#' ALBON_OB = EN_OrderBook.Chart("ALBON", bid.col = 'cyan', ask.col ='gold')
-#' ALBON_OB
+#' ALBON_OB.chart = EN_OrderBook.Chart("ALBON", bid.col = 'cyan', ask.col ='gold')
+#' ALBON_OB.chart
+#'
+#' # Order Book depth chart of 'AAPL' Etf
+#' AAPL_OB.chart = EN_OrderBook.Chart("XS2337099563", stock_type = 'Etf')
+#'
+#' # Order Book bar chart of 'LEVERAGE SHARES PLC' Etf
+#' LEV_OB.chart = EN_OrderBook.Chart("XS2663694847", stock_type = 'Etf', plot_type = 'barh')
+#'
 #'
 #' # The following code Will return an error because the "Ticker" is invalid
 #' # EN_OrderBook.Chart("ALBONgdg")
 #'
-#' # Order Book depth chart of 'AAPL' Etf
-#' # EN_OrderBook.Chart("XS2337099563", stock_type = 'Etf')
-#'
-#' # Order Book bar chart of 'LEVERAGE SHARES PLC' Etf
-#' # EN_OrderBook.Chart("XS2663694847", stock_type = 'Etf', plot_type = 'barh')
 #'}
 #'
 #' @family Data Retrieval
