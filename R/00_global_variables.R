@@ -1,6 +1,7 @@
 globalVariables(
   names = c('mutate_all','str_to_title','VWAP', 'Price', 'Price evolution', 'Ready.HcData.func', 'areColors',
             # '.',
+            'JS',
 
 
             '.indexes', 'adn', '.sectors', 'Box.test', 'Close', 'Countries', 'Date', 'High', 'Low', 'Open', 'POST',
@@ -11,6 +12,6 @@ globalVariables(
             'isWeekday', 'jarque.bera.test', 'kpss.test', 'left_join', 'lillie.test', 'na.omit',
             'na.remove', 'pearson.test', 'pp.test', 'read_html', 'req_body_json', 'req_perform',
             'request', 'resp_body_json', 'sf.test', 'shapiro.test', 'str_replace', 'str_sub',
-             'summarise', 'html_elements', 'adn_ticker'
+            'summarise', 'html_elements', 'adn_ticker'
   )
 )

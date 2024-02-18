@@ -92,6 +92,10 @@ EN_GetProfile <- function(ticker, stock_type = 'Eq_Ind') {
   # Format the ticker to uppercase
   ticker <- toupper(unique(ticker))
 
+  if(length(ticker)!=1){
+    stop('Only unique ticker is allowed')
+  }
+
 
   if(stock_type %in% c('Fund', "F")){
     dt_List <- EN_Funds_List()

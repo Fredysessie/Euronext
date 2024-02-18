@@ -4,14 +4,24 @@
 \alias{EN_OrderBook.Chart}
 \title{Plot Order Book Chart for a Given Ticker}
 \usage{
-EN_OrderBook.Chart(ticker, bid.col = "#00FF00", ask.col = "#FF0000")
+EN_OrderBook.Chart(
+  ticker,
+  stock_type = "Equity",
+  bid.col = "darkgreen",
+  ask.col = "#FF0000",
+  plot_type = "depth"
+)
 }
 \arguments{
 \item{ticker}{The ticker symbol for which the order book chart will be plotted.}
 
+\item{stock_type}{The type of the ticker: 'Equity' for Stocks and 'Etf' for EFTs.}
+
 \item{bid.col}{Color for bid prices in the chart. Default is '#00FF00' (green).}
 
 \item{ask.col}{Color for ask prices in the chart. Default is '#FF0000' (red).}
+
+\item{plot_type}{Type of visualization (‘depth’ or ‘barh’).}
 }
 \value{
 A Highchart plot displaying the order book for the provided ticker.
@@ -22,6 +32,8 @@ This function plots an order book chart for a given ticker. It retrieves the ord
 \examples{
 
 \donttest{
+
+# Notes : Usually , the function will work perfectly if the ticker is an Equity,
 library(httr)
 library(highcharter)
 library(jsonlite)
@@ -30,18 +42,25 @@ library(magrittr)
 library(rvest)
 library(grDevices)
 library(stringr)
-library(rlang)
 
-# Plot ABC ARBITRAGE ticker Order Book chart
-ABCA_OB = EN_OrderBook.Chart("ABCA") #using default colors
-ABCA_OB
+# Plot ABC ARBITRAGE ticker Order Book BarH chart by providing ISIN
+ABCA_OB.chart = EN_OrderBook.Chart("FR0004040608", plot_type = 'barh') #using default colors
+ABCA_OB.chart
 
 # Plot LEBON ticker Order Book Chart
-ALBON_OB = EN_OrderBook.Chart("ALBON", bid.col = 'cyan', ask.col ='gold')
-ALBON_OB
+ALBON_OB.chart = EN_OrderBook.Chart("ALBON", bid.col = 'cyan', ask.col ='gold')
+ALBON_OB.chart
+
+# Order Book depth chart of 'AAPL' Etf
+AAPL_OB.chart = EN_OrderBook.Chart("XS2337099563", stock_type = 'Etf')
+
+# Order Book bar chart of 'LEVERAGE SHARES PLC' Etf
+LEV_OB.chart = EN_OrderBook.Chart("XS2663694847", stock_type = 'Etf', plot_type = 'barh')
+
 
 # The following code Will return an error because the "Ticker" is invalid
 # EN_OrderBook.Chart("ALBONgdg")
+
 }
 
 }
