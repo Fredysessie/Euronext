@@ -1,11 +1,12 @@
 #' Get Order Book Data
 #'
-#' This function retrieves the order book data for a given stock ticker on the Euronext exchange.
+#' This function retrieves the order book data for a given stock or Etf ticker on the Euronext exchange.
 #' It provides information about the buy and sell orders, including the order quantity and price.
 #' The data is returned as a data frame with columns representing buy (bid) and sell (ask) orders.
 #' The last row of the data frame contains the sum of elements for each column (excluding "Bid_Price" and "Ask_Price" columns marked with "-").
 #'
-#' @param ticker A character string specifying the stock ticker symbol.
+#' @param ticker A character string representing the company's (Equity or Etf) ticker, name, or ISIN.
+#' @param stock_type   The type of the ticker: 'Equity' for Stocks and 'Etf' for EFTs.
 #'
 #' @return A data frame containing order book data with columns:
 #'   - B_order: Buy order number
@@ -28,6 +29,11 @@
 #' ABCA_OB = EN_Get_OB("ABCA") # Get ABC ARBITRAGE ticker ORDER BOOK
 #' print(ABCA_OB)
 #'
+#' MSFT_OB = EN_Get_OB("MSFT", stock_type = 'Etf')
+#' print(MSFT_OB)
+#'
+#' # EN_Get_OB("XS2337099563-XAMS", stock_type = 'Etf') #Providing DNA od=f aapl
+#'
 #' ALBON_OB = EN_Get_OB("ALBON") # Get LEBON ticker ORDER BOOK
 #' print(ALBON_OB)
 #'
@@ -41,17 +47,60 @@
 #' @family Data Retrieval
 #' @family Euronext
 #'
-#' @seealso \code{\link{EN_GetISIN}} to retrieve the ISIN for a given ticker.
+#' @seealso \code{\link{EN_GetProfile}} to retrieve the ISIN or DNA for a given ticker.
 #' @export
+#'
 
 
-EN_Get_OB <- function(ticker){
+EN_Get_OB <- function(ticker,
+                      stock_type = 'Equity'){
 
-  ticker <- toupper(ticker)
+  ticker <- tolower(ticker)
 
-  the_adn <-  EN_GetISIN(ticker)
+  stock_type <- tolower(stock_type)
 
-  if (the_adn != "Ticker not found") {
+  if (length(ticker)!=1) {
+    stop("Please provide a unique ticker.")
+  }
+
+  if (length(stock_type)!=1) {
+    stop("Please provide a unique stock_type.")
+  }
+
+  # print(stock_type)
+  if (stock_type %in% c('equity', 'etf')) {
+    # print("ok")
+
+    if (stock_type == 'equity') {
+      # print("good")
+      test_data <- EN_GetProfile(ticker, stock_type = 'Eq_Ind')
+    } else {
+      test_data <- EN_GetProfile(ticker, stock_type = 'Etfs')
+    }
+  } else {
+    stop("Only parameters such as 'Equity' for Stocks and 'Etf' for EFTs are allowed.")
+  }
+
+  # # the_adn <-  EN_GetISIN(ticker)
+  # if(stock_type %in% c('Equity', 'Etf')){
+  #
+  #   if(stock_type =='Equity'){
+  #     test_data <-  EN_GetProfile(ticker, stock_type = 'Eq_Ind')
+  #
+  #     }else{
+  #       test_data <-  EN_GetProfile(ticker, stock_type = 'Etfs')
+  #       }
+  #
+  #   }else{
+  #   stop("Only parameters such us 'Equity' for Stocks and 'Etf' for EFTs are allowed.")
+  # }
+
+
+
+  if (length(test_data)!=1) {
+
+    the_adn <- test_data$DNA
+
     url <- paste0("https://live.euronext.com/en/ajax/getOrderBookCanvas/", the_adn)
 
     params <- c(
@@ -87,7 +136,7 @@ EN_Get_OB <- function(ticker){
 
 
       if(length(data$table) == 0){
-        stop("No order book exists for the provided ticker.")
+        stop("Unfortunately, despite the existence of the ticker, there is no order book available for it.")
 
       } else{
         the_table <- data$table

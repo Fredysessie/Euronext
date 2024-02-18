@@ -4,14 +4,24 @@
 \alias{EN_OrderBook.Chart}
 \title{Plot Order Book Chart for a Given Ticker}
 \usage{
-EN_OrderBook.Chart(ticker, bid.col = "#00FF00", ask.col = "#FF0000")
+EN_OrderBook.Chart(
+  ticker,
+  stock_type = "Equity",
+  bid.col = "darkgreen",
+  ask.col = "#FF0000",
+  plot_type = "depth"
+)
 }
 \arguments{
 \item{ticker}{The ticker symbol for which the order book chart will be plotted.}
 
+\item{stock_type}{The type of the ticker: 'Equity' for Stocks and 'Etf' for EFTs.}
+
 \item{bid.col}{Color for bid prices in the chart. Default is '#00FF00' (green).}
 
 \item{ask.col}{Color for ask prices in the chart. Default is '#FF0000' (red).}
+
+\item{plot_type}{Type of visualization (‘depth’ or ‘barh’).}
 }
 \value{
 A Highchart plot displaying the order book for the provided ticker.
@@ -22,6 +32,8 @@ This function plots an order book chart for a given ticker. It retrieves the ord
 \examples{
 
 \donttest{
+
+# Notes : Usually , the function will work perfectly if the ticker is an Equity,
 library(httr)
 library(highcharter)
 library(jsonlite)
@@ -30,10 +42,9 @@ library(magrittr)
 library(rvest)
 library(grDevices)
 library(stringr)
-library(rlang)
 
-# Plot ABC ARBITRAGE ticker Order Book chart
-ABCA_OB = EN_OrderBook.Chart("ABCA") #using default colors
+# Plot ABC ARBITRAGE ticker Order Book BarH chart by providing ISIN
+ABCA_OB = EN_OrderBook.Chart("FR0004040608", plot_type = 'barh') #using default colors
 ABCA_OB
 
 # Plot LEBON ticker Order Book Chart
@@ -42,6 +53,8 @@ ALBON_OB
 
 # The following code Will return an error because the "Ticker" is invalid
 # EN_OrderBook.Chart("ALBONgdg")
+
+# EN_OrderBook.Chart("XS2337099563-XAMS", stock_type = 'Etf') #Etf case
 }
 
 }

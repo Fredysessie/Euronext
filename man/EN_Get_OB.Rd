@@ -4,10 +4,12 @@
 \alias{EN_Get_OB}
 \title{Get Order Book Data}
 \usage{
-EN_Get_OB(ticker)
+EN_Get_OB(ticker, stock_type = "Equity")
 }
 \arguments{
-\item{ticker}{A character string specifying the stock ticker symbol.}
+\item{ticker}{A character string representing the company's (Equity or Etf) ticker, name, or ISIN.}
+
+\item{stock_type}{The type of the ticker: 'Equity' for Stocks and 'Etf' for EFTs.}
 }
 \value{
 A data frame containing order book data with columns:
@@ -22,7 +24,7 @@ If the specified ticker is not found, the function returns an error message.
 }
 }
 \description{
-This function retrieves the order book data for a given stock ticker on the Euronext exchange.
+This function retrieves the order book data for a given stock or Etf ticker on the Euronext exchange.
 It provides information about the buy and sell orders, including the order quantity and price.
 The data is returned as a data frame with columns representing buy (bid) and sell (ask) orders.
 The last row of the data frame contains the sum of elements for each column (excluding "Bid_Price" and "Ask_Price" columns marked with "-").
@@ -39,6 +41,11 @@ library(stringr)
 ABCA_OB = EN_Get_OB("ABCA") # Get ABC ARBITRAGE ticker ORDER BOOK
 print(ABCA_OB)
 
+MSFT_OB = EN_Get_OB("MSFT", stock_type = 'Etf')
+print(MSFT_OB)
+
+# EN_Get_OB("XS2337099563-XAMS", stock_type = 'Etf') #Providing DNA od=f aapl
+
 ALBON_OB = EN_Get_OB("ALBON") # Get LEBON ticker ORDER BOOK
 print(ALBON_OB)
 
@@ -46,7 +53,7 @@ EN_Get_OB("ALBONgdg") # Will return "Ticker not found"
 
 }
 \seealso{
-\code{\link{EN_GetISIN}} to retrieve the ISIN for a given ticker.
+\code{\link{EN_GetProfile}} to retrieve the ISIN or DNA for a given ticker.
 
 Other Data Retrieval: 
 \code{\link{EN_HistData_bis}()},
