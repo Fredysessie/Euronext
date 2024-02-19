@@ -20,7 +20,7 @@
 #' @import rvest
 #' @importFrom magrittr %>%
 #' @importFrom grDevices col2rgb
-#' @importFrom highcharter hc_chart highchart hc_title hc_xAxis hc_yAxis_multiples hc_legend hc_plotOptions hc_tooltip hc_add_series hc_yAxis hc_credits hc_series hc_subtitle
+#' @importFrom highcharter hc_chart highchart hc_title hc_xAxis hc_yAxis_multiples hc_legend hc_plotOptions hc_tooltip hc_add_series hc_yAxis hc_credits hc_series hc_subtitle hc_exporting
 #'
 #' @examples
 #'
@@ -165,6 +165,7 @@ EN_OrderBook.Chart <- function(ticker,
       })
 
       the_title <- paste0(name_detail, " Market Depth")
+      the_title1 <- gsub(" & |$| : | ", "_", the_title)
 
       the_plot <- highchart() %>%
         hc_chart(type = "area", zoomType = "xy") %>%
@@ -222,7 +223,10 @@ EN_OrderBook.Chart <- function(ticker,
           name = "Asks",
           data = asks_data,
           color = ask.col
-        )
+        )%>%
+        hc_exporting(
+          enabled = TRUE, # always enabled,
+          filename = the_title1)
 
     } else if (plot_type == 'barh') {
       # length_dta <- nrow(order_book[-nrow(order_book),])
@@ -254,7 +258,9 @@ EN_OrderBook.Chart <- function(ticker,
         max_bids <- max(final_dt$Quantity[-c(1:length_ask)])
         max_asks <- max(final_dt$Quantity[1:length_ask])
 
-        the_title <- paste0(name_detail, " : Buy & Sell Orders")
+        the_title <- paste0(name_detail, " Buy & Sell Orders")
+
+        the_title1 <- gsub("$| & | : | ", "_", the_title)
 
         the_plot <- highchart() %>%
           # hc_chart(type = "bar", margin = c(100, 25, 40, 50)) %>%
@@ -284,7 +290,11 @@ EN_OrderBook.Chart <- function(ticker,
           hc_add_series(data = c(rep(NA, length_ask), final_dt$Quantity[-c(1:(length_ask))]),
                         yAxis = 0,
                         name = "Buy Orders",
-                        color = bid.col)
+                        color = bid.col)%>%
+          hc_exporting(
+            enabled = TRUE, # always enabled,
+            filename = the_title1)
+
 
       }else{
         the_type = unique(final_dt$Type)
@@ -297,6 +307,8 @@ EN_OrderBook.Chart <- function(ticker,
           the_col <- bid.col
         }
 
+        the_title1 <- gsub(" & | : | ", "_", the_title)
+
         the_plot <- highchart() %>%
           hc_chart(type = "bar") %>%
           hc_title(text = the_title) %>%
@@ -308,7 +320,10 @@ EN_OrderBook.Chart <- function(ticker,
           hc_plotOptions(bar = list(final_dtLabels = list(enabled = TRUE, formatter = JS("function() { return Highcharts.numberFormat(this.y,0); }")))) %>%
           hc_legend(enabled = FALSE) %>%
           hc_credits(enabled = FALSE) %>%
-          hc_series(list(name = 'Quantity ', data = final_dt$Quantity, color = the_col))
+          hc_series(list(name = 'Quantity ', data = final_dt$Quantity, color = the_col))%>%
+          hc_exporting(
+            enabled = TRUE, # always enabled,
+            filename = the_title1)
 
       }
 
