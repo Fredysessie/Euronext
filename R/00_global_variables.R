@@ -1,7 +1,9 @@
 globalVariables(
-  names = c('mutate_all','str_to_title','VWAP', 'Price', 'Price evolution', 'Ready.HcData.func', 'areColors',
+  names = c('str_to_title','VWAP', 'Price', 'Price evolution', 'Ready.HcData.func', 'areColors',
             # '.',
             'JS',
+            # 'mutate_if',
+            'mutate_all',
 
 
             '.indexes', 'adn', '.sectors', 'Box.test', 'Close', 'Countries', 'Date', 'High', 'Low', 'Open', 'POST',

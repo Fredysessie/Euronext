@@ -17,7 +17,7 @@
 #' @return A data frame containing information about Etfs, including name, ticker, ISIN code, market, last price, percentage change, and URL.
 #'
 #' @examples
-#'
+#' \donttest{
 # library(httr)
 # library(jsonlite)
 # library(rvest)
@@ -28,7 +28,7 @@
 #'
 #' dt_1 = EN_Etfs_List_bis() # To show the 1st page of Etfs List
 #' tail(dt_1)
-#' \donttest{
+#'
 #' dt_max = EN_Etfs_List_bis("Max") #To show only the last page of quoted Etfs
 #' head(dt_max)
 #'}

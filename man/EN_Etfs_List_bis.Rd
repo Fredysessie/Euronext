@@ -20,14 +20,14 @@ A data frame containing information about Etfs, including name, ticker, ISIN cod
 This function retrieves information about Etfs quoted on Euronext markets.
 }
 \examples{
-
+\donttest{
 
 dt_ = EN_Etfs_List_bis(5) # To show only the 5th page of Etfs (100 Etfs)
 print(dt_)
 
 dt_1 = EN_Etfs_List_bis() # To show the 1st page of Etfs List
 tail(dt_1)
-\donttest{
+
 dt_max = EN_Etfs_List_bis("Max") #To show only the last page of quoted Etfs
 head(dt_max)
 }
