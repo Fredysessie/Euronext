@@ -33,62 +33,69 @@
 #' @export
 
 
-
-
 EN_Indices_List <- function() {
   url <- "https://live.euronext.com/en/products/indices/list"
-
+  
   # Lire le contenu de la page
   page <- read_html(url)
-
-
+  
+  
   # Utiliser rvest pour extraire le lien du bouton "Last »"
   # page <- read_html(content(response, as = "text", encoding = "UTF-8"))
   last_button <- page %>% html_node("ul.pagination li:last-child a") %>% html_attr("href")
-
+  
   # Trouver le nombre total de page
   # Extraire les derniers nombres après "page="
   # Extraire le nombre de pages à partir de l'URL
   last_number = str_match(last_button, "page=(\\d+)")[, 2] %>% as.integer()
-
+  
   result_df <- as.data.frame(matrix(NA, ncol = 7, nrow = 0))
-
-
+  
+  
   for (elm in 0:last_number) {
     url = paste0("https://live.euronext.com/en/products/indices/list?field_featured_indices_is_flagsh_value=All&field_featured_indices_type_target_id=All&field_featured_indices_is_esg_value=All&field_featured_indices_industry_target_id=All&field_featured_indices_region_target_id=All&field_featured_indices_country_target_id=All&field_dataprovider=All&combine=&page=",
                  elm)
-
+    
     # Lire le contenu de la page
     page <- read_html(url)
-
+    
     # Extraire les données de la table
     table_data <- page %>%
-      html_table(fill = TRUE)
-
-    table_data = table_data[[1]]
-
+      html_table(fill = TRUE)%>%.[[1]]
+    
+    # table_data = table_data[[1]]
+    
+    # Extraire les liens des indices
+    links <- page %>% 
+      html_nodes("table tbody tr a") %>% 
+      html_attr("href")
+    
+    # Ajouter les liens au tableau
+    table_data$Ticker_adn <- links
+    
+    # Ajouter les liens au tableau
+    table_data$Ticker_adn <- gsub("/en/product/indices/", "", table_data$Ticker_adn)
+    
     result_df <- rbind(result_df, table_data)
-
+    
   }
-
+  
   names(result_df) <- c("Name", "Isin", "Symbol", "Last",
-                        "Percentage change (in %)", "Date_Time", "YTD%")
-
+                        "Percentage change (in %)", "Date_Time", "YTD%", "Ticker_adn")
+  
   result_df$Last <- gsub(",", "", result_df$Last)
-
+  
   # Old version
   # result_df$Last <- gsub("EUR ", "€", result_df$Last)
   result_df$Last <- gsub("USD ", "$", result_df$Last)
-
+  
   # Gerer les caractère non-ASCII
   result_df$Last <- gsub("EUR ", "\u20AC", result_df$Last)
   result_df$Last <- gsub("USD ", "\u24", result_df$Last)
-
-
-  result_df$Ticker_adn <- paste0(result_df$Isin, "-", result_df$Symbol)
-
-
-
+  
+  # result_df$Ticker_adn <- paste0(result_df$Isin, "-", result_df$Symbol)
+  
+  
   return(result_df)
-
+  
 }
