@@ -121,7 +121,7 @@ EN_Ticker_hcData <- function(ticker, from = NULL, to = Sys.Date(), stock_type = 
 
         b <- ChromoteSession$new()
         {
-          eval_ = b$Page$navigate("https://live.euronext.com/en/product/equities/FR0004040608-XPAR")
+          eval_ = b$Page$navigate(url_)
           load_ = b$Page$loadEventFired()
         }
 
