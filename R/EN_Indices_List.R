@@ -33,8 +33,6 @@
 #' @export
 
 
-
-
 EN_Indices_List <- function() {
   url <- "https://live.euronext.com/en/products/indices/list"
 
@@ -63,16 +61,27 @@ EN_Indices_List <- function() {
 
     # Extraire les données de la table
     table_data <- page %>%
-      html_table(fill = TRUE)
+      html_table(fill = TRUE)%>%.[[1]]
 
-    table_data = table_data[[1]]
+    # table_data = table_data[[1]]
+
+    # Extraire les liens des indices
+    links <- page %>%
+      html_nodes("table tbody tr a") %>%
+      html_attr("href")
+
+    # Ajouter les liens au tableau
+    table_data$Ticker_adn <- links
+
+    # Ajouter les liens au tableau
+    table_data$Ticker_adn <- gsub("/en/product/indices/", "", table_data$Ticker_adn)
 
     result_df <- rbind(result_df, table_data)
 
   }
 
   names(result_df) <- c("Name", "Isin", "Symbol", "Last",
-                        "Percentage change (in %)", "Date_Time", "YTD%")
+                        "Percentage change (in %)", "Date_Time", "YTD%", "Ticker_adn")
 
   result_df$Last <- gsub(",", "", result_df$Last)
 
@@ -84,9 +93,7 @@ EN_Indices_List <- function() {
   result_df$Last <- gsub("EUR ", "\u20AC", result_df$Last)
   result_df$Last <- gsub("USD ", "\u24", result_df$Last)
 
-
-  result_df$Ticker_adn <- paste0(result_df$Isin, "-", result_df$Symbol)
-
+  # result_df$Ticker_adn <- paste0(result_df$Isin, "-", result_df$Symbol)
 
 
   return(result_df)

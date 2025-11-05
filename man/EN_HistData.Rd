@@ -63,7 +63,7 @@ hc_ABCA <-  EN_HistData("ABCA")
 head(hc_ABCA)
 
 # To Get KGHDF's Fund data
-hc_KGHDF <- EN_HistData("KGHDF", stock_type = "F", from = "2022-10-30")
+hc_KGHDF <- EN_HistData("KGHDF", stock_type = "F", from = "2024-10-30")
 head(hc_KGHDF)
 
 EN_HistData("ABCAhh") # Will return "Ticker not found"

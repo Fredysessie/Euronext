@@ -35,6 +35,8 @@ for which you want to retrieve the data using the 'from' and 'to' parameters.
 library(httr)
 library(jsonlite)
 library(rlang)
+library(chromote)
+library(stringr)
 
 # Get company ABC ARBITRAGE share hc data
 dt_ABCA = EN_Ticker_hcData("ABca")

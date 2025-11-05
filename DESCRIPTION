@@ -22,7 +22,8 @@ Imports:
     dplyr,
     flextable,
     highcharter,
-    grDevices
+    grDevices,
+    chromote
 Suggests:
     lubridate
 RoxygenNote: 7.2.3

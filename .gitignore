@@ -1,1 +1,3 @@
 .Rproj.user
+.Rplots.pdf
+^Rplots\.pdf$

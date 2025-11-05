@@ -102,12 +102,11 @@ library(kableExtra)
 ```{r, eval=FALSE}
 # github dev version
 ## We can use devtools
-# Install the development version from GitHub
+# Install development versions from GitHub
 devtools::install_github("Fredysessie/Euronext")
 
 # Or use remotes
 # install.packages("remotes")
-
 remotes::install_github("Fredysessie/Euronext")
 ```
 

@@ -268,11 +268,63 @@ EN_GetProfile <- function(ticker, stock_type = 'Eq_Ind') {
         # print(length(data))
         # print(data$value[1])
         # print(data$mic[1])
-        the_isin = data$value[1]
-        the_name  = data$name[1]
-        the_adn <- paste0(data$value[1], "-", data$mic[1])
-        # Extract 'symbol' using regular expressions
-        the_symbol <- gsub('.*<span class=\'symbol\'>(.*?)</span>.*', '\\1', data$label[1])
+        # Tester la performance
+        if(nrow(data) > 1){
+          data = data[which(data$name != ""),]
+
+          if(nrow(data) == 1){
+            the_isin = data$value
+            the_name  = data$name
+            the_adn <- paste0(data$value, "-", data$mic)
+            # Extract 'symbol' using regular expressions
+            the_symbol <- gsub('.*<span class=\'symbol\'>(.*?)</span>.*', '\\1', data$label)
+
+            return(list(Name = the_name, ISIN = the_isin, DNA = the_adn, Symbol=the_symbol))
+
+          }else{
+            good_index = grep("equities", data$label)
+            data = data[good_index, ]
+            # For each elem tester if performance exist
+            good_list = NULL
+
+            data$adn <- paste0(data$value, "-", data$mic)
+
+            for (ticks in data$adn) {
+              perf_test = suppressWarnings(EN_Ticker_Performance(ticks, escape = TRUE))
+
+              if(!is.null(dim(perf_test))){
+                good_list = append(good_list, ticks)
+
+              }
+            }
+
+            if(length(good_list==1)){
+              best_index = grep(good_list, data$adn)
+              data = data[best_index, ]
+
+              the_isin = data$value
+              the_name  = data$name
+              the_adn <- paste0(data$value, "-", data$mic)
+              # Extract 'symbol' using regular expressions
+              the_symbol <- gsub('.*<span class=\'symbol\'>(.*?)</span>.*', '\\1', data$label)
+
+              return(list(Name = the_name, ISIN = the_isin, DNA = the_adn, Symbol=the_symbol))
+
+            }
+
+          }
+
+        }else{
+          the_isin = data$value[1]
+          the_name  = data$name[1]
+          the_adn <- paste0(data$value[1], "-", data$mic[1])
+          # Extract 'symbol' using regular expressions
+          the_symbol <- gsub('.*<span class=\'symbol\'>(.*?)</span>.*', '\\1', data$label[1])
+
+          return(list(Name = the_name, ISIN = the_isin, DNA = the_adn, Symbol=the_symbol))
+        }
+
+
 
 
         return(list(Name = the_name, ISIN = the_isin, DNA = the_adn, Symbol=the_symbol))
@@ -326,14 +378,14 @@ EN_GetProfile <- function(ticker, stock_type = 'Eq_Ind') {
           return(NULL)
         }
 
-    }
+      }
 
-  } else {
-    # If the request was not successful, print a warning and return NULL
-    warning("Error fetching data. HTTP status code: ", status_code(response))
-    return(NULL)
-  }
-    } else{
+    } else {
+      # If the request was not successful, print a warning and return NULL
+      warning("Error fetching data. HTTP status code: ", status_code(response))
+      return(NULL)
+    }
+  } else{
     rlang::abort(
       "Only parameters such us 'Eq_Ind' for Stocks and Indexes, 'Fund' or 'F' for Fund tickers, 'Bond' or 'B' for Bond tickers, and 'Etfs' or 'E' for EFTs are allowed."
     )
@@ -394,4 +446,3 @@ EN_GetProfile <- function(ticker, stock_type = 'Eq_Ind') {
 #     return(NULL)
 #   }
 # }
-

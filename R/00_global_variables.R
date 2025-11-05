@@ -5,7 +5,7 @@ globalVariables(
             # 'mutate_if',
             'mutate_all',
 
-
+            ".",
             '.indexes', 'adn', '.sectors', 'Box.test', 'Close', 'Countries', 'Date', 'High', 'Low', 'Open', 'POST',
             'Sector', 'Ticker', 'Desc.BRVM.all', 'Volume', 'ad.test', 'adf.test', 'arrange', 'as.xts', 'color_tile',
             'content', 'dagoTest', 'desc', 'direction', 'formattable', 'formatter', 'global_env',
