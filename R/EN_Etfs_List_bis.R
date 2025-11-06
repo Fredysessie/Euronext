@@ -44,12 +44,31 @@
 
 EN_Etfs_List_bis <- function(target_page = 1) {
   # URL de la requête
-  # url <- "https://live.euronext.com/en/pd_es/data/track?mics=XAMS%2CXBRU%2CXLIS%2CXPAR%2CXLDN%2CXMSM%2CXOSL%2CETFP"
+  url <- "https://live.euronext.com/en/product_directory/data/etf-all-markets"
 
-  url <- "https://live.euronext.com/en/product_directory/data/etf-all-markets?mics=ALXA%2CALXB%2CALXL%2CALXP%2CATFX%2CBGEM%2CENXB%2CENXL%2CETFP%2CETLX%2CEXGM%2CMERK%2CMIVX%2CMLXB%2CMOTX%2CMTAA%2CMTAH%2CMTCH%2CSEDX%2CTNLA%2CTNLB%2CVPXB%2CWOMF%2CXACD%2CXAMS%2CXATL%2CXBRU%2CXDUB%2CXESM%2CXLDN%2CXLIS%2CXMLI%2CXMOT%2CXMSM%2CXOAM%2CXOAS%2CXOBD%2CXOSL%2CXPAR"
-  # Get numbers rows to calculate number on possible pages
-  params <- list(
-    "draw" = 3, #Permet de récupérer tout le tableau de la page
+  # Headers fixes
+  headers = c(
+    accept = "application/json, text/javascript, */*; q=0.01",
+    `accept-language` = "fr,fr-FR;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+    `content-type` = "application/x-www-form-urlencoded; charset=UTF-8",
+    origin = "https://live.euronext.com",
+    priority = "u=1, i",
+    referer = "https://live.euronext.com/en/products/etfs/list",
+    `sec-ch-ua` = '"Microsoft Edge";v="141", "Not?A_Brand";v="8", "Chromium";v="141"',
+    `sec-ch-ua-mobile` = "?0",
+    `sec-ch-ua-platform` = '"Windows"',
+    `sec-fetch-dest` = "empty",
+    `sec-fetch-mode` = "cors",
+    `sec-fetch-site` = "same-origin",
+    `user-agent` = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 Edg/141.0.0.0",
+    `x-requested-with` = "XMLHttpRequest"
+  )
+
+  # Parameters for the request
+  params <- list(mics = "ALXA,ALXB,ALXL,ALXP,ATFX,BGEM,ENXB,ENXL,ETFP,ETLX,EXGM,MERK,MIVX,MLXB,MOTX,MTAA,MTAH,MTCH,SEDX,TNLA,TNLB,VPXB,WOMF,XACD,XAMS,XATL,XBRU,XDUB,XESM,XLDN,XLIS,XMLI,XMOT,XMSM,XOAM,XOAS,XOBD,XOSL,XPAR")
+
+  data_first <- list(
+    draw = "1",
     `columns[0][data]` = "0",
     `columns[0][name]` = "",
     `columns[0][searchable]` = "true",
@@ -111,257 +130,230 @@ EN_Etfs_List_bis <- function(target_page = 1) {
     sSortField = "name"
   )
 
-
   is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
 
+  # Effectuer la requête POST initiale pour obtenir le nombre total
+  response <- httr::POST(
+    url = url,
+    httr::add_headers(.headers = headers),
+    query = params,
+    body = data_first,
+    encode = "form"
+  )
+
+  # Lire le contenu JSON de la réponse
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  data <- jsonlite::fromJSON(content)
+
+  length_rows <- data$iTotalDisplayRecords
+  nb_pages <- ceiling(length_rows/100)
+
+  # Gestion du paramètre target_page
   if (is.character(target_page)) {
-    if (str_to_title(target_page) == 'Max') {
-      response <- httr::POST(url, body = params, encode = "form")
-
-      # Lire le contenu JSON de la réponse
-      content <- httr::content(response, "text", encoding = "UTF-8")
-      data <- jsonlite::fromJSON(content)
-
-      length_rows <- data$iTotalDisplayRecords
-      nb_pages <- ceiling(length_rows/100)
-
-      start_values <- seq(0, nb_pages*100, 100)
-      the_length_ <- length(start_values)
-      start_values <- seq(0, nb_pages*100, 100)[the_length_ - 1]
+    if (str_to_lower(target_page) == 'max') {
+      target_page_value <- nb_pages
     } else {
-      rlang::abort("The total number of pages must be a numerical value or 'Max' to designate the maximum number of pages.")
+      rlang::abort("The target page must be a numerical value or 'Max' to designate the last page.")
     }
   } else if (is.numeric(target_page)) {
     if (target_page > 0 && is.wholenumber(target_page)) {
-      # Effectuer la requête POST
-      response <- httr::POST(url, body = params, encode = "form")
-
-      # Lire le contenu JSON de la réponse
-      content <- httr::content(response, "text", encoding = "UTF-8")
-      data <- jsonlite::fromJSON(content)
-
-      length_rows <- data$iTotalDisplayRecords
-      nb_pages <- ceiling(length_rows/100)
-
       if (target_page > nb_pages) {
-        rlang::abort(paste0('Only total number of pages less than or equal to ', nb_pages, ' are allowed.'))
+        rlang::abort(paste0('Only target page less than or equal to ', nb_pages, ' are allowed.'))
       } else {
-        start_values <- seq(0, target_page*100, 100)
-        the_length_ <- length(start_values)
-        start_values <- seq(0, target_page*100, 100)[the_length_ - 1]
+        target_page_value <- target_page
       }
     } else {
-      rlang::abort('The total page must be a positive whole number!')
+      rlang::abort('The target page must be a positive whole number!')
     }
   } else {
-    rlang::abort('The total page must be a positive whole number!')
+    rlang::abort('The target page must be a positive whole number!')
   }
 
-  # print(nb_pages)
+  # Calculer la valeur de départ pour la page cible
+  start_value <- (target_page_value - 1) * 100
 
-  # print(start_values)
-  result_df <- as.data.frame(matrix(NA, ncol = 8, nrow = 0))
+  # Préparer les données pour la requête de la page cible
+  data_page <- list(
+    draw = as.character(target_page_value + 1),
+    `columns[0][data]` = "0",
+    `columns[0][name]` = "",
+    `columns[0][searchable]` = "true",
+    `columns[0][orderable]` = "false",
+    `columns[0][search][value]` = "",
+    `columns[0][search][regex]` = "false",
+    `columns[1][data]` = "1",
+    `columns[1][name]` = "",
+    `columns[1][searchable]` = "true",
+    `columns[1][orderable]` = "true",
+    `columns[1][search][value]` = "",
+    `columns[1][search][regex]` = "false",
+    `columns[2][data]` = "2",
+    `columns[2][name]` = "",
+    `columns[2][searchable]` = "true",
+    `columns[2][orderable]` = "false",
+    `columns[2][search][value]` = "",
+    `columns[2][search][regex]` = "false",
+    `columns[3][data]` = "3",
+    `columns[3][name]` = "",
+    `columns[3][searchable]` = "true",
+    `columns[3][orderable]` = "false",
+    `columns[3][search][value]` = "",
+    `columns[3][search][regex]` = "false",
+    `columns[4][data]` = "4",
+    `columns[4][name]` = "",
+    `columns[4][searchable]` = "true",
+    `columns[4][orderable]` = "false",
+    `columns[4][search][value]` = "",
+    `columns[4][search][regex]` = "false",
+    `columns[5][data]` = "5",
+    `columns[5][name]` = "",
+    `columns[5][searchable]` = "true",
+    `columns[5][orderable]` = "false",
+    `columns[5][search][value]` = "",
+    `columns[5][search][regex]` = "false",
+    `columns[6][data]` = "6",
+    `columns[6][name]` = "",
+    `columns[6][searchable]` = "true",
+    `columns[6][orderable]` = "false",
+    `columns[6][search][value]` = "",
+    `columns[6][search][regex]` = "false",
+    `columns[7][data]` = "7",
+    `columns[7][name]` = "",
+    `columns[7][searchable]` = "true",
+    `columns[7][orderable]` = "false",
+    `columns[7][search][value]` = "",
+    `columns[7][search][regex]` = "false",
+    `order[0][column]` = "0",
+    `order[0][dir]` = "asc",
+    start = as.character(start_value),
+    length = "100",
+    `search[value]` = "",
+    `search[regex]` = "false",
+    `args[initialLetter]` = "",
+    `args[display_datapoints]` = "logo,name,isin,symbol,market,lastPrice,precentDayChange,lastTradeTime",
+    iDisplayLength = "100",
+    iDisplayStart = as.character(start_value),
+    sSortDir_0 = "asc",
+    sSortField = "name"
+  )
 
-  for (start_value in start_values) {
+  # Effectuer la requête POST pour la page cible
+  response <- httr::POST(
+    url = url,
+    httr::add_headers(.headers = headers),
+    query = params,
+    body = data_page,
+    encode = "form"
+  )
 
-    # params <- list(
-    #   "draw" = 3, #Permet de récupérer tout le tableau de la page
-    #   "columns[0][data]" = 0,
-    #   "columns[0][name]" = "",
-    #   "search[value]" = "",
-    #   "search[regex]" = "false",
-    #   "args[initialLetter]" = "",
-    #   # "start" = ifelse(start_value == 800, 800, 0),
-    #   # "length" = 100,
-    #   "iDisplayLength" = 100,
-    #   "iDisplayStart" = start_value,
-    #   "sSortDir_0" = "asc",
-    #   "sSortField" = "name"
-    # )
+  # Lire le contenu JSON de la réponse
+  content <- httr::content(response, "text", encoding = "UTF-8")
+  data <- jsonlite::fromJSON(content)
 
-    params <- list(
-      "draw" = 3, #Permet de récupérer tout le tableau de la page
-      "columns[0][data]" = 0,
-      `columns[0][name]` = "",
-      `columns[0][searchable]` = "true",
-      `columns[0][orderable]` = "false",
-      `columns[0][search][value]` = "",
-      `columns[0][search][regex]` = "false",
-      `columns[1][data]` = "1",
-      `columns[1][name]` = "",
-      `columns[1][searchable]` = "true",
-      `columns[1][orderable]` = "true",
-      `columns[1][search][value]` = "",
-      `columns[1][search][regex]` = "false",
-      `columns[2][data]` = "2",
-      `columns[2][name]` = "",
-      `columns[2][searchable]` = "true",
-      `columns[2][orderable]` = "false",
-      `columns[2][search][value]` = "",
-      `columns[2][search][regex]` = "false",
-      `columns[3][data]` = "3",
-      `columns[3][name]` = "",
-      `columns[3][searchable]` = "true",
-      `columns[3][orderable]` = "false",
-      `columns[3][search][value]` = "",
-      `columns[3][search][regex]` = "false",
-      `columns[4][data]` = "4",
-      `columns[4][name]` = "",
-      `columns[4][searchable]` = "true",
-      `columns[4][orderable]` = "false",
-      `columns[4][search][value]` = "",
-      `columns[4][search][regex]` = "false",
-      `columns[5][data]` = "5",
-      `columns[5][name]` = "",
-      `columns[5][searchable]` = "true",
-      `columns[5][orderable]` = "false",
-      `columns[5][search][value]` = "",
-      `columns[5][search][regex]` = "false",
-      `columns[6][data]` = "6",
-      `columns[6][name]` = "",
-      `columns[6][searchable]` = "true",
-      `columns[6][orderable]` = "false",
-      `columns[6][search][value]` = "",
-      `columns[6][search][regex]` = "false",
-      `columns[7][data]` = "7",
-      `columns[7][name]` = "",
-      `columns[7][searchable]` = "true",
-      `columns[7][orderable]` = "false",
-      `columns[7][search][value]` = "",
-      `columns[7][search][regex]` = "false",
-      `order[0][column]` = "0",
-      `order[0][dir]` = "asc",
-      start = as.character(start_value),
-      length = "100",
-      `search[value]` = "",
-      `search[regex]` = "false",
-      `args[initialLetter]` = "",
-      `args[display_datapoints]` = "logo,name,isin,symbol,market,lastPrice,precentDayChange,lastTradeTime",
-      iDisplayLength = "100",
-      iDisplayStart = as.character(start_value),
-      sSortDir_0 = "asc",
-      sSortField = "name"
-    )
+  # Les liens https des sociétés
+  les_link = data[["aaData"]][,1]
 
-    # Effectuer la requête POST
-    response <- httr::POST(url, body = params, encode = "form")
+  # Extraction des URLs et des noms (méthode mise à jour)
+  urls <- sub('.*href="/en/product/etfs/([^"]+)".*',
+              'https://live.euronext.com/en/product/etfs/\\1', les_link)
 
-    # Lire le contenu JSON de la réponse
-    content <- httr::content(response, "text", encoding = "UTF-8")
-    data <- jsonlite::fromJSON(content)
+  data_order_values <- sub('.*>([^<]+)<.*', '\\1', les_link)
 
-    # Les liens https des sociétés
-    les_link = data[["aaData"]][,1]
+  # Le code ISIN
+  # Récupérer l'adn et extraire l'ISIN
+  les_code_isin = gsub("https://live.euronext.com/en/product/etfs/", "", urls)
+  les_code_isin <- sub("-.*", "", les_code_isin)
 
-    # Extraction des URLs et des noms (méthode mise à jour)
-    urls <- sub('.*href="/en/product/etfs/([^"]+)".*',
-                'https://live.euronext.com/en/product/etfs/\\1', les_link)
+  # Les Tickers
+  les_tickers = data[["aaData"]][,2]
 
-    data_order_values <- sub('.*>([^<]+)<.*', '\\1', les_link)
+  # Market
+  les_markets = data[["aaData"]][,3]
 
-    # Le code ISIN
-    # les_code_isin = data[["aaData"]][,1]
-    # récupérer l'adn
-    les_code_isin = gsub("https://live.euronext.com/en/product/etfs/", "", urls)
-    # Extraction des ISINs (avant le tiret)
-    les_code_isin <- sub("-.*", "", les_code_isin)
+  # Utiliser str_match pour capturer le contenu entre les balises
+  matched_markets <- str_match(les_markets, ">([^<]+)</div>")
+  # Sélectionner la deuxième colonne du résultat
+  extracted_markets <- matched_markets[, 2]
 
-    # Les Tickers
-    les_tickers = data[["aaData"]][,2]
+  # Bid/Ask
+  les_BidAsk = data[["aaData"]][,4]
+  les_BidAsk = str_extract(les_BidAsk, ">([^<]+)<")
+  les_BidAsk = gsub(">", "", les_BidAsk)
+  les_BidAsk = gsub("<", "", les_BidAsk)
 
-    # Market
-    les_markets = data[["aaData"]][,3]
+  # Créer deux nouvelles variables Bid et Ask
+  the_Bid = ifelse(les_BidAsk == "/", "-", str_extract(les_BidAsk, "^[^/]+"))
+  the_Ask = ifelse(les_BidAsk == "/", "-", str_extract(les_BidAsk, "[^/]+$"))
 
-    # Utiliser str_match pour capturer le contenu entre les balises
-    matched_markets <- str_match(les_markets, ">([^<]+)</div>")
-    # Sélectionner la deuxième colonne du résultat
-    extracted_markets <- matched_markets[, 2]
+  # Closing price
+  Closing_Prices = data[["aaData"]][,5]
 
-    # Bid/Ask
-    les_BidAsk = data[["aaData"]][,4] #A vérifier
-    les_BidAsk = str_extract(les_BidAsk, ">([^<]+)<")
-    les_BidAsk = gsub(">", "", les_BidAsk)
-    les_BidAsk = gsub("<", "", les_BidAsk)
+  # Extraction des devises et prix (méthode mise à jour)
+  extracted_currencies <- str_extract(Closing_Prices, "(USD|EUR|GBP|NOK|DKK|SEK|CHF)")
+  extracted_currencies <- ifelse(extracted_currencies == "EUR", "\u20AC",
+                                 ifelse(extracted_currencies == "USD", "$",
+                                        ifelse(extracted_currencies == "GBP", "\u00A3",
+                                               ifelse(extracted_currencies == "NOK", "kr",
+                                                      ifelse(extracted_currencies == "DKK", "kr",
+                                                             ifelse(extracted_currencies == "SEK", "kr",
+                                                                    ifelse(extracted_currencies == "CHF", "CHF", "")))))))
 
-    # Créer deux nouvelles variables Bid et Ask
-    the_Bid = ifelse(les_BidAsk == "/", "-", str_extract(les_BidAsk, "^[^/]+"))
-    the_Ask = ifelse(les_BidAsk == "/", "-", str_extract(les_BidAsk, "[^/]+$"))
+  extracted_prices <- str_extract(Closing_Prices, "[0-9]+\\.?[0-9]*")
+  # Convertir en chaîne avec symbole de devise
+  extracted_prices <- paste0(extracted_currencies, extracted_prices)
 
-    # Closing price
-    Closing_Prices = data[["aaData"]][,5]
+  # Percentage change
+  les_pchange = data[["aaData"]][,6]
+  # Utiliser str_extract avec regex pour capturer le nombre avant "</span></div>"
+  extracted_pchange <- str_extract(les_pchange, "([0-9.-]+)%")
+  # Enlever les pourcentages
+  extracted_pchange <- gsub("%", "", extracted_pchange)
 
-    # Extraction des devises et prix (méthode mise à jour)
-    extracted_currencies <- str_extract(Closing_Prices, "(USD|EUR|GBP|NOK|DKK|SEK|CHF)")
-    extracted_currencies <- ifelse(extracted_currencies == "EUR", "\u20AC",
-                                   ifelse(extracted_currencies == "USD", "$",
-                                          ifelse(extracted_currencies == "GBP", "\u00A3",
-                                                 ifelse(extracted_currencies == "NOK", "kr",
-                                                        ifelse(extracted_currencies == "DKK", "kr",
-                                                               ifelse(extracted_currencies == "SEK", "kr",
-                                                                      ifelse(extracted_currencies == "CHF", "CHF", "")))))))
+  # Last update hours
+  les_LastupDate = data[["aaData"]][,7]
 
-    extracted_prices <- str_extract(Closing_Prices, "[0-9]+\\.?[0-9]*")
-    # Convertir en chaîne avec symbole de devise
-    extracted_prices <- paste0(extracted_currencies, extracted_prices)
+  # Nettoyage des dates (méthode simplifiée)
+  Clean_Date <- gsub("<span class=\"tooltiptext\">", "-", les_LastupDate)
+  Clean_Date <- gsub("<div class=\"text-right pointer tooltipDesign\">", "", Clean_Date)
+  Clean_Date <- gsub("</span></div>", "", Clean_Date)
 
-    # Percentage change
-    les_pchange = data[["aaData"]][,6]
-    # Utiliser str_extract avec regex pour capturer le nombre avant "</span></div>"
-    extracted_pchange <- str_extract(les_pchange, "([0-9.-]+)%")
-    # Enlever les pourcentages
-    extracted_pchange <- gsub("%", "", extracted_pchange)
+  sav_Clean_Date <- str_split(Clean_Date, "-", simplify = TRUE)
 
-    # Last update hours
-    les_LastupDate = data[["aaData"]][,7]
-
-    # Nettoyage des dates (méthode simplifiée)
-    Clean_Date <- gsub("<span class=\"tooltiptext\">", "-", les_LastupDate)
-    Clean_Date <- gsub("<div class=\"text-right pointer tooltipDesign\">", "", Clean_Date)
-    Clean_Date <- gsub("</span></div>", "", Clean_Date)
-
-    sav_Clean_Date <- str_split(Clean_Date, "-", simplify = TRUE)
-
-    for (i in 1:nrow(sav_Clean_Date)){
-      # Remettre en ordre la date
-      if (nchar(sav_Clean_Date[i,1])> nchar(sav_Clean_Date[i,2])) {
-        Clean_Date[i] = paste0(sav_Clean_Date[i,1]," - ", sav_Clean_Date[i,2])
-      } else{
-        Clean_Date[i] = paste0(sav_Clean_Date[i,2]," - ", sav_Clean_Date[i,1])
-      }
+  for (i in 1:nrow(sav_Clean_Date)){
+    # Remettre en ordre la date
+    if (nchar(sav_Clean_Date[i,1])> nchar(sav_Clean_Date[i,2])) {
+      Clean_Date[i] = paste0(sav_Clean_Date[i,1]," - ", sav_Clean_Date[i,2])
+    } else{
+      Clean_Date[i] = paste0(sav_Clean_Date[i,2]," - ", sav_Clean_Date[i,1])
     }
-
-    # Créer la dataframe
-    df <- data.frame(Date = Clean_Date,
-                     Name = data_order_values,
-                     Ticker = les_tickers,
-                     "Code_ISIN" = les_code_isin,
-                     Market = extracted_markets,
-                     Bid = the_Bid,
-                     Ask = the_Ask,
-                     'Last_price' = extracted_prices,
-                     'Percentage_change'= extracted_pchange,
-                     URL = urls,
-                     stringsAsFactors = FALSE)
-
-
-    # print(head(df))
-    # print(start_value)
-
-    result_df <- rbind(result_df, df)
-
   }
 
-  # result_df$Percentage_change = as.numeric(result_df$Percentage_change)
+  # Créer la dataframe
+  result_df <- data.frame(Date = Clean_Date,
+                          Name = data_order_values,
+                          Ticker = les_tickers,
+                          "Code_ISIN" = les_code_isin,
+                          Market = extracted_markets,
+                          Bid = the_Bid,
+                          Ask = the_Ask,
+                          'Last_price' = extracted_prices,
+                          'Percentage_change' = extracted_pchange,
+                          URL = urls,
+                          stringsAsFactors = FALSE)
+
+  result_df$Percentage_change = as.numeric(result_df$Percentage_change)
 
   # Put Code Isin with the market identifier to create adn of the company
   result_df$Ticker_adn <- gsub("https://live.euronext.com/en/product/etfs/", "", result_df$URL)
-  # result_df$Ticker_adn <- paste0(result_df$Code_ISIN,"-", result_df$Market)
+
+  names(result_df) = c("Date", "Name", "Ticker", "Code_ISIN", "Market", "Bid", "Ask",
+                       "Last_price", "Percentage change (in %)", "URL", "Ticker_adn")
 
   return(result_df)
-
 }
 
 
+# #Old version
 # EN_Etfs_List <- function() {
 #   # URL de la requête
 #   url <- "https://live.euronext.com/en/pd_es/data/track?mics=XAMS%2CXBRU%2CXLIS%2CXPAR%2CXLDN%2CXMSM%2CXOSL%2CETFP"

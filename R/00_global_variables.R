@@ -5,6 +5,8 @@ globalVariables(
             # 'mutate_if',
             'mutate_all',
 
+            'B_order', 'B_quantity', 'Bid_Price', 'Ask_Price', 'A_quantity', 'A_order',
+
             ".",
             '.indexes', 'adn', '.sectors', 'Box.test', 'Close', 'Countries', 'Date', 'High', 'Low', 'Open', 'POST',
             'Sector', 'Ticker', 'Desc.BRVM.all', 'Volume', 'ad.test', 'adf.test', 'arrange', 'as.xts', 'color_tile',

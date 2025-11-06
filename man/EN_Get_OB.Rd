@@ -41,8 +41,11 @@ library(stringr)
 ABCA_OB = EN_Get_OB("ABCA") # Get ABC ARBITRAGE ticker ORDER BOOK
 print(ABCA_OB)
 
-MSFT_OB = EN_Get_OB("MSFT", stock_type = 'Etf')
-print(MSFT_OB)
+# MSFT_OB = EN_Get_OB("MSFT", stock_type = 'Etf')
+# print(MSFT_OB)
+
+HBAR_OB = EN_Get_OB("HBAR", stock_type = 'Etf')
+print(HBAR_OB)
 
 # Get ETf 'AAPL' ORDER BOOK by providing its DNA
 # EN_Get_OB("XS2337099563-XAMS", stock_type = 'Etf')

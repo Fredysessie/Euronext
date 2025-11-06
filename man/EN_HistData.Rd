@@ -44,7 +44,7 @@ library(magrittr)
 library(rlang)
 
 #To get historical data of Bond issued by IT0005386716-XMOT
-hc_RMBS <- EN_HistData("XS1548458014-XAMS", escape = TRUE, from = "2022-10-30",stock_type = "B")
+hc_RMBS <- EN_HistData("XS1548458014-XAMS", escape = TRUE, from = "2025-06-30",stock_type = "B")
 head(hc_RMBS)
 
 \donttest{
