@@ -49,12 +49,12 @@ head(hc_RMBS)
 
 \donttest{
 
-# Fetch historical data for ABCA from October 30, 2023, to January 27, 2024
-hc_abca <- EN_HistData("ABCA", from = "2023-10-30", to = "2024-01-27")
+# Fetch historical data for ABCA from July 30, 2024, to October 27, 2025
+hc_abca <- EN_HistData("ABCA", from = "2024-07-30", to = "2024-10-27")
 head(hc_abca)
 
-# Fetch historical data for ETF AAPL from December 15, 2023, to now
-hc_aapl <- EN_HistData("AAPL", stock_type = "E", from = "2023-12-15", to = Sys.Date())
+# Fetch historical data for ETF AAPL from March 15, 2025, to now
+hc_aapl <- EN_HistData("AAPL", stock_type = "E", from = "2025-04-15", to = Sys.Date())
 head(hc_aapl)
 
 
@@ -63,7 +63,7 @@ hc_ABCA <-  EN_HistData("ABCA")
 head(hc_ABCA)
 
 # To Get KGHDF's Fund data
-hc_KGHDF <- EN_HistData("KGHDF", stock_type = "F", from = "2024-10-30")
+hc_KGHDF <- EN_HistData("KGHDF", stock_type = "F", from = "2025-06-30")
 head(hc_KGHDF)
 
 EN_HistData("ABCAhh") # Will return "Ticker not found"

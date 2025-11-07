@@ -5,6 +5,8 @@ globalVariables(
             # 'mutate_if',
             'mutate_all',
 
+            'mutate', 'URLencode',
+
             'B_order', 'B_quantity', 'Bid_Price', 'Ask_Price', 'A_quantity', 'A_order',
 
             ".",

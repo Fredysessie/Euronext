@@ -490,34 +490,6 @@ EN_GetProfile <- function(ticker, stock_type = 'Eq_Ind') {
     return("Ticker not found")
 
   } else if(stock_type == 'Eq_Ind'){
-  # } else if(stock_type %in% c('Etfs', "E")){
-  #   ticker <- toupper(ticker)
-  #
-  #   # Récupérer toutes les pages d'ETFs
-  #   all_etfs <- data.frame()
-  #   nb_pages <- ceiling(EN_Etfs_List_bis(1)$iTotalDisplayRecords/100)  # Estimation du nombre de pages
-  #
-  #   for (page in 1:max(nb_pages, 1)) {  # Limiter à 10 pages pour des raisons de performance
-  #     dt_List <- EN_Etfs_List_bis(target_page = page)
-  #     all_etfs <- rbind(all_etfs, dt_List)
-  #   }
-  #
-  #   # Nettoyer les caractères spéciaux pour la comparaison
-  #   ticker_clean <- gsub("\\$", "", ticker)
-  #   all_etfs$Name_clean <- gsub("\\$", "", all_etfs$Name)
-  #
-  #   if (ticker_clean %in% toupper(c(all_etfs$Code_ISIN, all_etfs$Ticker, all_etfs$Name_clean, all_etfs$Ticker_adn))) {
-  #     the_adn <- na.omit(all_etfs$Ticker_adn[all_etfs$Ticker == ticker_clean | all_etfs$Code_ISIN == ticker_clean | all_etfs$Name_clean == ticker_clean | all_etfs$Ticker_adn == ticker_clean])[1]
-  #     the_symbol <- na.omit(all_etfs$Ticker[all_etfs$Ticker == ticker_clean | all_etfs$Code_ISIN == ticker_clean | all_etfs$Name_clean == ticker_clean | all_etfs$Ticker_adn == ticker_clean])[1]
-  #     the_name <- na.omit(all_etfs$Name[all_etfs$Ticker == ticker_clean | all_etfs$Code_ISIN == ticker_clean | all_etfs$Name_clean == ticker_clean | all_etfs$Ticker_adn == ticker_clean])[1]
-  #     the_isin <- na.omit(all_etfs$Code_ISIN[all_etfs$Ticker == ticker_clean | all_etfs$Code_ISIN == ticker_clean | all_etfs$Name_clean == ticker_clean | all_etfs$Ticker_adn == ticker_clean])[1]
-  #
-  #     return(list(Name = the_name, ISIN = the_isin, DNA = the_adn, Symbol=the_symbol))
-  #   } else {
-  #     return("Ticker not found")
-  #   }
-  #
-  # } else if(stock_type == 'Eq_Ind'){
     # Utiliser la nouvelle API de recherche
     url <- paste0("https://live.euronext.com/en/instrumentSearch/searchJSON?q=", URLencode(ticker))
 

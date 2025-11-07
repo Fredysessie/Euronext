@@ -50,7 +50,8 @@
 #' @import jsonlite
 #' @import rvest
 #' @importFrom magrittr %>%
-#'
+#' @importFrom utils URLencode
+#' @importFrom dplyr mutate
 #' @family Data Retrieval
 #' @family Euronext
 #'

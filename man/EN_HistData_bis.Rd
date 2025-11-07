@@ -51,16 +51,16 @@ library(stringr)
 library(magrittr)
 library(rlang)
 
-# Fetch historical data for ABCA , AEDIFICA and BM3EAC stocks from October 30, 2023
-hc_List1 <- EN_HistData_bis(c("ABCA", "AEDIFICA", "BM3EAC"), from = "2023-10-30", to = "2024-01-27")
+# Fetch historical data for ABCA , AEDIFICA and BM3EAC stocks from August 30, 2025
+hc_List1 <- EN_HistData_bis(c("ABCA", "AEDIFICA", "BM3EAC"), from = "2025-08-30", to = "2025-11-06")
 head(hc_List1)
 
 # Fetch historical data for Indices such us AEX All-Share Index, AEX2S and AEX Basic Materials
-hc_List2 <- EN_HistData_bis(c("AAX", "QS0011016480", "AEX2S"), from = "2023-12-15", to = Sys.Date())
+hc_List2 <- EN_HistData_bis(c("AAX", "QS0011016480", "AEX2S"), from = "2025-09-15", to = Sys.Date())
 head(hc_List2)
 
 #To get historical data of Bond issued by IT0005386716-XMOT
-hc_List3 <-EN_HistData_bis("XS1548458014-XAMS", escape = TRUE, from = "2022-10-30",stock_type = "B")
+hc_List3 <-EN_HistData_bis("XS1548458014-XAMS", escape = TRUE, from = "2025-08-30",stock_type = "B")
 head(hc_List3)
 
 # Fetch historical data for ABCA with the default date range
@@ -68,7 +68,7 @@ hc_List3 <-  EN_HistData_bis("ABCA")
 head(hc_List3)
 
 # To Get KGHDF's Fund data
-hc_List4 <- EN_HistData_bis("KGHDF", stock_type = "F", from = "2022-10-30")
+hc_List4 <- EN_HistData_bis("KGHDF", stock_type = "F", from = "2025-07-30")
 head(hc_List4)
 
 #Providing Etfs vector
