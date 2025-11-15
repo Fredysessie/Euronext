@@ -72,7 +72,7 @@ hc_List4 <- EN_HistData_bis("KGHDF", stock_type = "F", from = "2025-07-30")
 head(hc_List4)
 
 #Providing Etfs vector
-hc_etf <- EN_HistData_bis(c("IE0007G78AC4", "MANA", "3TSM"), stock_type = 'E')
+hc_etf <- EN_HistData_bis(c("IE0007G78AC4", "3TSM"), stock_type = 'E')
 head(hc_etf)
 
 EN_HistData_bis("ABCAhh") # Will return "Ticker not found"

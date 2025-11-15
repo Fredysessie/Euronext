@@ -42,7 +42,7 @@ library(stringr)
 dt_ABCA = EN_Ticker_hcData("ABca")
 head(dt_ABCA)
 
-dt_EOS = EN_Ticker_hcData("EOS", from = "2000-10-30", to = "2024-01-27")
+dt_EOS = EN_Ticker_hcData("EOS", from = "2025-08-25")
 head(dt_EOS)
 
 # Get hc data of Fund KEMPEN GBL HDiv N
@@ -55,8 +55,8 @@ head(hc_RMBS)
 
 \donttest{
 
-# Get hc data for ETF AAPL from December 15, 2023 to now
-hc_aapl <- EN_Ticker_hcData("AAPL", stock_type = "E", from = "2023-12-15", to = Sys.Date())
+# Get hc data for ETF AAPL from August 15, 2025 to now
+hc_aapl <- EN_Ticker_hcData("AAPL", stock_type = "E", from = "2025-08-15", to = Sys.Date())
 tail(hc_aapl)
 
 # Get indices such us AEX All-Tradable Alternative Weight NR, AEX Equal Weight NR,
